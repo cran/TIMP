@@ -1,0 +1,5 @@
+"het" <-
+function(...){
+	new("het", ...)
+}
+

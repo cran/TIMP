@@ -1,0 +1,38 @@
+"init.kinopt" <-
+function () 
+{
+    setClass("kinopt", representation("opt",
+			   notraces = "logical",
+			   selectedtraces = "vector",
+			   kinspecest = "logical",
+			   kinspecerr = "logical",
+			   breakdown = "list",
+			   FLIM = "logical", 
+			   plotcohcolspec = "logical", 
+			   xlimspec = "vector",
+			   ylimspec = "vector",
+			   specinterpol = "logical",
+			   specinterpolpoints = "logical",
+			   specinterpolseg = "numeric",
+			   specinterpolbspline = "logical",
+			   normspec = "logical",
+			   writespecinterpol = "logical"),
+        prototype = list( notraces = FALSE,
+			   selectedtraces = vector(),
+			   breakdown = list(),
+			   kinspecest = FALSE,
+			   kinspecerr = FALSE,
+			   FLIM = FALSE,	
+			   xlab = "time",
+			   ylab = "wavelength", 
+			   plotcohcolspec = TRUE, 
+			   xlimspec = vector(),
+			   ylimspec = vector(),
+			   specinterpol = FALSE,
+			   specinterpolpoints = TRUE, 
+			   specinterpolseg = 50,
+			   specinterpolbspline = FALSE,
+			   normspec = FALSE,
+			   writespecinterpol = FALSE) )
+}
+

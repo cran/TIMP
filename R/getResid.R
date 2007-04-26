@@ -1,0 +1,21 @@
+"getResid" <-
+function (data, modspec = list(), datasetind = vector(), modeldiffs = list(), 
+opt = opt()) 
+{
+    optN <- opt
+    optN@plot <- FALSE
+    result <- fitModel(data, modspec, datasetind, modeldiffs, optN)
+    resultlist <- result$toPlotter$multimodel@fit@resultlist 
+    m <- result$toPlotter$multimodel@modellist 
+    svdresidlist <- list()
+    for (i in 1:length(m)) {
+            residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
+            for (j in 1:length(resultlist[[i]]@resid)) {
+                residuals[, j] <- resultlist[[i]]@resid[[j]]
+            }
+            svdresidlist[[length(svdresidlist) + 1]] <- doSVD(residuals, 5, 5)
+	    svdresidlist[[length(svdresidlist)]]$weight <- m[[i]]@weight
+	    svdresidlist[[length(svdresidlist)]]$weightM <- m[[i]]@weightM
+   }
+   svdresidlist
+}

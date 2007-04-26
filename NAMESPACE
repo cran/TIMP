@@ -1,0 +1,35 @@
+import(methods)
+import(splines)
+import(tcltk)
+import(graphics)
+import(vcd)
+importFrom(gplots, textplot)
+
+exportClasses(dat, kin, spec, theta, multimodel, res, multitheta, kinopt,
+specopt, opt, fit)
+
+exportMethods(getClpindepX, residPart, plotter)
+
+export(readData, preProcess, baseIRF, initModel, 
+fitModel, examineFit, sumKinSpecEst, modifyModel)
+
+export(dat, kin, spec, theta, multimodel, res, multitheta, kinopt, specopt,
+opt, init.fit, fit, init.kinopt, init.specopt, init.opt, addDscal,
+getDiffThetaChange, plotFLIM, addPrelCl, getDiffThetaClChange,
+plotKinBreakDown, addPrel, getDiffThetaCl, plotKinSpec, applyWeightingModel,
+getDiffTheta, applyWeighting, baseCorlambda, getFixed,
+baseCortime, getGroups, plotSpectra, getModel, plotter, calcB, getPar,
+plotTraces, calcCirf, getPrel, plotTracesSuper, calcC, getPrelTheta,
+calcEbspline, calcEhiergaus, getSpecList, rescomp, compCoh,
+residPart, compModel, getSpecToPlot, getThetaCl, sample_sel, getTheta,
+setGenerics, decayirf, set_getClpindepX_kin, diffAdd, init.dat,
+set_getClpindepX, diffChange, init.fc, set_getClpindepX_spec, diffFree,
+init.het, setMethods, diffRel, set_plotter_kin, diffRemove, init.kin,
+set_plotter_spec, displayEst, initModellist, set_residPart_kin,
+set_residPart_spec, doClpConstr, init.multimodel, simndecay_gen, doSVD,
+init.multitheta, simpExp, init.res, simpPol, init.spec, skew, init.theta,
+specModel, irfparF, specparF, fillK, l2nu, linloglines, fullKF, linlogplot,
+gaus, getClpConstr, weightNL, getClpindepX, matlinlogplot, weightPsi,
+getClpList, weightSM, getCoh, writeEst, getCohToPlot, normdat, writeFit,
+getConToPlot, plotEst, plotKinSpecEst, fillResult, getResid)
+
