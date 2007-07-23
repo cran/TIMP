@@ -27,14 +27,23 @@ function (th, mod) {
 		 for (d in ds)
 			slot(thetaClasslist[[d]], p) <- parslot
 	      }
-	      else {
-		 thL <- addPrelCl(thetaClasslist[[ds[1]]], model, th, po)
-		 for (d in ds)
-		     thetaClasslist[[d]] <- thL
-	      }
 	}
- 	if(length(mod@data) > 1) 
+	for(i in 1:length(parorder)) {
+	      if(parorder[[i]]$name == "prel")
+		  for(j in parorder[[i]]$dataset) {	
+		    thetaClasslist[[j]] <- addPrelCl(thetaClasslist[[j]], 
+		    modellist[[j]], th, parorder[[i]])
+		  }
+	}
+	if(length(mod@data) > 1) 
 		thetaClasslist <- getDiffThetaCl(th, thetaClasslist, mod)
+	for(i in 1:length(parorder)) {
+	      if(parorder[[i]]$name == "prel")
+		  for(j in parorder[[i]]$dataset) {
+		    thetaClasslist[[j]] <- addPrelCl(thetaClasslist[[j]], 
+		    modellist[[j]], th, parorder[[i]], addM = FALSE)
+		  }
+	}
 	thetaClasslist
 }
 

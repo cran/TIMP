@@ -27,9 +27,17 @@ function (th, mod)
 		  ind=ind, rm=removepar,  dataset=diffs$dataset)
 
 		  if(diffs$what %in% modellist[[d]]@positivepar)
-			    th <- append(th,log(parapp))
-	           else 
-		       th <- append(th, parapp)
+			parapp <- log(parapp) 
+		  else {
+		       if(length(modellist[[d]]@clinde[[diffs$what]]) > 0)
+			  for(i in 1:length(modellist[[d]]@clinde[[diffs$what]]))  
+				parapp <- log(parapp[i])
+		       if(length(modellist[[d]]@chinde[[diffs$what]]) > 0) 
+			  for(i in 1:length(modellist[[d]]@chinde[[diffs$what]]))  
+				parapp <- log(parapp[i])
+		       
+		  }
+		  th <- append(th, parapp)
 	    }
 	    if(diffs$what == "prelspec") {
 		thA <- getPrelTheta(th, modellist, diffs, d, parorder)

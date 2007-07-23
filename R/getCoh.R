@@ -26,8 +26,16 @@ function (model)
 		model@ncolc <- array(model@ncomp + length(model@coh) + 1, 
 			       model@nl) 
 	}
-	if(numcohcol > 0) 
-		  model@cohcol <- (model@ncolc[1]-numcohcol+1):model@ncolc[1]
+	if(length(model@anispec$rammanest) != 0) {
+	    if(model@anispec$rammanest) {
+		numcohcol <- numcohcol + 1
+		model@ncolc <- model@ncolc + 1
+	     }
+	}
+	else model@anispec$rammanest <- FALSE
+	if(numcohcol > 0) {
+	           model@cohcol <- (model@ncolc[1]-numcohcol+1):model@ncolc[1]
+	}
 	model
 
 }

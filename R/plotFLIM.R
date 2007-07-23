@@ -1,40 +1,39 @@
 "plotFLIM" <- function (multimodel, multitheta, plotoptions) 
 {
     ## this function results in plots associated with modeling FLIM data
-    get(getOption("device"))()
-    model <- multimodel@modellist[[1]]
+
+    m <- multimodel@modellist
+    t <- multitheta
     if(plotoptions@residplot)
          plotFLIMresid(multimodel, multitheta, plotoptions) 
-    plotrow <- 3
-    plotcol <- 4  
-    par(mfrow = c(plotrow, plotcol))
+    if(plotoptions@noFLIMsummary) return()
+ for(i in 1:length(m)) {
+    k <- t[[i]]@kinpar
+    model <- m[[i]]
+    get(getOption("device"))()   
     par(plotoptions@paropt)
-    par(omi = c(.5, .2, .1, .3), cex.main=.95)
-    
+    par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), cex.main=.95,
+	mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
     nt <- model@nt
     nl <- model@nl
     x <- model@x
     x2 <- model@x2
-    increasing_x2 <- model@x2[2] > model@x2[1]
-    groups <- multimodel@modeldiffs$groups
-    m <- multimodel@modellist
-    t <- multitheta
     resultlist <- multimodel@fit@resultlist
     irfmu <- vector()
     cohirfmu <- vector()
     irftau <- vector()
-    k <- t[[1]]@kinpar
+   
     conmax <- list()
     spectralist <- getSpecList(multimodel, t)
-    for (i in 1:length(m)) {
-        spec <- spectralist[[i]]
-        for (j in 1:dim(spec)[2]) {
+	spec <- spectralist[[i]]
+	if( (m[[i]]@cohcol != 0)[1])
+		spec <- as.matrix(spectralist[[i]][,-m[[i]]@cohcol])
+
+	for (j in 1:dim(spec)[2]) {
             hist(spec[, j], xlab = paste("tau=", signif(1/k[j], 5)), 
 	    main = paste("Comp.", j, "amplitude"))
         }
-    }
-    for (i in 1:length(m)) {
-        spec <- spectralist[[i]]
+        
         if (dim(spec)[2] > 1) {
             sumspec <- rep(0, dim(spec)[1])
             sumAv <- matrix(0, length(k), model@nl)
@@ -49,7 +48,6 @@
                     j))
             }
         }
-    }
 
     colvec <- gray(seq(from = 0, to = 1, length = 100))
     image.plot(model@inten, col = colvec, xlab = "", axes = FALSE, 
@@ -62,74 +60,79 @@
     dim(colmat) <- dim(model@inten)
     csave <- colmat
     colmat <- t(colmat)
-    for (i in 1:(dim(colmat)[2])) 
-	colmat[, i] <- rev(colmat[, i])
+    for (j in 1:(dim(colmat)[2])) 
+	colmat[, j] <- rev(colmat[, j])
     plotcolors(colmat, main = "Region of interest")
     tracemat <- matrix(0, dim(model@inten)[1], dim(model@inten)[2])
 
    
     ## find out the rows where the selected pixels begin and end
    c1 <- c2 <- TRUE 
-   for(i in 1:dim(csave)[2]) { 
+   for(j in 1:dim(csave)[2]) { 
 	 if(c1)
-	    if("#0000FF" %in% csave[,i]) {	
-	        colstart <- i
+	    if("#0000FF" %in% csave[,j]) {	
+	        colstart <- j
 		c1 <- FALSE 
             }
 	 if(c2)
-	    if("#0000FF" %in% csave[,dim(csave)[2]-(i-1)]) {	
-		colend <- dim(csave)[2]-(i-1) 
+	    if("#0000FF" %in% csave[,dim(csave)[2]-(j-1)]) {	
+		colend <- dim(csave)[2]-(j-1) 
 		c2 <- FALSE 
 	    }
    }
    c1 <- c2 <- TRUE 
-   for(i in 1:dim(csave)[1]) { 
+   for(j in 1:dim(csave)[1]) { 
 	  if(c1) 
-	      if("#0000FF" %in% csave[i,]) {	
-	          rowstart <- i
+	      if("#0000FF" %in% csave[j,]) {	
+	          rowstart <- j
 		  c1 <- FALSE
 	      }
 	   if(c2)     
-	      if("#0000FF" %in% csave[dim(csave)[1]-(i-1),] ) {	
-	        rowend <- dim(csave)[1]-(i-1)
+	      if("#0000FF" %in% csave[dim(csave)[1]-(j-1),] ) {	
+	        rowend <- dim(csave)[1]-(j-1)
 	        c2 <- FALSE
 	      }
    }
 
    ## <tau> 
     if (dim(spec)[2] > 1) {
-        xmat <- matrix(nrow = length(k), ncol = model@nl)
+      
+	xmat <- matrix(nrow = length(k), ncol = model@nl)
         vecres <- vector()
-        for (i in length(k):1) xmat[i, ] <- sumAv[i, ] * (1/k[i])
+        for (j in length(k):1) xmat[j, ] <- sumAv[j, ] * (1/k[j])
         vecR <- colSums(xmat)
         resmat <- as.vector(tracemat)
 	zmin <- min(vecR) - (.10* min(vecR))
 	zmax <- max(vecR) 
         resmat[model@x2] <- vecR
         dim(resmat) <- dim(tracemat)
+	 if(length( plotoptions@ylimspec ) == 2)
+		  zlim <- plotoptions@ylimspec
+        else	  zlim <- range(resmat[rowstart:rowend,colstart:colend]) 
+
         image.plot(resmat[rowstart:rowend,colstart:colend],
 	xlab = "", axes = FALSE, ylab = "", 
-        main = " < tau > ", zlim = c(.5, 2.7), 
-	col = )
+        main = " < tau > ", zlim = zlim)
     }
 
     if (dim(spec)[2] > 1) {
-        for (i in 1:length(k)) {
+        for (j in 1:length(k)) {
             resmat <- as.vector(tracemat)
-            resmat[model@x2] <- sumAv[i, ]
+            resmat[model@x2] <- sumAv[j, ]
             dim(resmat) <- dim(tracemat)
             image.plot(resmat[rowstart:rowend,colstart:colend], 
 	    ylab = "", axes = FALSE, 
-	    xlab = paste("tau=", signif(1/k[i], 5)), 
-                main = paste("Comp.", i, "norm. amp."),  zlim=c(0,1))
+	    xlab = paste("tau=", signif(1/k[j], 5)), 
+                main = paste("Comp.", j, "norm. amp."),  zlim=c(0,1))
         }
     }
     if (length(model@parmu) > 1) {
-        plot(x2, t[[1]]@parmu, type = "l", main = "Shift parameter", 
+        plot(x2, t[[i]]@parmu, type = "l", main = "Shift parameter", 
             xlab = plotoptions@ylab, ylab = "")
     }
+    
     residlist <- svdresidlist <- list()
-    for (i in 1:length(m)) {
+    
         residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
         for (j in 1:length(resultlist[[i]]@resid)) {
             residuals[, j] <- resultlist[[i]]@resid[[j]]
@@ -137,63 +140,59 @@
         svdresidlist[[length(svdresidlist) + 1]] <- doSVD(residuals, 
             2, 2)
         residlist[[length(residlist) + 1]] <- residuals
-    }
-    if (increasing_x2) {
-
+    
 	limd<- max(  max(residlist[[1]]), abs(min(residlist[[1]]))) 
-	image.plot(x, x2, residlist[[1]], xlab = plotoptions@xlab, ylab = plotoptions@ylab, 
-            main = "Residuals Dataset 1", zlim=c(-limd,limd),
+	if(plotoptions@FLIMresidimag) {
+	image.plot(x, x2, residlist[[1]], 
+	xlab = plotoptions@xlab, ylab = plotoptions@ylab, 
+            main = paste("Residuals Dataset",i), zlim=c(-limd,limd),
 		col = diverge_hcl(40, h = c(0, 120), c = 60, l = c(45, 90), 
 		power = 1.2))
 
-    }
+        } 
     ## matplot function with "log" option is not compatible with 
-	## neg. x values; do the below to avoid warning
+    ## neg. x values; do the below to avoid warning
         xpos<- x
 	xpos[which(x<=0)]<-NA
     if (nt > 1 && nl > 1) {
-        matplot(xpos, svdresidlist[[1]]$left[,i], type = "l", main = "Left sing. vec. residuals ", 
+        matplot(xpos, svdresidlist[[1]]$left[,1], type = "l", 
+	main = "Left sing. vec. residuals ", 
             ylab = "", log = "x", xlab = plotoptions@xlab, col = 1)
-        if (length(m) > 1) {
-            for (i in 2:length(m)) {
-                matlines(m[[i]]@x, svdresidlist[[i]]$left, log = "x", 
-                  type = "l", col = i)
-            }
-        }
-        
     }
     ## plot 1 right singular vector as image        
             resmat <- as.vector(tracemat)
             resmat[model@x2] <- as.vector(svdresidlist[[1]]$right[1,]) 
             dim(resmat) <- dim(tracemat)
             image.plot(resmat[rowstart:rowend,colstart:colend],
-	    xlab = "", col = heat_hcl(100), 
+	    xlab = "", 
+	    col = diverge_hcl(40, h = c(0, 120), c = 60, l = c(45, 90), 
+	    power = 1.2),
 	    axes = FALSE, ylab = "", 
             main = "Right sing. vec. residuals")
         
     
     svddatalist <- list()
-    for (i in 1:length(m)) {
-        svddatalist[[length(svddatalist) + 1]] <- doSVD(multimodel@data[[i]]@psi.df, 
+    svddatalist[[length(svddatalist) + 1]] <- doSVD(multimodel@data[[i]]@psi.df, 
             2, 2)
-    }
     if (nt > 1 && nl > 1) {
         plot(1:length(svddatalist[[1]]$values), log10(svddatalist[[1]]$values), 
             ylab = "", xlab = "", main = "Sing. values data", 
             type = "b")
-        if (length(m) > 1) {
-            for (i in 2:length(m)) {
-                lines(1:length(svddatalist[[i]]$values), log10(svddatalist[[i]]$values), 
-                  type = "b", col = i)
-            }
-        }
     }
     if (length(plotoptions@title) != 0) {
-        mtext(plotoptions@title, side = 3, outer = TRUE, line = 1)
-        par(las = 2)
+       if(length(m) > 1) tit <- paste(plotoptions@title, ", dataset ", i,sep="")
+       else tit <- plotoptions@title
+       if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+        mtext(tit, side = 3, outer = TRUE, line = 1)
     }
     if (dev.interactive() && length(plotoptions@makeps) != 0) {
-        dev.print(device = postscript, file = paste(plotoptions@makeps, 
-            "_summary.ps", sep = ""), horizontal = TRUE)
+      if(plotoptions@output == "pdf")
+        pdev <- pdf 
+      else  pdev <- postscript
+        dev.print(device = pdev, file = paste(plotoptions@makeps,
+	"dataset_", i, "_summary.", plotoptions@output, 
+	sep = ""))
     }
+  }
+
 }

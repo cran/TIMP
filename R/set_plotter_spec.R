@@ -3,22 +3,7 @@ function(){
 
   setMethod("plotter", signature(model="spec"), 
     function (model, multimodel, multitheta, plotoptions) 
-    {     
-  	# PLOT SPECTRA IN NEW WINDOW
-        #if(length(plotoptions$superimpose) > 0) {
-	#	 if(length(plotoptions$notraces) == 1) {} 
-	#	 else
-	#		plotSpectraSuper(model, multimodel, multitheta, resid, 
-	#	        plotoptions)
-	#	if(length(plotoptions$selectedtraces) > 0)
-	#	      plotSelectedSpectraSuper(model, multimodel, multitheta, 
-	#	      resid, plotoptions)
-	#}
-	#else {
-	        if(!plotoptions@nospectra) 
-		   plotSpectra(model, multimodel, multitheta, 
-		       plotoptions)
-	#}
+    {  
 	if(length(plotoptions@residplot) == 1) {
 		plotResids(multimodel, multitheta, plotoptions) 
 	}
@@ -37,27 +22,20 @@ function(){
 	nl <- model@nl
 	x <- model@x
 	x2 <- model@x2
-	increasing_x2 <- model@x2[2] > model@x2[1]
 	groups <- multimodel@modeldiffs$groups	
-
 	m <- multimodel@modellist
 	t <- multitheta 
 	resultlist <- multimodel@fit@resultlist
 	conmax <- list()       
-
 	conlist <- getClpList(multimodel, t) 
-
         for(i in 1:length(m)) {
 			contoplot <- conlist[[i]]
-
 			matplot(m[[i]]@x, contoplot,
 			type = "l", 
                         add=!(i==1), lty=i, ylab = "concentration", 
                         xlab=plotoptions@xlab,main = "Concentrations")
        }
-
 	# SPECTRA 
-
 	for(i in 1:length(m)) {
 		   if(m[[i]]@timedep)
 		     specpar <- specparF(t[[i]]@specpar, m[[i]]@x[1], 
@@ -89,7 +67,6 @@ function(){
 		      main = "Normalized spectra", xlab = plotoptions@ylab, 
 		      ylab="amplitude", lty = i, add = !(i ==1)) 
 	}
-
 	# RESIDUALS 
 	# make a list of resid matrix
 	residlist <- svdresidlist <- list() 
@@ -108,14 +85,13 @@ function(){
 		svdresidlist[[length(svdresidlist)+1]] <- doSVD(residuals,2,2) 
 		residlist[[length(residlist)+1]] <- residuals 
 	}
-
-	if(increasing_x2) {
-	   limd<- max(  max(residlist[[1]]), abs(min(residlist[[1]]))) 
-	   image(x, x2, residlist[[1]], xlab = plotoptions@xlab, 
-	   ylab = plotoptions@ylab, main = "Residuals Dataset 1", 
-	   zlim=c(-limd,limd), col=diverge_hcl(40, h = c(0, 120), c = 60, 
-	   l = c(45, 90), power = 1.2))
-	}
+	limd<- max(  max(residlist[[1]]), abs(min(residlist[[1]]))) 
+	 if(!is.unsorted(x) && length(unique(x)) == nt 
+		&& length(unique(x2)) == nl )
+		image(x, x2, residlist[[1]], xlab = plotoptions@xlab, 
+		ylab = plotoptions@ylab, main = "Residuals Dataset 1", 
+		zlim=c(-limd,limd), col=diverge_hcl(40, h = c(0, 120), c = 60, 
+	        l = c(45, 90), power = 1.2))
 	if(nt > 1 && nl > 1){ 
 	      matplot(x, svdresidlist[[1]]$left, type = "l",
 	      main = "Left sing. vectors residuals ", log = "x", xlab =
@@ -155,11 +131,6 @@ function(){
 		svddatalist[[length(svddatalist)+1]] <- doSVD(
 		multimodel@data[[i]]@psi.df,2,2) 
 	}
-	#if(increasing_x2) 
-	#  image(x, x2, multimodel@data[[1]]@psi.df, xlab = plotoptions@xlab, 
-	#	ylab = ylab, main = "Dataset 1", 
-	#	col = rainbow(16, s = 1, v = 1, start = 0, 
-	#	end = .5, gamma = 1))
 	if(nt > 1 && nl > 1){ 
 	      matplot(x, svddatalist[[1]]$left, type = "l",
 	      main = "Left sing. vectors data", log = "x", xlab = plotoptions@xlab, 
@@ -206,24 +177,32 @@ function(){
 		    lines(m[[i]]@x2, t[[i]]@drel, type = "l", col = i) 
                 }	        
         }
-	
-	if(length(plotoptions@title) != 0){
-			mtext(plotoptions@title, side=3,outer=TRUE,line=1)
-			par(las=2)
-	}
+ if(length(plotoptions@title) != 0){
+			tit <- plotoptions@title
+			if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
+    }
+    else {
+                        tit <- ""
+		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+    }
+    mtext(tit, side = 3, outer = TRUE, line = 1)
+    par(las = 2)
        # MAKE PS
        if(dev.interactive() && length(plotoptions@makeps) != 0) {
-		dev.print(device=postscript, 
-		file=paste(plotoptions@makeps, "_summary.ps", sep=""))
+		if(plotoptions@output == "pdf")
+				      pdev <- pdf 
+		else  pdev <- postscript
+		dev.print(device=pdev, 
+		file=paste(plotoptions@makeps, 
+		"_summary.ps", plotoptions@output, sep=""))
        }
        	par(mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
 	plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
 	writeEst(multimodel, multitheta, plotoptions, plotEstout)
         displayEst(plotoptions)
-       if(length(plotoptions@plotkinspec) == 0) 
-		plotoptions@plotkinspec <- FALSE
+       
        if(plotoptions@plotkinspec) {
-		      plotKinSpec(multimodel, m, t, plotoptions) 
+		      plotSpecKin(multimodel, t, plotoptions) 
 	}
      })	
 }

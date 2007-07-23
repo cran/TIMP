@@ -5,7 +5,7 @@ exceptslots = vector()){
      else 
         theta <- newest$toPlotter$multitheta[[1]]
      if(length(model) == 0)
-	m <- .currModel@model
+	m <- .currModel@modellist[[1]]
      else 
 	m <- model
      if(length(exceptslots) > 0) 

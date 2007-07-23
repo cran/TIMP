@@ -11,27 +11,30 @@ function (modellist, diffsrel)
 
 	for(diffs in diffsrel){
 	   for(i in 1:length(diffs$dataset1)) {
+	   
+
            if(length(diffs$rel) == 0 || diffs$rel == "lin"){
 	      if(length(diffs$ind1)==1 && length(diffs$ind2)==1){
+		   
 		    slot(modellist[[diffs$dataset1[i]]], 
 	            diffs$what1)[diffs$ind1] <- 
 	            slot(modellist[[diffs$dataset2[i]]], 
-	            diffs$what2)[diffs$ind2] * diffs$start
+	            diffs$what2)[diffs$ind2] * diffs$start[1] + diffs$start[2]
+		    
 	      } 
 	      if(length(diffs$ind1)==1 && length(diffs$ind2)==2){
 		    slot(modellist[[diffs$dataset1[i]]], 
 	            diffs$what1)[diffs$ind1] <- 
 	            slot(modellist[[diffs$dataset2[i]]], 
 	            diffs$what2)[[diffs$ind2[1]]][diffs$ind2[2]] * 
-		    diffs$start
+		    diffs$start[1] + diffs$start[2]
 
 	      }
 	      if(length(diffs$ind1)==2 && length(diffs$ind2)==1){
 		    slot(modellist[[diffs$dataset1[i]]], 
 	            diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- 
 	            slot(modellist[[diffs$dataset2[i]]], 
-	            diffs$what2)[diffs$ind2] * 
-		    diffs$start
+	            diffs$what2)[diffs$ind2] * diffs$start[1] + diffs$start[2]
 
 	      }
 	      if(length(diffs$ind1)==2 && length(diffs$ind2)==2){
@@ -39,7 +42,7 @@ function (modellist, diffsrel)
 	            diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- 
 	            slot(modellist[[diffs$dataset2[i]]], 
 	            diffs$what2)[[diffs$ind2[1]]][diffs$ind2[2]] * 
-		    diffs$start
+		    diffs$start[1] + diffs$start[2]
               }
 	    }
           }       

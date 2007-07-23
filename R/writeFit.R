@@ -13,9 +13,27 @@
             if (m[[i]]@weight) 
                 fitted[, j] <- fitted[, j]/m[[i]]@weightM[, j]
         }
-	
-	write.table(fitted, file=paste(plotoptions$makeps, 
-	"_fit_dataset_", i, ".txt", sep=""),  quote=FALSE,
-	row.names = x, col.names = x2)
+	if(!plotoptions@writefitivo) {	
+	  write.table(fitted, file=paste(plotoptions@makeps, 
+	  "_fit_dataset_", i, ".txt", sep=""),  quote=FALSE,
+	  row.names = x, col.names = x2)
+        }
+	else {
+	   cat("description line 1 \n", file = paste(plotoptions@makeps, 
+	  "_fit_dataset_", i, ".txt", sep="")) 
+	    cat("description line 2 \n", file = paste(plotoptions@makeps, 
+	  "_fit_dataset_", i, ".txt", sep=""), append=TRUE)
+	   cat("Wavelength explicit \n", file = paste(plotoptions@makeps, 
+	  "_fit_dataset_", i, ".txt", sep=""), append=TRUE) 
+	  cat(paste("Intervalnr", m[[i]]@nl, "\n"), 
+	  file = paste(plotoptions@makeps, "_fit_dataset_", i, ".txt", 
+	  sep=""), append=TRUE) 
+	  write.table(fitted, file=paste(plotoptions@makeps, 
+	  "_fit_dataset_", i, ".txt", sep=""),  quote=FALSE,
+	  row.names = x, col.names = x2, append = TRUE)
+
+
+	}
+
      }
 }

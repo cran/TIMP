@@ -11,10 +11,6 @@ function(multimodel, multitheta, plotoptions)
     else 
 	 superimpose <- plotoptions@superimpose
     divdrel <- plotoptions@divdrel
-    
-    ## is x2 decreasing? assume answer same for all datasets 
-    x2_decr <- if(m[[1]]@x2[1] < m[[1]]@x2[m[[1]]@nl]) FALSE
-	       else TRUE
     allx2 <- allx <- vector() 
     for(i in superimpose) {
 	  allx2 <- append(allx2, m[[i]]@x2) 
@@ -29,10 +25,11 @@ function(multimodel, multitheta, plotoptions)
     if(length(plotoptions@selectedtraces) > 0 ) {
 	seltraces <- plotoptions@selectedtraces 
 	xx <- vector()
-	for(i in 1:length(m)) {
+	for(i in superimpose) {
 	      xx <- append(m[[i]]@x2[seltraces],xx)
 	}
 	lensel <- length(unique(xx))
+
     }	
     else {
 	 seltraces <- 1:length(allx2) 
@@ -81,14 +78,26 @@ function(multimodel, multitheta, plotoptions)
             }
            }
 	 }
-         if(length(plotoptions@title) != 0){
-			mtext(plotoptions@title, side=3,outer=TRUE,line=1)
-			par(las=2)
-     }
+if(length(plotoptions@title) != 0){
+			tit <- plotoptions@title
+			if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
+    }
+    else {
+                        tit <- ""
+		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+    }
+    mtext(tit, side = 3, outer = TRUE, line = 1)
+    par(las = 2)
+     
      # MAKE PS
         if(dev.interactive() && length(plotoptions@makeps) != 0) {
-		dev.print(device=postscript, 
-		file=paste(plotoptions@makeps, "_selectedtraces.ps", sep=""))
+		if(plotoptions@output == "pdf")
+				      pdev <- pdf 
+		else  pdev <- postscript
+		dev.print(device=pdev, 
+		file=paste(plotoptions@makeps, "_selectedtraces.", 
+		plotoptions@output,
+		sep=""))
         }
 }
 

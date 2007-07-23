@@ -2,9 +2,10 @@
 function (theta, kinscal, kmat) 
 #fillK
 {
-     reskmat<-matrix(0, nrow=length(theta), ncol=length(theta))
-     for(i in 1:length(theta)) {
-	    for(j in 1:length(theta)) {
+     dimk <- dim(kmat)[1]  # kmat is square 
+     reskmat<-matrix(0, nrow=dimk, ncol=dimk)
+     for(i in 1:dimk) {
+	    for(j in 1:dimk) {
 		 if(i==j)
 			pl<- -1
 		 else	pl<- 1
@@ -21,8 +22,8 @@ function (theta, kinscal, kmat)
 		
 	   }
     }
-    for(j in 1:length(theta)) {
-     	 for(i in 1:length(theta)) {
+     for(i in 1:dimk) {
+	    for(j in 1:dimk) {
     	       if(i!=j)
     			reskmat[j,j]<-reskmat[j,j]-reskmat[i,j]
     	}

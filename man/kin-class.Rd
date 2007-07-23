@@ -28,8 +28,11 @@ and \code{FALSE} otherwise}
     \item{\code{mirf}:}{Object of class \code{"logical"}  that is \code{TRUE} if a measured IRF is modeled and \code{FALSE}
 otherwise}
     \item{\code{measured_irf}:}{ Object of class \code{"vector"}  containing a measured IRF}
-    \item{\code{convalg}:}{ Object of class \code{"numeric"}  1-4 determining the numerical convolution algorithm 
-used in the case of modeling a measured IRF}
+    \item{\code{convalg}:}{ Object of class \code{"numeric"}  1-6 determining the numerical convolution algorithm 
+used in the case of modeling a measured IRF; if \code{6} then supply a
+reference lifetime in the slot \code{reftau}.}
+ \item{\code{reftau}:}{ Object of class \code{"numeric"}  containing a
+ reference lifetime to be used when \code{convalg=6}}
     \item{\code{irffun}:}{ Object of class \code{"character"}  describing the 
 function to use to describe the IRF, by default "gaus"}
     \item{\code{irfpar}:}{ Object of class \code{"vector"}  of IRF parameters; for the common Gaussian IRF this 

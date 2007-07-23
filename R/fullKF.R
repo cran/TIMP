@@ -2,14 +2,14 @@
 function(theta, kinscal, kmat, jvec)
 {
 #fullKF
-
-        A <- matrix(nrow = length(theta), ncol = length(theta))
+        dimk <- dim(kmat)[1]
+	A <- matrix(nrow = dimk, ncol = dimk)
         K <- fillK(theta, kinscal, kmat)
-
+	
         eigenlijk <- eigen(K, only.values = F)
         V <- eigenlijk$vectors
         gamma <- solve(V) %*% jvec
-        for(j in 1:length(theta)) 
+        for(j in 1:dimk) 
                 A[j, ] <- V[ ,j] * gamma[j]
 	list(A=A, values = eigenlijk$values)
 }

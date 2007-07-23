@@ -71,6 +71,30 @@ most are most often made by invoking another function such as
   used}
     \item{\code{fixed}:}{ Object of class \code{"list"} list of lists or vectors giving the parameter values 
   to fix (at their starting values) during optimization. }
+ \item{\code{free}:}{ Object of class \code{"list"} list of lists or vectors giving the parameter values 
+  to free during optimization; if this list is present then all parameters
+not specified in it are fixed, e.g., \code{free = list(irfpar = 2)} will fix
+every parameter at its starting value except for the 2nd \code{irfpar}.  If 
+\code{fix = list(none=TRUE)}  (or if the element \code{none}  has length
+greater than 0) then all parameters in the model are fixed.  Note that this
+option only should be applied to multiexperiment models in which at least one 
+parameter appling to some other dataset is optimized (\code{nls} always must 
+have at least one parameter to optimize).      }
+ \item{\code{constrained}:}{ Object of class \code{"list"} list whose elements
+ are lists containing a character vector \code{what}, a vector \code{ind}, and
+ either (but not both) a character vector \code{low} and \code{high}.
+ \code{what} should specify the parameter type to constrain.  \code{ind}
+ should give the index of the parameter to be constrained, e.g., \code{1} if
+ indexing into a vector, and \code{c(1,2)} if indexing into a list.
+ \code{low} gives a number that the parameter should always remain lower
+ than and \code{high} gives a number that the parameter should always remain
+ higher than (so that \code{low} bounds the parameter value from above and
+ \code{high} bounds the parameter value from below).  It is not now possible to
+ specify both \code{low} and \code{high} for a single parameter value.  An
+ example of a complete \code{constrained} specification is 
+ \code{constrained = list(list("what = "kinpar", ind = 2, low = .3), 
+list(what = "parmu", ind = c(1,1), high = .002))} 
+}
     \item{\code{clp0}:}{ Object of class \code{"list"}  list of lists with elements \code{low}, \code{high} and 
   \code{comp}, specifying the least value in  \code{x2} to constrain 
   to zero, the greatest value in  \code{x2} to 
@@ -157,6 +181,8 @@ function for more information. }
     \item{\code{positivepar}:}{ Object of class \code{"vector"}  containing
     character strings of those parameter vectors to constrain to positivity,
     e.g., \code{positivepar=c("kinpar")}}
+\item{\code{datafile}:}{Object of class \code{"character"}  
+containing the name of a datafile associated with the \code{psi.df} }
   }
 }
 

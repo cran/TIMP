@@ -43,12 +43,12 @@ title="Sergey convolve test")
 
 ## uncomment below to test FLIM plotting if 
 ## gclus and fields are installed 
-## serRes<-fitModel(list(selSerT), modelC, 
-## opt=list(iter=0, linrange = 10,
+## serRes<-fitModel(list(selSerT), list(modelC), 
+## opt=kinopt(iter=0, linrange = 10,
 ## makeps = "2_05_1", 
 ## notraces = TRUE, 
 ## xlab = "time (ns)", ylab = "pixel number", 
-## FLIM=list()))
+## FLIM=TRUE))
 
 serRes<-fitModel(list(selSerT), list(modelC), 
 opt=kinopt(iter=1, linrange = 10,

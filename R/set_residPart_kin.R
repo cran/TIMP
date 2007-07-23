@@ -1,4 +1,4 @@
-"set_residPart_kin" <-
+			    "set_residPart_kin" <-
 function () 
 {
     setMethod("residPart", signature(model = "kin"), function(model,
@@ -30,7 +30,7 @@ function ()
                 concen_i <- doClpConstr(compModel(k = t@kinpar, 
                   kinscal = m@kinscal, x = m@x, irfpar = irfvec, 
                   irf = m@irf, seqmod = m@seqmod, fullk = m@fullk, 
-                  kmat = m@kmat, jvec = m@jvec, shiftmea =  t@parmu, 
+                  kmat = m@kmat, jvec = t@jvec, shiftmea =  t@parmu, 
 		  dscalspec = m@dscalspec, 
                   drel = t@drel, cohspec = m@cohspec, coh = t@coh, 
                   cohirf = cohirf, lamb = group[[i]][1], 
@@ -38,10 +38,12 @@ function ()
                   mirf = m@mirf, measured_irf = m@measured_irf, 
                   convalg = m@convalg, speckin2 = m@speckin2, 
 		  usekin2 = m@usekin2, kinpar2 = t@kinpar2, 
-		  kin2scal = t@kin2scal), clp_ind = group[[i]][1], 
+		  kin2scal = t@kin2scal, reftau = m@reftau, 
+		  anispec = m@anispec, anipar = t@anipar, 
+		  cohcol = m@cohcol), 
+		  clp_ind = group[[i]][1], 
                   clpCon = m@clpCon, clpequ = t@clpequ, 
 		  dataset = group[[i]][2])
-		 
                 if (m@weight) 
                   concen_i <- weightNL(concen_i, m, group[[i]][1])
                 if (dim(concen_i)[2] != 0) {
@@ -66,7 +68,7 @@ function ()
 		  } 
               }
 	    }
-        }    
+        }
 	if(returnX)  
 		    retval <- as.vector(concen) 
         else {
@@ -77,7 +79,7 @@ function ()
 		       return(rlist) 
 	   }
 	   qty.temp <- qr.qty(QR.temp, psi)
-           residQspace <- qty.temp[-(1:m@ncolc[group[[1]][1]])]
+           residQspace <- qty.temp[-(1:dim(concen)[2])]
            retval <- residQspace
       }
       retval 

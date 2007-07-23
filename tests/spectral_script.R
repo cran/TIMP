@@ -36,7 +36,8 @@ title = "Linear" )
 
 res_polylin <- fitModel(data = list(psi_1_sampled), 
 modspec = list(model_polylin), 
-opt=specopt(iter=7, linrange = 20,
+opt=specopt(iter=7, linrange = 20, stderrclp = TRUE, 
+plotkinspec = TRUE, kinspecerr = TRUE, superimpose = 1,
 makeps = "polylin", nospectra = TRUE, 
 selectedspectra = seq(1, psi_1_sampled@nt, by=7),
 residplot = TRUE, 
@@ -57,6 +58,7 @@ title = "Exponential parameterization of time dep., linked rates")
 res_model_exp_linkedrates <- fitModel(data = list(psi_1_sampled), 
 modspec = list(model_exp_linkedrates), 
 opt=specopt(iter=5, linrange = 20, residplot=TRUE,
-makeps = "explinked", nospectra = TRUE, 
+makeps = "explinked", nospectra = TRUE, stderrclp = TRUE, 
+plotkinspec = TRUE, kinspecerr = TRUE, superimpose = 1,
 selectedspectra = seq(1, psi_1_sampled@nt, by=7),
 xlab = "time", ylab = "wavelength")) 

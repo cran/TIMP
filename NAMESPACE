@@ -22,7 +22,7 @@ baseCortime, getGroups, plotSpectra, getModel, plotter, calcB, getPar,
 plotTraces, calcCirf, getPrel, plotTracesSuper, calcC, getPrelTheta,
 calcEbspline, calcEhiergaus, getSpecList, rescomp, compCoh,
 residPart, compModel, getSpecToPlot, getThetaCl, sample_sel, getTheta,
-setGenerics, decayirf, set_getClpindepX_kin, diffAdd, init.dat,
+setGenerics, set_getClpindepX_kin, diffAdd, init.dat,
 set_getClpindepX, diffChange, init.fc, set_getClpindepX_spec, diffFree,
 init.het, setMethods, diffRel, set_plotter_kin, diffRemove, init.kin,
 set_plotter_spec, displayEst, initModellist, set_residPart_kin,
@@ -31,5 +31,6 @@ init.multitheta, simpExp, init.res, simpPol, init.spec, skew, init.theta,
 specModel, irfparF, specparF, fillK, l2nu, linloglines, fullKF, linlogplot,
 gaus, getClpConstr, weightNL, getClpindepX, matlinlogplot, weightPsi,
 getClpList, weightSM, getCoh, writeEst, getCohToPlot, normdat, writeFit,
-getConToPlot, plotEst, plotKinSpecEst, fillResult, getResid)
+getConToPlot, plotEst, plotKinSpecEst, fillResult, getResid, processOrder, 
+multiLin)
 

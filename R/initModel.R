@@ -31,7 +31,10 @@ function (...)
             model@lclp0 || model@lclpequ || length(model@parmu) > 
             0)
         model@clpdep <- model@wavedep
-        model@ncomp <- length(model@kinpar) + length(model@kinpar2)
+        if(model@fullk) 
+	    model@ncomp <- dim(model@kmat)[1] + length(model@kinpar2)
+	else 
+	     model@ncomp <- length(model@kinpar) + length(model@kinpar2)
         model@ncolc <- array(model@ncomp, model@nl)
         if (length(model@cohspec$type) == 0) 
             model@cohspec$type <- ""
@@ -50,12 +53,15 @@ function (...)
         model@ncomp <- length(model@specpar)
         model@ncole <- array(model@ncomp, model@nt)
     }
-    if (model@mod_type != "spec") 
+    if (model@mod_type != "spec") {
         if (length(model@cohspec) != 0) 
             model <- getCoh(model)
+	    model <- getAnisotropy(model)  
+    }
     model@x <- model@x * model@scalx
     model@fvecind <- getFixed(model)
     model@pvecind <- getPrel(model)
+    model <- getConstrained(model)
     model <- addPrel(model)
     model
 }

@@ -14,7 +14,6 @@
 \alias{calcEhiergaus} 
 \alias{compCoh} 
 \alias{compModel}
-\alias{decayirf} 
 \alias{diffAdd} 
 \alias{diffChange} 
 \alias{diffFree}
@@ -100,6 +99,8 @@
 \alias{plotEst}
 \alias{init.fit}
 \alias{fillResult}
+\alias{processOrder}
+\alias{multiLin}
 \title{TIMP function used internally}
 \description{TIMP function used internally}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}

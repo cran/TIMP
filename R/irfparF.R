@@ -1,6 +1,7 @@
 "irfparF" <-
-function (irfpar, lambdac, lambda, i, mudisp = FALSE, parmu, taudisp = FALSE, 
-    partau, dispmufun, disptaufun, irffun) 
+function (irfpar, lambdac, lambda, i, mudisp = FALSE, parmu=vector(), 
+	 taudisp = FALSE, partau = vector(), dispmufun = "",
+	 disptaufun = "", irffun) 
 {
 	irfvec<-vector()
 	if(mudisp){ 

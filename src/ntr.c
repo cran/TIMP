@@ -232,7 +232,6 @@ void calcB(double *bvec, double *k, int *lenk){
 
     int i, j;
     float sumcol;
-    int len = (*lenk) * (*lenk);
     #define matind(i,j,l) (((j-1) * (l) + (i-1))) 
         
     bvec[0] = 1;
@@ -249,76 +248,94 @@ void calcB(double *bvec, double *k, int *lenk){
     }
 }
 
-/* fortime */
+/************************************************
 
-void fortime(double *bvec){
+Start code for numerical convolution 
 
-    
-}
-/* fortime2 */
+*************************************************/
 
-void fortime2(double *bvec,double *bvec1,double *bvec2,double *bvec3,double *bvec4){
+/*
+Numerical convolution routine 
+convolution with a scatter
+ConvSimpleAlg	
+ConvCentrImp	
+ConvBlockFunc
+ConvTrap
+double* source - pointer to array with result 
+double* scatter - pointer to array with Scatter (IRF) 
+int canN - number of time channels 
+double tau - lifetime of component  
+double t - time window (time from first time cannel till last)
 
-    
-}
+*/
+
 
 /* function 1 for numerical convolution of vectors */ 
 
 void Conv1(double *result, double *measured, int *lenx, double *rate, 
-double *xspace, int *startcan){
+double *xspace){
+
 	double ChannelWidth = (*xspace);
-	int StartChannel=(*startcan);
 	double tau = 1/(*rate);
 	int i, z, j;
+	result[0] = 0; 
+
 	for (z=0; z<(*lenx); z++)
 		result[z]=(tau)*(exp(-z*ChannelWidth/tau)-exp(-(z+1)*ChannelWidth/tau));
-
-
-	int LoopEndChannel = StartChannel == 0 ? 1 : StartChannel;
-	for(i=(*lenx)-1;i>=LoopEndChannel;i--){
+	
+	for(i=(*lenx)-1;i>=1;i--){
 		result[i] = 0.5*(measured[0]*result[i]+measured[i]*result[0]) + 0.25*result[i]*measured[0];
 		for(j=1;j<i;j++)
 			result[i] += result[j]*measured[i-j];
 
 		result[i] *= ChannelWidth;
 	}
-
-	if(StartChannel == 0)
-		result[0] = 0.25*result[0]*measured[0]*ChannelWidth;
-	else
-		memset(result,0,StartChannel*sizeof(double));
 }
 
 /* function 2 for numerical convolution of vectors */ 
 
 void Conv2 (double *result, double *measured, int *lenx, 
-	    double *rate, double *xspace, int *startcan){
+	    double *rate, double *xspace){
 	
+// ConvSimpleAlg:     
+//M.Bouchy,J.Y.Jezequel,J.C.Andre,J.Bordet,Problems arising from the quantization
+//of the data in the mathematical treatment of single photon counting experiments. In:
+//Deconvolution and reconvolution of analytical signals. Application to ?uorescence
+//spectroscopy,E.N.S.I.C.-I.N.P.L., Nancy, France, 1982, pp. 393-409 
+
 	double taucan = (1/(*rate)) / (*xspace);
 	double eps=exp(-1/taucan);
+	double ampmax = 0; 
 	int i; 
 
 	result[0]=0;
 
-	for (i=1; i<(*lenx); i++){
+	for (i=1; i<(*lenx); i++) {
 		result[i]=result[i-1]*eps+measured[i]*(1-eps);
-
+		if (result[i]>ampmax)
+			ampmax = result[i];
 	}
-
-	if ((*startcan)!=0)
-		memset(result,0,(*startcan)*sizeof(double));
-
+	//this loop is for the normalizing curve to 1	
+	for (i=0; i<(*lenx); i++) 
+		result[i]/=ampmax; 
 }
 	
 
 /* function 3 for numerical convolution of vectors */ 
 
 void Conv3(double *result, double *measured, int *lenx, double *rate, 
-	   double *xspace, int *startcan){
+	   double *xspace){
+
+// ConvCentrImp:
+//M.Bouchy,J.Y.Jezequel,J.C.Andre,J.Bordet,Problems arising from the quantization
+//of the data in the mathematical treatment of single photon counting experiments. In:
+//Deconvolution and reconvolution of analytical signals. Application to ?uorescence
+//spectroscopy,E.N.S.I.C.-I.N.P.L., Nancy, France, 1982, pp. 393-409
 
 	double taucan = (1 / (*rate)) / (*xspace); 
 	double eps=exp(-1/taucan);
 	double I;
+	double ampmax = 0;
 	double n=0;
 	int i; 
 
@@ -326,23 +343,30 @@ void Conv3(double *result, double *measured, int *lenx, double *rate,
 	for (i=0; i<(*lenx); i++){
 		result[i] = n*(1-eps)+measured[i]*(1-eps*I);
 		n = n*eps+measured[i]*eps*I;
+		if (result[i]>ampmax)
+			ampmax = result[i];
 
 	}
-
-	if ((*startcan)!=0)
-		memset(result,0,(*startcan)*sizeof(double));
-
-
+	//this loop is for the normalizing curve to 1		
+	for (i=0; i<(*lenx); i++)
+		result[i]/=ampmax;
 }
-
 
 /* function 4 for numerical convolution of vectors */ 
 
 void Conv4	(double *result, double *measured, int *lenx, double *rate, 
-		 double *xspace, int *startcan){
+		 double *xspace){
+    
+    // ConvBlockFunc:
+    //M.Bouchy,J.Y.Jezequel,J.C.Andre,J.Bordet,Problems arising from the quantization
+    //of the data in the mathematical treatment of single photon counting experiments. In:
+    //Deconvolution and reconvolution of analytical signals. Application to ?uorescence
+    //spectroscopy,E.N.S.I.C.-I.N.P.L., Nancy, France, 1982, pp. 393-409
+
 	double taucan = (1/ (*rate)) / (*xspace);
 	double eps=exp(-1/taucan);
 	double I;
+	double ampmax = 0;
 	double n=0;
 	int i;
 
@@ -350,14 +374,78 @@ void Conv4	(double *result, double *measured, int *lenx, double *rate,
 	for (i=0; i<(*lenx); i++){
 		result[i] = n*(1-eps)+measured[i]*(1-eps*I);
 		n = n*eps+measured[i]*eps*I;
-
+		if (result[i]>ampmax)
+			ampmax = result[i];
 	}
+	//this loop is for the normalizing curve to 1		
+	for (i=0; i<(*lenx); i++)
+		result[i]/=ampmax;
+}
 
-	if ((*startcan)!=0)
-		memset(result,0,(*startcan)*sizeof(double));
+void Conv5(double *result, double *measured, int *lenx, double *rate, 
+		 double *xspace){
 
+// ConvTrap:
+// Grinvald, A. and Steinber.Iz (1974). 
+// "Analysis of Fluorescence Decay Kinetics by Method of Least-Squares." 
+// Analytical Biochemistry 59(2): 583-598.
+
+    double tau = 1/(*rate);
+    double canW = (*xspace);
+    double eps=exp(-canW/tau);
+	
+	double ampmax = 0;
+	result[0]=0;
+	int i;
+
+	for (i=1; i<(*lenx); i++){
+	    result[i] = (result[i-1]+0.5*canW*measured[i-1])*eps + 0.5*canW*measured[i];
+		if (result[i]>ampmax)
+			ampmax = result[i];
+	}
+	//this loop is for the normalizing curve to 1		
+	for (i=0; i<(*lenx); i++)
+		result[i]/=ampmax;
 
 }
+
+void Conv6(double* source, double* reference, int *canN, double *rate, double *xspace, double *tauref){
+
+//ReferenceReconvolution:
+//Boens, N., M. Ameloot, et al. (1988). 
+//"On the Use and the Performance of the Delta-Function Convolution 
+//Method for the Estimation of Fluorescence Decay Parameters." 
+//Chemical Physics 121(1): 73-86.
+/*
+double* source - pointer to array with result 
+double* reference - pointer to array with Reference Compound decay
+int canN - number of time cannels 
+double tau - lifetime of component  
+double tauref - lifetime of reference compound 
+double t - time window (time from first time cannel till last)
+*/
+        double tau = 1/ (*rate);
+	double canW = (*xspace);
+	double eps=exp(-canW/tau);
+	double ampmax=0;
+	int i = 0;
+
+	source[0]=0;
+	for (i=1; i<(*canN); i++){
+		source[i] = (source[i-1]+0.5*canW*(1/(*tauref)-1/tau)*reference[i-1])*eps + 0.5*canW*(1/(*tauref)-1/tau)*reference[i];
+	}
+
+	for (i=0; i<(*canN); i++){
+		source[i]+=reference[i];
+		if (source[i]>ampmax)
+			ampmax = source[i];
+	}
+
+//this loop is for the normalizing curve to 1		
+	for (i=0; i<(*canN); i++)
+		source[i]/=ampmax;
+}
+
 void ShiftCurve  (double *source, double *curve, double *shiftparam, 
 		  int *length){ 
    int shift, i;
@@ -373,3 +461,135 @@ void ShiftCurve  (double *source, double *curve, double *shiftparam,
    }
 
 }
+
+// start repeating the non-normalized versions 
+
+
+/* function 2 for numerical convolution of vectors */ 
+
+void Conv7 (double *result, double *measured, int *lenx, 
+	    double *rate, double *xspace){
+	
+// ConvSimpleAlg:     
+//M.Bouchy,J.Y.Jezequel,J.C.Andre,J.Bordet,Problems arising from the quantization
+//of the data in the mathematical treatment of single photon counting experiments. In:
+//Deconvolution and reconvolution of analytical signals. Application to ?uorescence
+//spectroscopy,E.N.S.I.C.-I.N.P.L., Nancy, France, 1982, pp. 393-409 
+
+	double taucan = (1/(*rate)) / (*xspace);
+	double eps=exp(-1/taucan);
+	int i; 
+
+	result[0]=0;
+
+	for (i=1; i<(*lenx); i++) {
+		result[i]=result[i-1]*eps+measured[i]*(1-eps);
+	}
+}
+	
+
+/* function 3 for numerical convolution of vectors */ 
+
+void Conv8(double *result, double *measured, int *lenx, double *rate, 
+	   double *xspace){
+
+// ConvCentrImp:
+//M.Bouchy,J.Y.Jezequel,J.C.Andre,J.Bordet,Problems arising from the quantization
+//of the data in the mathematical treatment of single photon counting experiments. In:
+//Deconvolution and reconvolution of analytical signals. Application to ?uorescence
+//spectroscopy,E.N.S.I.C.-I.N.P.L., Nancy, France, 1982, pp. 393-409
+
+	double taucan = (1 / (*rate)) / (*xspace); 
+	double eps=exp(-1/taucan);
+	double I;
+	
+	double n=0;
+	int i; 
+
+	I = 1/sqrt(eps);
+	for (i=0; i<(*lenx); i++){
+		result[i] = n*(1-eps)+measured[i]*(1-eps*I);
+		n = n*eps+measured[i]*eps*I;
+	
+	}
+	
+}
+
+/* function 4 for numerical convolution of vectors */ 
+
+void Conv9	(double *result, double *measured, int *lenx, double *rate, 
+		 double *xspace){
+    
+    // ConvBlockFunc:
+    //M.Bouchy,J.Y.Jezequel,J.C.Andre,J.Bordet,Problems arising from the quantization
+    //of the data in the mathematical treatment of single photon counting experiments. In:
+    //Deconvolution and reconvolution of analytical signals. Application to ?uorescence
+    //spectroscopy,E.N.S.I.C.-I.N.P.L., Nancy, France, 1982, pp. 393-409
+
+	double taucan = (1/ (*rate)) / (*xspace);
+	double eps=exp(-1/taucan);
+	double I;
+	double n=0;
+	int i;
+
+	I = taucan*(1/eps-1);
+	for (i=0; i<(*lenx); i++){
+		result[i] = n*(1-eps)+measured[i]*(1-eps*I);
+		n = n*eps+measured[i]*eps*I;
+	}
+
+}
+
+void Conv10(double *result, double *measured, int *lenx, double *rate, 
+		 double *xspace){
+
+// ConvTrap:
+// Grinvald, A. and Steinber.Iz (1974). 
+// "Analysis of Fluorescence Decay Kinetics by Method of Least-Squares." 
+// Analytical Biochemistry 59(2): 583-598.
+
+    double tau = 1/(*rate);
+    double canW = (*xspace);
+    double eps=exp(-canW/tau);
+
+	result[0]=0;
+	int i;
+
+	for (i=1; i<(*lenx); i++){
+	    result[i] = (result[i-1]+0.5*canW*measured[i-1])*eps + 0.5*canW*measured[i];
+	}
+
+
+}
+
+void Conv11(double* source, double* reference, int *canN, double *rate, double *xspace, double *tauref){
+
+//ReferenceReconvolution:
+//Boens, N., M. Ameloot, et al. (1988). 
+//"On the Use and the Performance of the Delta-Function Convolution 
+//Method for the Estimation of Fluorescence Decay Parameters." 
+//Chemical Physics 121(1): 73-86.
+/*
+double* source - pointer to array with result 
+double* reference - pointer to array with Reference Compound decay
+int canN - number of time cannels 
+double tau - lifetime of component  
+double tauref - lifetime of reference compound 
+double t - time window (time from first time cannel till last)
+*/
+        double tau = 1/ (*rate);
+	double canW = (*xspace);
+	double eps=exp(-canW/tau);
+	int i = 0;
+
+	source[0]=0;
+	for (i=1; i<(*canN); i++){
+		source[i] = (source[i-1]+0.5*canW*(1/(*tauref)-1/tau)*reference[i-1])*eps + 0.5*canW*(1/(*tauref)-1/tau)*reference[i];
+	}
+
+	for (i=0; i<(*canN); i++){
+		source[i]+=reference[i];
+	}
+
+}
+

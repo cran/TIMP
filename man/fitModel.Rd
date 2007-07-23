@@ -8,7 +8,8 @@ fitModel(data, modspec=list(), datasetind = vector(), modeldiffs = list(),
 		opt = opt() )
 }
 \arguments{
-  \item{data}{list of data objects of class \code{dat}}
+  \item{data}{list of objects of class \code{dat} containing the data 
+  to be modeled}
   \item{modspec}{list whose elements are models of class \code{dat} 
   describing the models as results from a
   call to the function \code{initModel} }
@@ -18,7 +19,16 @@ fitModel(data, modspec=list(), datasetind = vector(), modeldiffs = list(),
   use the first model given in \code{modspec}  }
   \item{modeldiffs}{ list whose elements specify any dataset-specific 
   model differences. 
-  \itemize{ 
+  \itemize{
+\item{linkclp}{list of vectors containing the indices of datasets.  If the 
+  two dataset indices are in the same vector, their conditionally linear 
+  parameters will be equated if they represent the same condition (e.g., a 
+  wavelength) within \code{thresh}.  For example, 
+  \code{linkclp = list(1:10, 11:15)} will let datasets 1-10 and 11-15 
+  have the same clp.  Note that if \code{linkclp} is not given, it will 
+  default to \code{list{1:length(data)}}, so that the clp from all datasets
+  are equated when they represent conditions within \code{thresh} of each 
+  other.}  
   \item{dscal}{list of lists specifying linear scaling relations between 
    datasets; each list has elements \code{to, from, value}.  The index of the 
    dataset to be scaled is given in \code{to}; the index of the dataset on 

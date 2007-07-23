@@ -1,5 +1,5 @@
-"plotKinSpec" <-
-function(multimodel, t, plotoptions, newplot=TRUE, max_x2=NA, min_x2=NA, 
+"plotSpecKin" <-
+function(multimodel, t, plotoptions, newplot=TRUE, max_x=NA, min_x=NA, 
 ylim=vector(), kinspecerr=FALSE)
 {
 	m <- multimodel@modellist
@@ -10,7 +10,7 @@ ylim=vector(), kinspecerr=FALSE)
 	   kinspecerr <- plotoptions@kinspecerr
 	}
 	superimpose <- plotoptions@superimpose 
-	if(is.na(max_x2) || is.na(max_x2))
+	if(is.na(max_x) || is.na(max_x))
 			 withlim <- FALSE 
 	else		 withlim <- TRUE
         allx2 <- allx <- vector() 
@@ -21,15 +21,8 @@ ylim=vector(), kinspecerr=FALSE)
 	specList <- list() 
 	maxs <- mins <- maxspecdim <- 0
 	specList <- getSpecList(multimodel, t)
-
 	for(i in 1:length(m)) {
-		      cohcol <- m[[i]]@cohcol 
-		      spec <- getSpecToPlot(specList[[i]], 1, 
-		      cohcol)
-		      
-		       if(!identical(m[[i]]@cohcol, 0))	      
-			   spec <- spec[,-cohcol] 
-		      specList[[i]] <- spec
+	   spec <- specList[[i]]
 	   if(i %in% superimpose) { 	
 		      maxs <- max(maxs, max(spec))
 		      mins <- min(mins, min(spec))
@@ -37,8 +30,8 @@ ylim=vector(), kinspecerr=FALSE)
 	   }
         }	      			      
 	if(!withlim) 
-		xlim <- c(min(allx2),max(allx2))
-	else xlim <- c(min_x2, max_x2)
+		xlim <- c(min(allx),max(allx))
+	else xlim <- c(min_x, max_x)
 	if(length(plotoptions@xlimspec) == 2) 
 		xlim <- plotoptions@xlimspec
 	if(length(plotoptions@ylimspec) == 2) 
@@ -59,10 +52,7 @@ ylim=vector(), kinspecerr=FALSE)
 		          write.table(errtList[[i]], 
 			  file=paste(plotoptions@makeps,
 		          "_std_err_clp_", i, ".txt", sep=""), 
-		          quote = FALSE, row.names = m[[i]]@x2)
-	   
-			 if(!identical(m[[i]]@cohcol, 0))
-			   errtList[[i]] <- errtList[[i]][,-m[[i]]@cohcol] 
+		          quote = FALSE, row.names = m[[i]]@x)
 	        }
 		if (plotoptions@normspec) 
 				    sp <-  normdat(specList[[i]])
@@ -71,7 +61,7 @@ ylim=vector(), kinspecerr=FALSE)
 	      
 	      for(j in 1:dim(sp)[2]) {
 		    if(plotoptions@specinterpol) { 
-		       xx <- predict(interpSpline(m[[i]]@x2, 
+		       xx <- predict(interpSpline(m[[i]]@x, 
 			sp[,j], bSpline=plotoptions@specinterpolbspline),
 			nseg = plotoptions@specinterpolseg)
 			
@@ -85,7 +75,7 @@ ylim=vector(), kinspecerr=FALSE)
 			else lines(xx, col = j, 
 			lty = if(plotoptions@samespecline) 1 else i)
 			if(kinspecerr)
-			 plotCI(m[[i]]@x2, sp[,j], uiw=errtList[[i]][,j], pch
+			 plotCI(m[[i]]@x, sp[,j], uiw=errtList[[i]][,j], pch
 			 = if(plotoptions@specinterpolpoints) 26-j else NA,
 			 col = j, sfrac = 0, type="p", gap = 0, add =TRUE,
 			 labels = "", lty = if(plotoptions@samespecline) 1
@@ -99,7 +89,7 @@ ylim=vector(), kinspecerr=FALSE)
 		     }
 		     else 
 		      if(kinspecerr)
-		       plotCI(m[[i]]@x2, sp[,j], 
+		       plotCI(m[[i]]@x, sp[,j], 
 		       uiw=errtList[[i]][,j], 
 		       main = "", xlab = plotoptions@xlab,
 		       ylab="amplitude", lty = if(plotoptions@samespecline) 1
@@ -108,14 +98,14 @@ ylim=vector(), kinspecerr=FALSE)
 		       add = !(i == 1 &&	j == 1), labels = "")
 		      else {
 		       if(!plotted) {
-			plot(m[[i]]@x2, sp[, j], 
+			plot(m[[i]]@x, sp[, j], 
 			lty = if(plotoptions@samespecline) 1 else i, 
 			main = "", xlab = plotoptions@xlab,
 			ylab="amplitude", xlim =xlim,ylim=ylim, col = j,
 			type="l")
                         plotted<-TRUE 
 		       }
-			else lines(m[[i]]@x2, sp[, j], col = j, 
+			else lines(m[[i]]@x, sp[, j], col = j, 
 			lty = if(plotoptions@samespecline) 1 else i)
 
 		     }
@@ -134,18 +124,15 @@ ylim=vector(), kinspecerr=FALSE)
     }
     mtext(tit, side = 3, outer = TRUE, line = 1)
     par(las = 2)
-    	  
+    
         }
 	abline(0,0)
 	if (dev.interactive() && length(plotoptions@makeps) != 0) {
-	   	if(plotoptions@output == "pdf")
+	   if(plotoptions@output == "pdf")
 				      pdev <- pdf 
-		else  pdev <- postscript		
-
-		dev.print(device=pdev, 
-		file=paste(plotoptions@makeps, "_kinspec.", 
-		plotoptions@output, sep=""))
-
+		else  pdev <- postscript
+            dev.print(device = pdev, file = paste(plotoptions@makeps, 
+                "_speckin.", plotoptions@output, sep = ""))
         }
 }
 

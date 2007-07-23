@@ -1,7 +1,6 @@
 "fillResult" <- function (group , multimodel, thetalist, clpindepX, rlist,
 	        rawtheta)
 {
- 
     irfvec <- rlist$irfvec
     QR.temp <- rlist$QR 
     psi <- rlist$psi 
@@ -12,15 +11,15 @@
     m <- multimodel@modellist 
     for (i in 1:length(group)) {
 	res <- .currModel@fit@resultlist[[group[[i]][2]]]
-	irfvec[[i]][which(is.na(irfvec[[i]]))]<-0
-	res@irfvec[[group[[i]][1]]] <- irfvec[[i]] 
 	if(m[[group[[i]][2] ]]@mod_type != "spec") { 
+	  irfvec[[i]][which(is.na(irfvec[[i]]))]<-0
 	  if (length(m[[group[[i]][2]]]@cohspec$type) != 0) {
 		  if (m[[group[[i]][2]]]@cohspec$type == 
 		  "freeirfdisp") 
 		     res@cohirf[[group[[i]][1]]] <- rlist$cohirf[[i]] 
 	  }
         }
+	res@irfvec[[group[[i]][1]]] <- irfvec[[i]] 
 	if(m[[group[[i]][2]]]@mod_type != "spec") 
            nt_or_nl <- m[[group[[i]][2]]]@nt
 	else  nt_or_nl <- m[[group[[i]][2]]]@nl

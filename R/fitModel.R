@@ -8,7 +8,7 @@ opt = opt())
     theta <- getTheta(.currModel)
 
     assign(".currTheta", getThetaCl(theta, .currModel), envir = .GlobalEnv)
-    
+
     iter <- opt@iter
     d <- vector()
     dummy <- as.data.frame(d)

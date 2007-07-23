@@ -37,9 +37,13 @@
 	if(increasing_x2) {
 	   
 	   limd<- max(  max(residlist[[1]]), abs(min(residlist[[1]]))) 
-	   image(model@x, model@x2, residlist[[1]], xlab = plotoptions@xlab, ylab = plotoptions@ylab,
+	   if(!is.unsorted(model@x) && length(unique(model@x)) == model@nt 
+		&& length(unique(model@x2)) == model@nl )	
+		image(model@x, model@x2, residlist[[1]], 
+		xlab = plotoptions@xlab, ylab = plotoptions@ylab,
 		main = "Residuals Dataset 1", zlim=c(-limd,limd),
-		col = diverge_hcl(40, h = c(0, 120), c = 60, l = c(45, 90), power = 1.2))
+		col = diverge_hcl(40, h = c(0, 120), c = 60, l = c(45, 90),
+		power = 1.2))
 	}
 	if(model@nt > 1 && model@nl > 1){ 
 	      matplot(xpos, as.matrix(svdresidlist[[1]]$left[,i]), type = "l",
@@ -76,8 +80,12 @@
       }
        # MAKE PS
        if(dev.interactive() && length(plotoptions@makeps) != 0) {
-		dev.print(device=postscript, 
-		file=paste(plotoptions@makeps, "_resids.ps", sep=""))
+		if(plotoptions@output == "pdf")
+				      pdev <- pdf 
+		else  pdev <- postscript
+		dev.print(device=pdev, 
+		file=paste(plotoptions@makeps, "_resids.", 
+		plotoptions@output, sep=""))
        }
 
 }

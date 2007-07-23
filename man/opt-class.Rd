@@ -24,6 +24,13 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
     \code{"logical"} that defaults to \code{FALSE}; if \code{TRUE} then fit 
     is written to a txt file; row and column labels are \code{x} and 
     \code{x2}}
+    \item{\code{output}:}{Object of class 
+    \code{"character"} that defaults to \code{"ps"}, which means that 
+    plots written to file are postscript.  Alternatively, specify
+    \code{output = "pdf"}, and plots are written as pdf files} 
+     \item{\code{addfilename}:}{Object of class 
+    \code{"logical"} that, for each data file, tries to add the 
+    filename to plots associated with output for that data. }
     \item{\code{residplot}:}{Object of class \code{"logical"} defaults to 
     \code{FALSE}; if \code{TRUE} generate a plot of residuals in a 
     separate window.}
@@ -68,8 +75,52 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
     conditionally linear parameters are made}
  \item{\code{addest}:}{Object of class \code{"vector"} containing 
     character strings of which parameter estimates should be added to the 
-   summary plot, e.g., \code{addest = c("kinpar", "irfpar")}}  
-}}
+   summary plot, e.g., \code{addest = c("kinpar", "irfpar")}}
+ \item{kinspecerr}{Object of class \code{"logical"} that defaults to 
+    \code{FALSE}; if \code{TRUE}, add standard error estimates to the clp
+    a plot generated with \code{kinspecest=TRUE} or 
+    \code{plotkinspec=TRUE}.  This option can only be 
+    used if the estimates were generated during fitting via the option 
+    \code{stderrclp=TRUE}}
+ \item{xlimspec}{Object of class \code{"vector"} that defaults to 
+\code{vector()}; if changed, it should specify the desired x-limits of 
+the plot of clp}
+ \item{ylimspec}{Object of class \code{"vector"} that defaults to 
+\code{vector()}; if changed, it should specify the desired y-limits of 
+the plot of clp. In the case of plotting the results of FLIM image 
+analysis, \code{ylimspec} can be used to determine the range used in the 
+image plot of lifetimes.  }
+\item{ylimspecplus}{Object of class \code{"vector"} that defaults to 
+\code{vector()}; if changed, the first value should specify a vector to
+add to the y-limits of the plot of clp}
+\item{samespecline}{Object of class \code{"logical"} that defaults to 
+\code{FALSE}; if \code{TRUE}, then the line-type for clp is the same 
+for all datasets
+}
+ \item{specinterpol}{Object of class \code{"logical"} that defaults to 
+    \code{FALSE}; if \code{TRUE}, use spline instead of lines between 
+    the points representing estimated clp}
+   \item{specinterpolpoints}{Object of class \code{"logical"} that defaults to 
+    \code{TRUE}; if \code{TRUE}, add points representing the actual estimates
+    for clp to plots of the curves respresenting smoothed clp}
+\item{specinterpolseg}{Object of class \code{"numeric"} that defaults to 
+    \code{50}; represents the number of segments used in a spline-based
+    representation of clp}  
+ \item{specinterpolbspline}{Object of class \code{"logical"} that defaults
+to \code{FALSE}; determines whether a B-spline based representation of
+clp is used (when \code{specinterpol=TRUE}) or a piecewise polynomial 
+	representation} 
+ \item{normspec}{Object of class \code{"logical"} that determines whether
+clp are normalized in plots}
+ \item{writespecinterpol}{Object of class \code{"logical"} that defaults to 
+    \code{FALSE}; if \code{TRUE}, a spline-based representation of clp
+    is written to ASCII files}
+}
+  
+}
+
+
+}
 \details{See \code{\link{kinopt-class}} and  \code{\link{specopt-class}} for 
 the specification of fitting/plotting options that are specific to the 
 class type. }

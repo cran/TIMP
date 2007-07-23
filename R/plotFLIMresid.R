@@ -1,4 +1,4 @@
-"plotFLIMresid" <- function (multimodel, multitheta, plotoptions) 
+"plotFLIMresid" <- function (multimodel, multitheta, plotoptions, dind) 
 {
     get(getOption("device"))()
     model <- multimodel@modellist[[1]]
@@ -92,7 +92,9 @@
             resmat[model@x2] <- as.vector(svdresidlist[[1]]$right[1,]) 
             dim(resmat) <- dim(tracemat)
             image.plot(resmat[colstart:colend, rowstart:rowend], xlab = "", 
-	    axes = FALSE, ylab = "", col = heat_hcl(100), 
+	    axes = FALSE, ylab = "", 
+	    col = diverge_hcl(40, h = c(0, 120), c = 60, l = c(45, 90), 
+	    power = 1.2), 
             main = "Right sing. vec. residuals")
         
     svddatalist <- list()
@@ -111,12 +113,22 @@
             }
         }
     }
-    if (length(plotoptions@title) != 0) {
-        mtext(plotoptions@title, side = 3, outer = TRUE, line = 1)
-        par(las = 2)
+    if(length(plotoptions@title) != 0){
+			tit <- plotoptions@title
+			if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
     }
+    else {
+                        tit <- ""
+		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+    }
+    mtext(tit, side = 3, outer = TRUE, line = 1)
+    par(las = 2)
+    
     if (dev.interactive() && length(plotoptions@makeps) != 0) {
-        dev.print(device = postscript, file = paste(plotoptions@makeps, 
-            "_resids.ps", sep = ""), horizontal = TRUE)
+      if(plotoptions@output == "pdf")
+        pdev <- pdf 
+      else  pdev <- postscript
+        dev.print(device = pdev, file = paste(plotoptions@makeps,
+	"_resids.", plotoptions@output, sep = ""))
     }
 }

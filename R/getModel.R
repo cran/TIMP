@@ -4,7 +4,8 @@
 	datasetind <- rep(1, length(data))
     modellist <- vector("list", length(data))
     resultlist <- vector("list", length(data))
-    plugin <- c("psi.df", "x", "x2", "nt", "nl", "simdata", "inten")
+    plugin <- c("psi.df", "x", "x2", "nt", "nl", "simdata", "inten", 
+    "datafile")
     for(i in 1:length(data)) {
 	  resultlist[[i]] <- res() 
 	  modellist[[i]] <- modelspec[[datasetind[i] ]]
@@ -30,9 +31,22 @@
         modeldiffs$dscal <- list()
     modellist <- applyWeighting(modellist)
     modellist <- initModellist(modellist)
-    groups <- getGroups(modellist, modeldiffs)
-    modeldiffs$groups <- groups$groups
-    modeldiffs$linkclp <- groups$linkclp
+    modellist <- getPrelBetweenDatasets(modellist, modeldiffs$rel) 
+    linkclp <- if(length(modeldiffs$linkclp) < 1) 
+		list(1:length(modellist))
+	       else modeldiffs$linkclp 
+    grlist <- list()
+    for(i in 1:length(linkclp)) {
+	  mlist <- list()
+	  mlabel <- vector()
+	  for(j in linkclp[[i]]) {
+		mlist <- append(mlist, modellist[[j]] )
+		mlabel <- append(mlabel, j)
+	  }
+	  gr <- getGroups(mlist, modeldiffs, mlabel)
+	  grlist <- append(grlist, gr)
+    }
+    modeldiffs$groups <- grlist
     modeldiffs$stderrclp <- opt@stderrclp
     multimodel(modellist = modellist, data = data, datasetind = datasetind, 
     modelspec = modelspec, modeldiffs = modeldiffs, 

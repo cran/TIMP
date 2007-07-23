@@ -87,8 +87,8 @@ lambdac=500,
 positivepar=c("kinpar"),
 weightpar=list(c(NA,NA,460,525,.3)),
 clp0=list(list(comp=5, low=250,high=550), list(comp=5, 
-low=600,high=800)), lclp0 = TRUE,
-fixed=list(kinpar=c(1,2),kinscal=c(1:7)))
+low=600,high=800)), 
+fixed=list(kinpar=c(1,2),kinscal=c(1:7), jvector=1:5))
 
 serRes<-fitModel(list(delDatP), list(delMod), 
 opt=kinopt(iter=1, linrange = 20,

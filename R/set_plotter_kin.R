@@ -21,7 +21,7 @@
 		if(!plotoptions@FLIM) 
 		   plotResids(multimodel, multitheta, plotoptions) 
 	}
-	if(plotoptions@writefit)
+	if(plotoptions@writefit || plotoptions@writefitivo)
 		writeFit(multimodel, multitheta, plotoptions)
         if (length(plotoptions@breakdown)>0) 
             plotKinBreakDown(multimodel, multitheta, 
@@ -31,15 +31,10 @@
             return()
         }
 	get(getOption("device"))()
-	par(mgp = c(2, 1, 0), mar=c(4,4,4,2))
-	par(oma = c(1,0,4,0))
-	par(mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
+	par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), 
+	mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
         m <- multimodel@modellist
         t <- multitheta
-
-	## is x2 decreasing? assume answer same for all datasets 
-	x2_decr <- if(m[[1]]@x2[1] < m[[1]]@x2[m[[1]]@nl]) FALSE
-	       else TRUE
         allx2 <- allx <- vector() 
 	for(i in 1:length(m)) {
 	  allx2 <- append(allx2, m[[i]]@x2) 
@@ -54,6 +49,9 @@
 	muList <- list()       
 	contoplotList <- list() 
 	minc <- maxc <- 0 
+	if(m[[i]]@anispec$useparperp) {
+		calcAniSignal(m, plotoptions)
+	}
 	for (i in 1:length(m)) {
             irfmu <- irftau <- vector()
             if (m[[i]]@dispmu) {
@@ -87,10 +85,30 @@
             else 
                   cohirf <- vector()
  	    irfvec <- resultlist[[i]]@irfvec[[1]]
-	    
-            contoplotList[[length(contoplotList)+1]] <- getConToPlot(
-	    doClpConstr(compModel(k = t[[i]]@kinpar, 
+	    C <- compModel(k = t[[i]]@kinpar, 
                 kinscal = m[[i]]@kinscal, x = m[[i]]@x, irfpar = irfvec, 
+                irf = m[[i]]@irf, seqmod = m[[i]]@seqmod, 
+		fullk = m[[i]]@fullk, 
+                kmat = m[[i]]@kmat, jvec = t[[i]]@jvec, 
+		dscalspec = m[[i]]@dscalspec, 
+                drel = t[[i]]@drel, cohspec = m[[i]]@cohspec, 
+                coh = t[[i]]@coh, lamb = 1, 
+                dataset = i, cohirf = cohirf, mirf = m[[i]]@mirf, 
+                convalg = m[[i]]@convalg, measured_irf = m[[i]]@measured_irf,
+		speckin2 = m[[i]]@speckin2, 
+		usekin2 = m[[i]]@usekin2, kinpar2 = t[[i]]@kinpar2, 
+		kin2scal = t[[i]]@kin2scal, reftau = m[[i]]@reftau, 
+		anispec = m[[i]]@anispec, 
+		anipar = t[[i]]@anipar, cohcol = m[[i]]@cohcol)
+	      if(plotoptions@writerawcon) 
+		 write.table(C, file=paste(plotoptions@makeps,
+		 "_rawconcen_dataset_", i, ".txt", sep=""), quote = FALSE,
+		  row.names = m[[i]]@x)
+	      if(length(plotoptions@writeplaincon) > 0){
+		xplot <- plotoptions@writeplaincon$x 
+
+		CWRITE <- compModel(k = t[[i]]@kinpar, 
+                kinscal = m[[i]]@kinscal, x = xplot, irfpar = irfvec, 
                 irf = m[[i]]@irf, seqmod = m[[i]]@seqmod, 
 		fullk = m[[i]]@fullk, 
                 kmat = m[[i]]@kmat, jvec = m[[i]]@jvec, 
@@ -101,8 +119,15 @@
                 convalg = m[[i]]@convalg, measured_irf = m[[i]]@measured_irf,
 		speckin2 = m[[i]]@speckin2, 
 		usekin2 = m[[i]]@usekin2, kinpar2 = t[[i]]@kinpar2, 
-		kin2scal = t[[i]]@kin2scal), 
-                1, m[[i]]@clpCon, t[[i]]@clpequ, dataset = i), 
+		kin2scal = t[[i]]@kin2scal, reftau = m[[i]]@reftau, 
+		anispec = m[[i]]@anispec,  anipar = t[[i]]@anipar, 
+		cohcol = m[[i]]@cohcol)
+	       write.table(CWRITE, file=paste(plotoptions@makeps,
+		 "_plaincon_dataset_", i, ".txt", sep=""), quote = FALSE,
+		  row.names = linloglines(xplot, irfvec[1], 0  ))
+	      } 
+            contoplotList[[length(contoplotList)+1]] <- getConToPlot(
+	    doClpConstr(C, 1, m[[i]]@clpCon, t[[i]]@clpequ, dataset = i), 
                 m[[i]]@cohspec, m[[i]]@cohcol)
            minc <- min(minc, min(contoplotList[[length(contoplotList)]]))
 	   maxc <- max(maxc, max(contoplotList[[length(contoplotList)]]))
@@ -132,6 +157,7 @@
 		
 	}
         spectralist <- getSpecList(multimodel, t)
+
 	mins <- maxs <- 0 
 	specList <- list() 
         for (i in 1:length(m)) {
@@ -235,7 +261,6 @@
 	}
 	##START RESID PLOTTING
 	for (i in 1:length(m)) {          
-	   if (m[[i]]@x2[1] < m[[i]]@x2[m[[i]]@nl]) {
 	    limd<- max(  max(residlist[[i]]), abs(min(residlist[[i]]))) 
 	    image.plot(m[[i]]@x, m[[i]]@x2, 
 	    residlist[[i]], xlab = plotoptions@xlab, 
@@ -244,8 +269,7 @@
 		zlim=c(-limd,limd),
 		col = diverge_hcl(40, h = c(0, 120), c = 60, 
 		l = c(45, 90), power = 1.2))
-            }
-           }
+        }
 	for (i in 1:length(m)) {     
 	   if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
 	       xpos <- m[[i]]@x 
@@ -325,19 +349,31 @@
                     col = i)
                 }
         }
-        if (length(plotoptions@title) != 0) {
-            mtext(plotoptions@title, side = 3, outer = TRUE, 
-                line = 1)
-            par(las = 2)
-        }
+	if(length(plotoptions@title) != 0){
+			tit <- plotoptions@title
+			if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
+    }
+    else {
+                        tit <- ""
+		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+    }
+    mtext(tit, side = 3, outer = TRUE, line = 1)
+    par(las = 2)
+
+  
 	par(mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
 	plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
 	writeEst(multimodel, multitheta, plotoptions, plotEstout)
         displayEst(plotoptions)
 
         if (dev.interactive() && length(plotoptions@makeps) != 0) {
-            dev.print(device = postscript, file = paste(plotoptions@makeps, 
-                "_summary.ps", sep = ""))
+	   if(plotoptions@output == "pdf")
+				      pdev <- pdf 
+	   else  pdev <- postscript
+	    dev.print(device = pdev, file = paste(plotoptions@makeps, 
+                "_summary.",  
+		plotoptions@output,
+		sep = ""))
         }
         if (plotoptions@plotkinspec) {
             plotKinSpec(multimodel, t, plotoptions)

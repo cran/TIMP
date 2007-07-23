@@ -5,7 +5,6 @@ function (m)
         m[[i]]@parnames <- sort(intersect(
 	          setdiff(slotNames(theta()), c("prel","drel")), 
 	          slotNames(m[[i]])))
-
         m[[i]]@weight <- length(m[[i]]@weightpar) != 0
 	m[[i]]@lclp0 <- length(m[[i]]@clp0) != 0
         m[[i]]@lclpequ <- length(m[[i]]@clpequspec) != 0
@@ -23,8 +22,11 @@ function (m)
                 m[[i]]@weight || m[[i]]@lclp0 || m[[i]]@lclpequ || 
                 length(m[[i]]@parmu) > 0)
             m[[i]]@clpdep <- m[[i]]@wavedep
-            m[[i]]@ncomp <- length(m[[i]]@kinpar)  + length(m[[i]]@kinpar2)
-            m[[i]]@ncolc <- array(m[[i]]@ncomp, m[[i]]@nl)
+	    if(m[[i]]@fullk) 
+		m[[i]]@ncomp <- dim(m[[i]]@kmat)[1] + length(m[[i]]@kinpar2)
+	     else 
+		m[[i]]@ncomp <- length(m[[i]]@kinpar) + length(m[[i]]@kinpar2)
+             m[[i]]@ncolc <- array(m[[i]]@ncomp, m[[i]]@nl)
 	     if (length(m[[i]]@cohspec$type) == 0) 
 			m[[i]]@cohspec$type <- ""
 	   if(length(m[[i]]@speckin2$seqmod) == 0)
@@ -43,12 +45,16 @@ function (m)
             m[[i]]@ncomp <- length(m[[i]]@specpar)
             m[[i]]@ncole <- array(m[[i]]@ncomp, m[[i]]@nt)
         }
-        if(m[[i]]@mod_type != "spec")
+        if(m[[i]]@mod_type != "spec") {
 	  if (length(m[[i]]@cohspec) != 0) 
             m[[i]] <- getCoh(m[[i]])
+	    m[[i]] <- getAnisotropy(m[[i]])    	
+	}
         m[[i]]@x <- m[[i]]@x * m[[i]]@scalx
         m[[i]]@fvecind <- getFixed(m[[i]])
         m[[i]]@pvecind <- getPrel(m[[i]])
+	m[[i]]@mvecind <- m[[i]]@nvecind <- getMvec(m[[i]])
+	m[[i]] <- getConstrained(m[[i]])
         m[[i]] <- addPrel(m[[i]])
     }
     m

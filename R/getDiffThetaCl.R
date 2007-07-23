@@ -1,6 +1,5 @@
 "getDiffThetaCl" <-
 function(th, thetaClasslist, mod) {
-   	
 	modeldiff <- mod@modeldiffs 
 	modellist <- mod@modellist 
 	parorder <- mod@parorderdiff 
@@ -56,25 +55,30 @@ function(th, thetaClasslist, mod) {
 		   thscal <- th[parorder[[pcnt]]$ind]
 	      pcnt <- pcnt+1
 	      if(length(diff$ind1)==1 && length(diff$ind2)==1){
-		for(i in 1:length(ds1))
+		for(i in 1:length(ds1)){
 		    slot(thetaClasslist[[ds1[i]]], 
-	            diff$what1)[diff$ind1] <- 
-	            slot(thetaClasslist[[ds2[i]]], diff$what2)[diff$ind2] * thscal[1] + thscal[2]	
+	            diff$what1)[diff$ind1] <- slot(thetaClasslist[[ds2[i]]],
+	diff$what2)[diff$ind2] * thscal[1] + thscal[2]
+
+			       }
 	      } 
 	      if(length(diff$ind1)==1 && length(diff$ind2)==2){
+		   for(i in 1:length(ds1))
 		    slot(thetaClasslist[[ds1[i]]], 
 	            diff$what1)[diff$ind1] <- 
 	            slot(thetaClasslist[[ds2[i]]], 
 	            diff$what2)[[diff$ind2[1]]][diff$ind2[2]] * thscal[1] + thscal[2]	
 	      }
 	      if(length(diff$ind1)==2 && length(diff$ind2)==1){
-		    slot(thetaClasslist[[ds1[i]]], 
+		  for(i in 1:length(ds1))
+                    slot(thetaClasslist[[ds1[i]]], 
 	            diff$what1)[[diff$ind1[1]]][diff$ind1[2]] <- 
 	            slot(thetaClasslist[[ds2[i]]], 
 	            diff$what2)[diff$ind2] * thscal[1] + thscal[2] 
 	      }
 	      if(length(diff$ind1)==2 && length(diff$ind2)==2){
-	            slot(thetaClasslist[[ds1[i]]], 
+	            for(i in 1:length(ds1))
+		    slot(thetaClasslist[[ds1[i]]], 
 	            diff$what1)[[diff$ind1[1]]][diff$ind1[2]] <- 
 	            slot(thetaClasslist[[ds2[i]]], 
 	            diff$what2)[[diff$ind2[1]]][diff$ind2[2]] * 

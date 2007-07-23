@@ -11,31 +11,21 @@ function (model)
 	for(diffs in prelspec){
            model@prel <- append(model@prel, diffs$start)  
 	   if(length(diffs$rel) == 0 || diffs$rel == "lin"){
-	      if(length(diffs$ind1)==1 && length(diffs$ind2)==1){
-		    slot(model, diffs$what1)[diffs$ind1] <- 
-		    slot(model, diffs$what2)[diffs$ind2] * 
-			      diffs$start[1] + diffs$start[2]
-	      } 
-	      if(length(diffs$ind1)==1 && length(diffs$ind2)==2){
-		    slot(model, diffs$what1)[diffs$ind1] <- slot(model, 
-			      diffs$what2)[[diffs$ind2[1]]][diffs$ind2[2]] * 
-			      diffs$start[1] + diffs$start[2]
-	      }
-	      if(length(diffs$ind1)==2 && length(diffs$ind2)==1){
-		    slot(model, 
-	            diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- 
-	            slot(model, 
-	            diffs$what2)[diffs$ind2] * 
-		    diffs$start[1] + diffs$start[2]
-	      }
-	      if(length(diffs$ind1)==2 && length(diffs$ind2)==2){
-	            slot(model, 
-	            diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- 
-	            slot(model, 
-	            diffs$what2)[[diffs$ind2[1]]][diffs$ind2[2]] * 
-		    diffs$start[1] + diffs$start[2]
-              }
-           }       
+	      newpar <- multiLin(model, diffs, diffs$start[1]) + diffs$start[2]
+	      if(length(diffs$ind1)==1)
+		    slot(model, diffs$what1)[diffs$ind1] <- newpar 
+	      if(length(diffs$ind1)==2) 
+		    slot(model, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar      
+	   }
+	   else {
+	    if(diffs$rel == "multilin"){
+	      newpar <- diffs$start[1] + multiLin(model, diffs, diffs$start[2:length(diffs$start) ] )
+	      if(length(diffs$ind1)==1)
+		    slot(model, diffs$what1)[diffs$ind1] <- newpar 
+	      if(length(diffs$ind1)==2) 
+		    slot(model, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar 
+	    }
+	  }
 	}
 	model
 }

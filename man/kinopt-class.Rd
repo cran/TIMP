@@ -40,36 +40,34 @@ following elements:
     \item{FLIM:}{Object of class \code{"logical"} that defaults to 
     \code{FALSE}; if \code{TRUE}, the data represent a FLIM experiment and 
     special plots are generated. }
+\item{FLIMresidimag:}{Object of class \code{"logical"} that defaults to 
+    \code{TRUE}; if \code{FALSE} and a FLIM image is analyzed, the residuals
+are not plotted as an image.} 
+\item{noFLIMsummary:}{Object of class \code{"logical"} that defaults to 
+    \code{FALSE}; if \code{TRUE} and a FLIM image is analyzed, only other 
+plots requested by the user (such as traces or residuals) are generated, and 
+no summary plot in made.} 
      \item{kinspecest}{Object of class \code{"logical"} that defaults to 
     \code{FALSE}; if \code{TRUE}, make a plot of the spectra associated with
     the kinetic components as well as the lifetime estimates. }
- \item{kinspecerr}{Object of class \code{"logical"} that defaults to 
-    \code{FALSE}; if \code{TRUE}, add standard error estimates to the spectra
-    a plot generated with \code{kinspecest=TRUE}.  This option can only be 
-    used if the estimates were generated during fitting via the option 
-    \code{stderrclp=TRUE}}
- \item{specinterpol}{Object of class \code{"logical"} that defaults to 
-    \code{FALSE}; if \code{TRUE}, use spline instead of lines between 
-    the points representing estimated spectra}
-   \item{specinterpolpoints}{Object of class \code{"logical"} that defaults to 
-    \code{TRUE}; if \code{TRUE}, add points representing the actual estimates
-    for spectra to plots of the curves respresenting smoothed spectra}
-\item{specinterpolseg}{Object of class \code{"numeric"} that defaults to 
-    \code{50}; represents the number of segments used in a spline-based
-    representation of spectra}  
- \item{specinterpolbspline}{Object of class \code{"logical"} that defaults
-to \code{FALSE}; determines whether a B-spline based representation of
-spectra is used (when \code{specinterpol=TRUE}) or a piecewise polynomial 
-	representation} 
- \item{normspec}{Object of class \code{"logical"} that determines whether
-spectra are normalized in plots}
 
- \item{writespecinterpol}{Object of class \code{"logical"} that defaults to 
-    \code{FALSE}; if \code{TRUE}, a spline-based representation of spectra
-    is written to ASCII files}
-  }
+ \item{writeplaincon}{Object of class \code{"list"}; if length is greater
+than 0, then the concentration model will be evaluated at the vector of 
+\code{x} values supplied as the element \code{"x"} of \code{writeplaincon} 
+and the result will be written to file for each dataset.   
 }
-
+ \item{writerawcon}{Object of class \code{"logical"} 
+ that defaults to \code{FALSE}; if \code{TRUE}, then the representation of 
+the concentration profiles before the application of constraints (to 
+account for the equality of spectra, etc.) is written to file for each 
+dataset.
+  }
+ \item{plotcohcolspec}{Object of class \code{"logical"} 
+that defaults to \code{TRUE}; if \code{FALSE} then the spectra associated
+with the coherent artifact (pulse-follower) are not included in the summary
+plots
+  }
+}}
 \details{See \code{\link{opt-class}} and  \link{specopt-class} for 
 the specification of fitting/plotting options that are not specific to the 
 class type and for the \code{kin} class type, respectively. }

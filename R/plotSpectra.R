@@ -29,15 +29,22 @@ function (model, multimodel, multitheta, plotoptions)
                 lines(x2, fitted[j, ], col = i, lty = 2, type = "l")
             }
         }
-        if (length(plotoptions@title) != 0) {
-            mtext(plotoptions@title, side = 3, outer = TRUE, 
-                line = 1)
-           }
-        else mtext(paste("Spectra for dataset", i), side = 3, 
-            outer = TRUE, line = 1)
+	 if(length(plotoptions@title) != 0){
+			tit <- plotoptions@title
+			if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
+    }
+    else {
+                        tit <- ""
+		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+    }
+    mtext(tit, side = 3, outer = TRUE, line = 1)
+    par(las = 2)
         if (dev.interactive() && length(plotoptions@makeps) != 0) {
-            dev.print(device = postscript, file = paste(plotoptions@makeps, 
-                "_", i, "_spectra.ps", sep = ""))
+            	if(plotoptions@output == "pdf")
+				      pdev <- pdf 
+		else  pdev <- postscript
+	    dev.print(device = pdev, file = paste(plotoptions@makeps, 
+                "_", i, "_spectra.", plotoptions@output, sep = ""))
         }
     }
 }

@@ -92,5 +92,5 @@ function (filenm, sep = "")
 	psisim <- t(as.matrix(bd[2:(nl+1),2:(nt+1)]))	
     }
     dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, simdata = FALSE, 
-        datCall = list(match.call()), inten = inten)
+        datCall = list(match.call()), inten = inten, datafile = filenm)
 }

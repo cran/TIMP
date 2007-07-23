@@ -13,7 +13,9 @@ function ()
             mirf = model@mirf, measured_irf = model@measured_irf, 
 	    speckin2 = model@speckin2, 
 	    usekin2 = model@usekin2, kinpar2 = theta@kinpar2, 
-	    kin2scal = theta@kin2scal)
+	    kin2scal = theta@kin2scal, reftau = model@reftau, 
+	    anispec = model@anispec, anipar = theta@anipar, 
+	    cohcol = model@cohcol)
         if(returnX) 
 		    x <- as.vector(x) 
 	
