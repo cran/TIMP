@@ -1,9 +1,9 @@
 "weightNL" <-
 function (temp, model, n) 
 {
-    if (model@mod_type == "kin") 
+    if (model@clpType == "x2")
         temp <- temp * model@weightM[, n]
-    if (model@mod_type == "spec") 
+    if (model@clpType == "x") 
         temp <- temp * model@weightM[n, ]
     temp
 }

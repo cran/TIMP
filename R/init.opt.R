@@ -1,6 +1,3 @@
-"init.opt" <-
-function () 
-{
     setClass("opt", 
 	representation(writecon = "logical", 
 			writespec = "logical", 
@@ -10,7 +7,8 @@ function ()
 			writeclperr = "logical",
 			residplot = "logical", 
 			plot = "logical", 
-			output = "character", 
+			output = "character",
+			nnls = "logical", 
 			divdrel = "logical", 
 			plotkinspec = "logical",
 			superimpose = "vector",
@@ -36,7 +34,8 @@ function ()
 			specinterpolbspline = "logical",
 			samespecline = "logical",
 			normspec = "logical",
-			writespecinterpol = "logical" 
+			writespecinterpol = "logical", 
+			nonnegclp = "logical"
 			), 
         prototype = list(writecon = FALSE, 
 			writespec = FALSE,
@@ -50,6 +49,7 @@ function ()
 			addfilename = FALSE,
 			divdrel = TRUE, 
 			output = "ps", 
+			nnls = FALSE,
 			superimpose = vector(),
 			paropt = list(),
 			title = "",
@@ -70,7 +70,47 @@ function ()
 			specinterpolbspline = FALSE,
 			normspec = FALSE,
 			writespecinterpol = FALSE, 
-			samespecline = FALSE
+			samespecline = FALSE,
+			nonnegclp = FALSE
 			))
-}
+
+setClass("kinopt", representation("opt",
+			   notraces = "logical",
+			   selectedtraces = "vector",
+			   breakdown = "list",
+			   FLIM = "logical", 
+			   FLIMresidimag = "logical",
+			   noFLIMsummary = "logical",
+			   writerawcon = "logical",
+			   plotcohcolspec = "logical", 
+			   kinspecest = "logical",
+			   writeplaincon = "list"),
+        prototype = list( notraces = FALSE,
+			   selectedtraces = vector(),
+			   breakdown = list(),
+			   writerawcon = FALSE,
+			   plotcohcolspec = TRUE,
+			   FLIM = FALSE,	
+			   FLIMresidimag = TRUE, 
+			   noFLIMsummary = FALSE,
+			   xlab = "time",
+			   ylab = "wavelength",
+			   kinspecest = FALSE,
+			   writeplaincon = list()))
+setClass("massopt", representation("kinopt",
+        axis.by = "numeric", scale.concen = "logical",
+        nummaxtraces = "numeric"),
+	prototype = list(normspec = TRUE, 
+	axis.by = 30, scale.concen = TRUE,
+	nummaxtraces = 0)
+	)
+
+
+setClass("specopt", representation("opt",
+			   nospectra = "logical",
+			   selectedspectra = "vector"),
+        prototype = list( nospectra = FALSE,
+			   selectedspectra = vector(),
+			   xlab = "wavelength",
+			   ylab = "time"))
 

@@ -1,7 +1,7 @@
 "simndecay_gen" <-
 function (kinpar, tmax, deltat, specpar, lmin, lmax, deltal, 
     sigma, irf = FALSE, irfpar = vector(), seqmod = FALSE, dispmu = FALSE, 
-    disptau = FALSE, parmu = vector(), partau = vector(), lambdac = 0, 
+    disptau = FALSE, parmu = list(), partau = vector(), lambdac = 0, 
     fullk = FALSE, kmat = matrix(), jvec = vector(), specfun = "gaus", 
     nupow = 1) 
 {

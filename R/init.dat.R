@@ -1,7 +1,4 @@
-"init.dat" <-
-function () 
-{
-    setClass("dat", representation(psi.df = "matrix", psi.weight = "matrix", 
+setClass("dat", representation(psi.df = "matrix", psi.weight = "matrix", 
         x = "vector", nt = "integer", x2 = "vector", nl = "integer", 
         C2 = "matrix", E2 = "matrix", sigma = "numeric", 
 	mod_type = "character", parnames = "vector",
@@ -18,7 +15,10 @@ function ()
         clpCon = "list", ncomp = "numeric", clpdep = "logical", 
 	inten = "matrix", positivepar="vector", constrained ="list", 
 	clinde = "list", chinde = "list", highcon = "vector", 
-	lowcon = "vector", datafile = "character"), 
+	lowcon = "vector", datafile = "character", getX = "logical",
+	clpType = "character", clpequspecBD = "list", compnames = "vector", 
+	getXsuper = "logical", usecompnames0 = "logical", 
+	usecompnamesequ = "logical", autoclp0 = "list", cohcol = "numeric"), 
         prototype = list(psi.df = matrix(), psi.weight = matrix(), 
             x = vector(), nt = integer(), x2 = vector(), nl = integer(), 
             C2 = matrix(), E2 = matrix(), sigma = numeric(), 
@@ -34,6 +34,60 @@ function ()
             iter = 1, ncomp = numeric(), clpdep = logical(),inten = matrix(), 
 	    parnames=vector(), positivepar=vector(), constrained =list(), 
 	    clinde = list(), chinde = list(), highcon = vector(), 
-	    lowcon = vector(), datafile = ""))
-}
+	    lowcon = vector(), datafile = "", getX = FALSE, 
+	    clpType = "", clpequspecBD = list(), compnames = vector(),
+	    getXsuper = FALSE, usecompnames0 = FALSE, 
+	    usecompnamesequ = FALSE, autoclp0 = list(), cohcol = 0))
+
+
+setClass("kin", representation("dat", kinpar = "vector", specpar =
+"list", seqmod = "logical", irf = "logical", mirf = "logical", reftau
+= "numeric", measured_irf = "vector", convalg =
+"numeric", irffun = "character", irfpar = "vector", cohirf = "vector",
+dispmu = "logical", dispmufun = "character", anipar = "vector", parmu
+= "list", disptau = "logical", disptaufun = "character", partau =
+"vector", fullk = "logical", kmat = "array", jvec = "vector", anispec
+= "list", ncolc = "vector", kinscal = "vector", kmatfit = "array",
+cohspec = "list", coh = "vector", wavedep = "logical", lambdac =
+"numeric", speckin2 = "list", usekin2 = "logical", kinpar2 = "vector",
+kin2scal = "vector"), prototype = list( kinpar = vector(), seqmod =
+TRUE, irf = FALSE, mirf = FALSE, measured_irf = vector(), convalg = 1,
+cohirf = vector(), irffun = "gaus", anispec = list(), irfpar =
+vector(), dispmu = FALSE, dispmufun = "poly", parmu = list(), anipar =
+vector(), disptaufun = "poly", reftau = 0, specpar = list(), 
+partau = vector(), posk = FALSE, disptau = FALSE, fullk = FALSE,
+kmat = array(), jvec = vector(), ncolc = vector(), kinscal = vector(),
+kmatfit = array(), cohspec = list(), coh = vector(), wavedep =
+logical(), lambdac = numeric(), speckin2 = list(), usekin2 = FALSE,
+kinpar2 = vector(), kin2scal = vector() ))
+
+setClass("mass", 
+representation("kin", 
+peakpar = "list", 
+amplitudes = "vector", 
+peakfunct = "character",
+lzerofile = "character", 
+lextracomp = "logical", 
+extracomp = "list"),
+prototype = list( 
+peakpar = list(), 
+peakfunct = "expmodgaus", 
+lzerofile = "", 
+amplitudes = vector(), 
+getX=TRUE, 
+lextracomp = FALSE,
+extracomp = list())
+)
+
+setClass("spec", representation("dat", clpequ = "vector", 
+        specpar = "list", specfun = "character", specref = "numeric", 
+        specCon = "list", ncole = "vector", specdisp = "logical", 
+        specdisppar = "list", specdispindex = "vector", nupow = "numeric", 
+	timedep = "logical", parmufunc = "character"), 
+        prototype = list(specpar = list(), specfun = "gaus", 
+            specCon = list(), ncole = vector(), specdisp = FALSE, 
+            specdisppar = list(), specdispindex = vector(), specref =
+	    numeric(), nupow = 5, clpequ = vector(), 
+	    timedep = FALSE, parmufunc = "poly")) 
+
 

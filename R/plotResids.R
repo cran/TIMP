@@ -1,6 +1,6 @@
 "plotResids" <- function (multimodel,  multitheta,  plotoptions)
 {
-	get(getOption("device"))()
+  get(getOption("device"))()
 	plotrow<-2
 	plotcol<-2
 	par(plotoptions@paropt)
@@ -20,7 +20,7 @@
 				    ncol = m[[i]]@nl)
 		for(j in 1:length(res[[i]]@resid)){ 
 		    
-		    if(m[[i]]@mod_type != "spec")
+		    if(m[[i]]@clpType == "x2")
 			 residuals[,j] <- res[[i]]@resid[[j]]
 		    else
 			residuals[j,] <- res[[i]]@resid[[j]]

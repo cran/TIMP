@@ -92,6 +92,6 @@ fixed=list(kinpar=c(1,2),kinscal=c(1:7), jvector=1:5))
 
 serRes<-fitModel(list(delDatP), list(delMod), 
 opt=kinopt(iter=1, linrange = 20,
-makeps = "ser", notraces = TRUE, 
+makeps = "ser", plotkinspec = TRUE,
 selectedtraces = seq(1, delDatP@nl, by=20),
 xlab = "time (ps)", ylab = "wavelength"))

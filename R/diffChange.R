@@ -1,7 +1,7 @@
 "diffChange" <-
 function (modellist, diffsadd) 
 {
-	## diffsadd has structure 
+	## diffschange has structure 
 	## list(list(what, dataset, spec), ...)
 	## e.g.,  list(list(what="kinpar", datatset=2, 
 	##             spec=c(1,2,3), type="multifree"), ...)

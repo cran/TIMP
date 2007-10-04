@@ -1,11 +1,11 @@
 "plotTraces" <- function(multimodel, multitheta, plotoptions)
 {   
-    get(getOption("device"))()
     m <- multimodel@modellist   
     t <- multitheta   
     res <- multimodel@fit@resultlist
     for(i in 1:length(m)) {
-		x2 <- m[[i]]@x2
+      get(getOption("device"))()
+      x2 <- m[[i]]@x2
 		x <- m[[i]]@x
 		x2toplot <- if(length(plotoptions@selectedtraces) == 0) 
 			    x2toplot <- 1:length(x2)

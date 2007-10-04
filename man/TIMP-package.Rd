@@ -29,7 +29,7 @@ applied to modeling data arising in spectroscopy experiments.
 Package: TIMP
 Type: Package
 Title: a problem solving environment for fitting superposition models
-Version: 1.2
+Version: 1.4
 Author: Katharine M. Mullen, Ivo H. M. van Stokkum 
 Maintainer: Katharine M. Mullen <kate@nat.vu.nl>
 Depends: R (>= 2.5.0), methods, tcltk, vcd, fields, gplots, splines

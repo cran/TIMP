@@ -4,7 +4,10 @@
 \alias{kin}
 \title{Class "kin" for kinetic model storage.}
 \description{ 
-\code{kin} is the class for kinetic models; if \code{mod_type = "kin"} is an 
+\code{kin} is the class for kinetic models; 
+an object 
+of class "kin" is initialized if 
+\code{mod_type = "kin"} is an 
 argument of \code{initModel}.
 All objects of class \code{kin} are sub-classes of 
 class \code{dat}; see documentation for \code{dat} 
@@ -28,11 +31,11 @@ and \code{FALSE} otherwise}
     \item{\code{mirf}:}{Object of class \code{"logical"}  that is \code{TRUE} if a measured IRF is modeled and \code{FALSE}
 otherwise}
     \item{\code{measured_irf}:}{ Object of class \code{"vector"}  containing a measured IRF}
-    \item{\code{convalg}:}{ Object of class \code{"numeric"}  1-6 determining the numerical convolution algorithm 
-used in the case of modeling a measured IRF; if \code{6} then supply a
+    \item{\code{convalg}:}{ Object of class \code{"numeric"}  1-3 determining the numerical convolution algorithm 
+used in the case of modeling a measured IRF; if \code{3} then supply a
 reference lifetime in the slot \code{reftau}.}
  \item{\code{reftau}:}{ Object of class \code{"numeric"}  containing a
- reference lifetime to be used when \code{convalg=6}}
+ reference lifetime to be used when \code{convalg=3}}
     \item{\code{irffun}:}{ Object of class \code{"character"}  describing the 
 function to use to describe the IRF, by default "gaus"}
     \item{\code{irfpar}:}{ Object of class \code{"vector"}  of IRF parameters; for the common Gaussian IRF this 
@@ -90,7 +93,6 @@ coherent artifact}
 \code{x2} index (i.e., whether there is clp-dependence)}
     \item{\code{lambdac}:}{ Object of class \code{"numeric"}  for the center wavelength to be used in a polynomial 
 description of \code{x2}-dependence }
-   }
 }
 \section{Extends}{
 Class \code{\link{dat-class}}, directly.

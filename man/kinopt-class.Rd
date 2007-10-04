@@ -4,8 +4,7 @@
 \alias{kinopt} 
 \title{Class "kinopt" stores options for fitting and plotting kinetic models}
 \description{Class "kinopt" stores options for fitting and plotting kinetic
-models in particular; this is a subclass of class \code{opt} that contains 
-options applicable to all model types }
+  models in particular; this is a subclass of class \code{opt}}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("kinopt", ...)} or
 \code{kinopt(...)}
@@ -68,9 +67,9 @@ with the coherent artifact (pulse-follower) are not included in the summary
 plots
   }
 }}
-\details{See \code{\link{opt-class}} and  \link{specopt-class} for 
+\details{See \code{\link{opt-class}} for 
 the specification of fitting/plotting options that are not specific to the 
-class type and for the \code{kin} class type, respectively. }
+class type.}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \seealso{
 \code{\link{examineFit}}, \code{\link{fitModel}}, \code{\link{opt-class}}, \code{\link{specopt-class}}

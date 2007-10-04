@@ -10,17 +10,21 @@ function (model)
         pinde <- vector("list", length(ppars))
 	for(p in 1:length(pinde)) pinde[[p]] <- vector()
         names(pinde) <- ppars
-	
 	for(rel in prelspec) {
 		if(length(rel$ind1) == 1) 
 			pinde[[rel$what1]] <- append(pinde[[rel$what1]], 
 					       rel$ind1)
-		else 
-		     	pinde[[rel$what1]] <-
-			append(pinde[[rel$what1]], ifelse(rel$ind1[1] > 1, 
-			length(unlist(slot(model, rel$what1)[[1:(rel$ind1[1] 
-			- 1)]]) + rel$ind1[2]), rel$ind1[2]))
-       }
+		else {
+		
+			indf <- rel$ind1[2]
+			if(rel$ind1[1] > 1) {
+				slW<-slot(model, rel$what1)
+				indf <- indf + sum(unlist(lapply(slW, length))[1:(rel$ind1[1]-1)]) 
+			}
+		     	pinde[[ rel$what1 ]] <-
+			append(pinde[[ rel$what1 ]], indf)
+       		}
+	}
 
        pinde
 }

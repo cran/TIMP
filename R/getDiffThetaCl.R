@@ -8,8 +8,9 @@ function(th, thetaClasslist, mod) {
 	if(length(modeldiff$change)!=0)   
 	   thetaClasslist <- getDiffThetaClChange(th, parorderchange,
 	   modellist, thetaClasslist, modeldiff$change)
-	if(length(modeldiff$free)!=0 || length(modeldiff$add != 0))
+	if(length(modeldiff$free)!=0 || length(modeldiff$add) != 0)
 		for(diff in append(modeldiff$free, modeldiff$add)){ 
+			  
 			  partmp <- th[parorder[[pcnt]]$ind]	
 			  removepar <- parorder[[pcnt]]$rm 
 			  pcnt <- pcnt + 1
@@ -26,13 +27,13 @@ function(th, thetaClasslist, mod) {
 			  if(length(diff$ind) == 2)
 			     for (d in diff$dataset) 
 				slot(thetaClasslist[[d]], 
-				diff$what)[[diff$ind[1]]][diff$ind[2]] <-
-				partmp
+				diff$what)[[diff$ind[1]]][diff$ind[2]] <- partmp
 			  if(length(diff$ind) == 1)
 			     for (d in diff$dataset) 
 				slot(thetaClasslist[[d]], 
 				diff$what)[diff$ind]  <- partmp
-                }
+          
+		}
 	if(length(modeldiff$remove)!=0)
 		for(diff in modeldiff$remove){ 
 			  if(length(diff$ind) == 2) 

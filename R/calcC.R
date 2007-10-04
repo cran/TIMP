@@ -6,7 +6,6 @@ function (theta, t)
         for(i in 1:length(theta)) {
                 conc[, i] <- exp(-theta[i]*t)
         }
-
         conc
 
 }

@@ -2,7 +2,7 @@
 function(theta, kinscal, kmat, jvec)
 {
 #fullKF
-        dimk <- dim(kmat)[1]
+        dimk <- nrow(kmat)
 	A <- matrix(nrow = dimk, ncol = dimk)
         K <- fillK(theta, kinscal, kmat)
 	

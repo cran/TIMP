@@ -4,9 +4,12 @@
 \alias{spec}
 \title{Class "spec" for the storage of spectral models. } 
 \description{
-  \code{spec} is the class for spectral models; if \code{mod_type = "spec"} 
-is an 
-input to \code{initModel}. All objects of class 
+  \code{spec} is the class for spectral models; 
+	an object 
+of class "mass" is initialized if 
+\code{mod_type = "spec"} is an 
+argument of \code{initModel}.
+All objects of class 
 \code{spec} are
 also of class \code{dat}; see documentation for \code{dat} 
 for a description of 

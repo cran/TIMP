@@ -49,8 +49,8 @@
            }
 	}  
     }
-    .currModel@parorder <<- processOrder(parorder, mod) 
-   getDiffTheta(th, mod)
-   
+    mod@parorder <- processOrder(parorder, mod) 
+    df <- getDiffTheta(th, mod)
+    list(theta = df$theta, mod = df$mod)
 }
     

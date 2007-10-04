@@ -24,6 +24,11 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
     \code{"logical"} that defaults to \code{FALSE}; if \code{TRUE} then fit 
     is written to a txt file; row and column labels are \code{x} and 
     \code{x2}}
+     \item{\code{writeclperr}:}{Object of class \code{"logical"}  
+    that defaults to
+    FALSE; if true then 
+    the error bars for clp are written to a txt file.  This option is only 
+	sensible with \code{stderrclp=TRUE}.}
     \item{\code{output}:}{Object of class 
     \code{"character"} that defaults to \code{"ps"}, which means that 
     plots written to file are postscript.  Alternatively, specify
@@ -119,9 +124,8 @@ clp are normalized in plots}
   
 }
 
-
-}
-\details{See \code{\link{kinopt-class}} and  \code{\link{specopt-class}} for 
+\details{See \code{\link{kinopt-class}}, \code{\link{specopt-class}} and
+   \code{\link{massopt-class}} for 
 the specification of fitting/plotting options that are specific to the 
 class type. }
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}

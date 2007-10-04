@@ -1,5 +1,3 @@
-"set_residPart_spec" <- 
-function(){
   setMethod("residPart", signature(model="spec"), 
     function (model, group, multimodel, thetalist, clpindepX, finished, 
     returnX, rawtheta) 
@@ -23,12 +21,10 @@ function(){
 			specdisppar = t@specdisppar, parmufunc = m@parmufunc)
 		else 
 		     specpar <- t@specpar 
-		spectra_i <- doClpConstr(specModel(specpar, m),
-			  clp_ind = group[[i]][1], clpCon = m@clpCon, 
-			  clpequ = t@clpequ, dataset = group[[i]][2])
+		spectra_i <- specModel(specpar, m)
 		if(m@weight)
 			spectra_i<-weightNL(spectra_i,m,group[[i]][1])	
-		if(dim(spectra_i)[2] != 0) {
+		if(ncol(spectra_i) != 0) {
 			spectra <- if(!identical(spectra, matrix()))
 		                  rbind(spectra, spectra_i) 
 				  else 
@@ -42,6 +38,7 @@ function(){
 		        spectra <- rbind(spectra, clpindepX[[group[[i]][2]]])
 		   
 	      }
+
 	      if(finished) {
 		rlist$irfvec[[group[[i]][1]]] <- 
 					if(m@timedep) 
@@ -49,19 +46,18 @@ function(){
 					else c(0,0)
 	      }
 	}
-	if(returnX) 
-		   retval <- as.vector(spectra)  
-	else {
-	    QR.temp <- qr(spectra)
-	    if(finished) {
-		       rlist$QR <- QR.temp 
-		       rlist$psi <- psi 
-		       return(rlist) 
-	    } 
-	    qty.temp<-qr.qty(QR.temp, psi)
-	    residQspace <- qty.temp[-(1:m@ncole[group[[1]][1]])]
-	    retval <- residQspace
-	} 
-        retval
+	## apply constraints to clp, using spec. from 1st dataset in group
+	m <- multimodel@modellist[[group[[1]][2]]]
+	if(m@timedep) 
+		spectra <- doClpConstr(spectra, clp_ind = group[[1]][1], 
+                  	 clpCon = m@clpCon, clpequ = t@clpequ, 
+		  	 num_clpequ = length(m@clpequspec), 
+			 usecompnames0 = m@usecompnames0, 
+			 usecompnamesequ = m@usecompnamesequ)
+                                       	
+
+	retval <- getResidRet(spectra, psi, rlist, returnX, finished,
+			multimodel@nnls) 
+	retval
+
    }) 
-}

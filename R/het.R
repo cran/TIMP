@@ -1,5 +1,0 @@
-"het" <-
-function(...){
-	new("het", ...)
-}
-

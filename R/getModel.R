@@ -12,7 +12,6 @@
 	  for (sl in plugin) 
 		slot(modellist[[i]], sl) <- slot(data[[i]], sl)
     }
-    
     modellist <- addDscal(modellist, modeldiffs$dscal)
     if (length(modeldiffs$free) != 0) 
         modellist <- diffFree(modellist, modeldiffs$free)
@@ -29,8 +28,8 @@
         modellist <- diffRel(modellist, modeldiffs$rel)
     if (length(modeldiffs$dscal) == 0) 
         modeldiffs$dscal <- list()
-    modellist <- applyWeighting(modellist)
-    modellist <- initModellist(modellist)
+    modellist <- lapply(modellist, applyWeightingModel)
+    modellist <- lapply(modellist, initModellist)
     modellist <- getPrelBetweenDatasets(modellist, modeldiffs$rel) 
     linkclp <- if(length(modeldiffs$linkclp) < 1) 
 		list(1:length(modellist))
@@ -46,9 +45,11 @@
 	  gr <- getGroups(mlist, modeldiffs, mlabel)
 	  grlist <- append(grlist, gr)
     }
-    modeldiffs$groups <- grlist
-    modeldiffs$stderrclp <- opt@stderrclp
+    if(length(modeldiffs$getXsuper) > 1) 
+	getXsuper <- modeldiffs$getXsuper
+    else getXsuper <- FALSE
     multimodel(modellist = modellist, data = data, datasetind = datasetind, 
-    modelspec = modelspec, modeldiffs = modeldiffs, 
-    fit = fit(resultlist=resultlist))
+    modelspec = modelspec, stderrclp = opt@stderrclp, modeldiffs = modeldiffs,
+    nonnegclp = opt@nonnegclp, nnls = opt@nnls, 
+    groups = grlist, getXsuper = getXsuper, fit = fit(resultlist=resultlist))
 }

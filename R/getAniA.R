@@ -1,7 +1,7 @@
 "getAniA" <- function (A, dataset, ani, anipar) 
 {
 	if(ani$angle[dataset] != "MA" && !ani$useparperp) {
-	   dA <- dim(A)[1]
+	   dA <- nrow(A)
 	   if(ani$angle[dataset] == "PAR") 
 		gamma <- 2
 	   if(ani$angle[dataset] == "PERP")

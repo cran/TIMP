@@ -56,7 +56,8 @@
         }
       
       options(scipen=0)
-      write.table(xmat[-dim(xmat)[1],], file=filename, quote=FALSE, append =
+      write.table(xmat[-nrow(xmat),], file=filename, quote=FALSE, append =
       TRUE, col.names = FALSE, na="")
-}
+    close(fileparam)
+ }
 

@@ -32,31 +32,8 @@ function (k, x, irfpar, mirf = FALSE, measured_irf = vector(),
 		  .C("Conv3", result = as.double(m[, 
                   i]), as.double(measured_irf), as.integer(length(x)), 
                   as.double(k[i]), as.double(xspace),  
-		  PACKAGE="TIMP")$result, 
-                .C("Conv4", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace), 
-                  PACKAGE="TIMP")$result,
-		.C("Conv5", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace), 
-                  PACKAGE="TIMP")$result, 
-		.C("Conv6", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace),
-		  as.double(reftau), PACKAGE="TIMP")$result, 
-		  .C("Conv7", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace),
-		  as.double(reftau), PACKAGE="TIMP")$result,
-		  .C("Conv8", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace),
-		  as.double(reftau), PACKAGE="TIMP")$result,
-		    .C("Conv9", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace),
-		  as.double(reftau), PACKAGE="TIMP")$result,
-		  .C("Conv10", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace),
-		  as.double(reftau), PACKAGE="TIMP")$result,
-		   .C("Conv11", result = as.double(m[, i]), as.double(measured_irf), 
-                  as.integer(length(x)), as.double(k[i]), as.double(xspace),
-		  as.double(reftau), PACKAGE="TIMP")$result)
+		  PACKAGE="TIMP")$result)
+                
         }
     }
     m

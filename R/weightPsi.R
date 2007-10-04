@@ -21,9 +21,7 @@ function (model)
                 if (((model@x2[j] >= wt[[i]][3]) && (model@x2[j] <= 
                   wt[[i]][4])) && ((model@x[k] >= wt[[i]][1]) && 
                   (model@x[k] <= wt[[i]][2]))) {
-                  weight[k, j] <- wt[[i]][5]
-		  psisim[k, j] <- psisim[k, j] * weight[k,j]
-                  
+                  weight[k, j] <- wt[[i]][5] * weight[k, j]                    
                 }
             }
         }
@@ -35,12 +33,12 @@ function (model)
             for (k in 1:model@nt) { 
 		if(psisim[k, j]>0){
 			 weight[k, j] <- 1 / (sqrt(psisim[k,j])) 
-			 psisim[k, j] <- psisim[k, j] *  weight[k,j]
+			 
 	    }	}	 
 	 }
        }
     }
-    
+    psisim <- psisim * weight
     list(psi.weight = psisim, weight = weight)
 }
 

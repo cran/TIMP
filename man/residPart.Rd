@@ -4,6 +4,7 @@
 \alias{residPart}
 \alias{residPart,kin-method}
 \alias{residPart,spec-method}
+\alias{residPart,mass-method}
 \title{Generic function residPart in Package `TIMP' }
 \description{
 Methods for function \code{residPart} in Package `TIMP' determine the 

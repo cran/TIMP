@@ -47,7 +47,7 @@ function (k, kinscal = vector(), x, irfpar = vector(), irf = FALSE,
     if(!is.null(cohspec$type) && cohspec$type != "") {
         c.temp <- cbind(c.temp, compCoh(irfpar, x, cohspec, coh, dataset,
             cohirf, mirf = mirf, measured_irf = measured_irf, convalg =
-            convalf, shiftmea = shiftmea, lamb = lamb, ani=anispec,
+            convalg, shiftmea = shiftmea, lamb = lamb, ani=anispec,
             anipar=anipar, cohcol = cohcol))
     }
     if (length(drel) != 0) {
@@ -57,3 +57,4 @@ function (k, kinscal = vector(), x, irfpar = vector(), irf = FALSE,
     }
     c.temp
 }
+

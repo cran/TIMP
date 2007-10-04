@@ -102,7 +102,17 @@ list(what = "parmu", ind = c(1,1), high = .002))}
   respectively.  e.g., \code{clp0 = list(list(low=400, high = 600, comp=2), 
   list(low = 600, high = 650, comp=4))} applies zero constraints to the spectra 
   associated with components 2 and 4. }
-    \item{\code{makeps}:}{ Object of class \code{"character"} 
+\item{\code{autoclp0}:}{ Object of class \code{"list"} that has two
+  elements; \code{oldRes},
+  the output of \code{fitModel} and an index \code{ind} representing the
+  index of the dataset to use in \code{oldRes}; \code{ind} defaults to
+  one.   The clp that are negative in \code{oldRes} are constrained to
+  zero in the new model; this is primarily useful when fitting a model,
+  finding some negative clp, and constraining them to zero by fitting
+  again with this option.  See  also the help page for \code{opt} for
+  other ways to constrain the clp to non-negativity. 
+  }
+\item{\code{makeps}:}{ Object of class \code{"character"} 
   specifyies the prefix of files written to 
   postscript
     }
@@ -122,7 +132,7 @@ list(what = "parmu", ind = c(1,1), high = .002))}
   starting value parameterizing this linear relation in the vector
   \code{clpequ}; if true equality is desired then fix the corresponding
   parameter in \code{clpequ} to 1.  Note that if multiple components are
-  constraints, the \code{from} in the sublists should be increasing order, 
+  constrainted, the \code{from} in the sublists should be increasing order, 
   (i.e., \code{(list(to=2, from=1, low=100, high=10000), 
 list(to=3, from=1, low=10000, high=100))}, not \code{list(to=3, from=1, low=10000, high=100), 
 list(to=2, from=1, low=10000, high=100)})}
@@ -183,6 +193,9 @@ function for more information. }
     e.g., \code{positivepar=c("kinpar")}}
 \item{\code{datafile}:}{Object of class \code{"character"}  
 containing the name of a datafile associated with the \code{psi.df} }
+\item{\code{clpType}:}{Object of class \code{"character"}  
+that is "nt" if the model has clp in the "x" dimension and "nl" otherwise  
+(so that, e.g., if \code{mod\_type = "kin"}, then \code{clpType = "nl"}).} 
   }
 }
 

@@ -1,13 +1,9 @@
-"set_plotter_kin" <- function () 
-{
-    setMethod("plotter", signature(model = "kin"), function(model, 
+    setMethod("plotter", signature(model = "kin"),function(model, 
         multimodel, multitheta, plotoptions) {
 	if(length(plotoptions@paropt) == 0)
 	          plotoptions@paropt <- par(mgp = c(1.5, 1, 0), 
 			      mai = c(0.5, 0.6, .5, 0.5),mar=c(3,3,4,1))
 	plotoptions@addest <- c("kinpar")
-	sumonls <- multimodel@fit@nlsres$sumonls
-	onls <- multimodel@fit@nlsres$onls
 	resultlist <- multimodel@fit@resultlist
 	if(length(plotoptions@superimpose) > 0) {
 	    if (!plotoptions@notraces) 
@@ -35,7 +31,8 @@
 	mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
         m <- multimodel@modellist
         t <- multitheta
-        allx2 <- allx <- vector() 
+        groups <- multimodel@groups
+	allx2 <- allx <- vector() 
 	for(i in 1:length(m)) {
 	  allx2 <- append(allx2, m[[i]]@x2) 
 	  allx <- append(allx, m[[i]]@x)
@@ -48,127 +45,97 @@
 	tauList <- list() 
 	muList <- list()       
 	contoplotList <- list() 
-	minc <- maxc <- 0 
 	if(m[[i]]@anispec$useparperp) {
 		calcAniSignal(m, plotoptions)
 	}
-	for (i in 1:length(m)) {
-            irfmu <- irftau <- vector()
-            if (m[[i]]@dispmu) {
-                for (j in 1:length(m[[i]]@x2)) 
-                       irfmu[j] <- resultlist[[i]]@irfvec[[j]][1]
+	f1<-function(x){x[[1]]}   
+	f2<-function(x){x[[2]]}
+	
+        ## will plot the first concentration from each dataset
+        grtoplot <- vector("list", length(m)) 
+        cnt <- 1
+        ds <- vector()
+        while(length(ds) < length(m)){
+          for(i in 1:length(groups[[cnt]])){
+            gds <- groups[[cnt]][[i]][2]
+            if(!gds%in%ds){
+              ds <- append(ds, gds)
+              grtoplot[[ gds ]] <- list(groups[[cnt]], i)
             }
-            else {
-                if (m[[i]]@mirf) 
-                  irfstart <- m[[i]]@x[which(m[[i]]@measured_irf == 
-                    max(m[[i]]@measured_irf))]
-                else irfstart <- 0
-                irfmu <- rep(irfstart, m[[i]]@nl)
-            }
-	    muList[[i]] <- irfmu 
-	    
-	    if (m[[i]]@disptau) {
-                for (j in 1:length(m[[i]]@x2)) {
-                  if (m[[i]]@cohspec$type == "freeirfdisp") 
-                    irftau[j] <- resultlist[[i]]@irfvec[[1]][[j]][2]
-		  else 
-		       irftau[j] <- resultlist[[i]]@irfvec[[j]][2]
-		}
-	    }
-	    tauList[[i]] <- irftau 
-            if (m[[i]]@cohspec$type == "freeirfdisp") {
-                cohirf <- irfparF(resultlist[[i]]@cohirf[[1]], 
-                  m[[i]]@lambdac, m[[i]]@x2[1], 1, m[[i]]@dispmu, 
-                  t[[i]]@parmu[[2]], m[[i]]@disptau, t[[i]]@partau, 
-                  m[[i]]@dispmufun, m[[i]]@disptaufun, m[[i]]@irffun)
-            }
-            else 
-                  cohirf <- vector()
- 	    irfvec <- resultlist[[i]]@irfvec[[1]]
-	    C <- compModel(k = t[[i]]@kinpar, 
-                kinscal = m[[i]]@kinscal, x = m[[i]]@x, irfpar = irfvec, 
-                irf = m[[i]]@irf, seqmod = m[[i]]@seqmod, 
-		fullk = m[[i]]@fullk, 
-                kmat = m[[i]]@kmat, jvec = t[[i]]@jvec, 
-		dscalspec = m[[i]]@dscalspec, 
-                drel = t[[i]]@drel, cohspec = m[[i]]@cohspec, 
-                coh = t[[i]]@coh, lamb = 1, 
-                dataset = i, cohirf = cohirf, mirf = m[[i]]@mirf, 
-                convalg = m[[i]]@convalg, measured_irf = m[[i]]@measured_irf,
-		speckin2 = m[[i]]@speckin2, 
-		usekin2 = m[[i]]@usekin2, kinpar2 = t[[i]]@kinpar2, 
-		kin2scal = t[[i]]@kin2scal, reftau = m[[i]]@reftau, 
-		anispec = m[[i]]@anispec, 
-		anipar = t[[i]]@anipar, cohcol = m[[i]]@cohcol)
-	      if(plotoptions@writerawcon) 
-		 write.table(C, file=paste(plotoptions@makeps,
-		 "_rawconcen_dataset_", i, ".txt", sep=""), quote = FALSE,
-		  row.names = m[[i]]@x)
-	      if(length(plotoptions@writeplaincon) > 0){
-		xplot <- plotoptions@writeplaincon$x 
+            ds <- append(ds, gds)
+          }
+        }
 
-		CWRITE <- compModel(k = t[[i]]@kinpar, 
-                kinscal = m[[i]]@kinscal, x = xplot, irfpar = irfvec, 
-                irf = m[[i]]@irf, seqmod = m[[i]]@seqmod, 
-		fullk = m[[i]]@fullk, 
-                kmat = m[[i]]@kmat, jvec = m[[i]]@jvec, 
-		dscalspec = m[[i]]@dscalspec, 
-                drel = t[[i]]@drel, cohspec = m[[i]]@cohspec, 
-                coh = t[[i]]@coh, lamb = 1, 
-                dataset = i, cohirf = cohirf, mirf = m[[i]]@mirf, 
-                convalg = m[[i]]@convalg, measured_irf = m[[i]]@measured_irf,
-		speckin2 = m[[i]]@speckin2, 
-		usekin2 = m[[i]]@usekin2, kinpar2 = t[[i]]@kinpar2, 
-		kin2scal = t[[i]]@kin2scal, reftau = m[[i]]@reftau, 
-		anispec = m[[i]]@anispec,  anipar = t[[i]]@anipar, 
-		cohcol = m[[i]]@cohcol)
-	       write.table(CWRITE, file=paste(plotoptions@makeps,
-		 "_plaincon_dataset_", i, ".txt", sep=""), quote = FALSE,
+        for(i in 1:length(m)) {
+          group <- grtoplot[[i]][[1]]
+          place <-  grtoplot[[i]][[2]]
+          dset <- group[[place]][2]
+          irfmu <- unlist(lapply(resultlist[[i]]@irfvec, f1))
+          irftau <- unlist(lapply(resultlist[[i]]@irfvec, f2))
+          muList[[i]] <- irfmu 
+          tauList[[i]] <- irftau
+          if(plotoptions@writerawcon || 
+             length(plotoptions@writeplaincon)>0){ 
+             C <- getKinConcen(group, multimodel, t, doConstr = FALSE,
+                               oneDS = place)
+             if(plotoptions@writerawcon)
+               write.table(C, file=paste(plotoptions@makeps,
+                                "_rawconcen_dataset_", dset, ".txt", sep=""), quote = FALSE,
+                           row.names = m[[dset]]@x)
+	        if(length(plotoptions@writeplaincon)>0){
+		xplot <- plotoptions@writeplaincon$x 
+	         CWRITE <- C 
+	          write.table(CWRITE, file=paste(plotoptions@makeps,
+		  "_plaincon_dataset_", dset, ".txt", sep=""), quote = FALSE,
 		  row.names = linloglines(xplot, irfvec[1], 0  ))
-	      } 
-            contoplotList[[length(contoplotList)+1]] <- getConToPlot(
-	    doClpConstr(C, 1, m[[i]]@clpCon, t[[i]]@clpequ, dataset = i), 
-                m[[i]]@cohspec, m[[i]]@cohcol)
-           minc <- min(minc, min(contoplotList[[length(contoplotList)]]))
-	   maxc <- max(maxc, max(contoplotList[[length(contoplotList)]]))
+	        }
+            }
+	
+            contoplotList[[length(contoplotList)+1]] <- getConToPlot( getKinConcen(
+	    group, multimodel, t, oneDS = place), m[[i]]@cohspec, m[[i]]@cohcol)
 	   
-           conmax[[i]] <- attributes(
-	   contoplotList[[length(contoplotList)]])$max
-	   }
-	   for(i in 1:length(m)) {
-           matlinlogplot(m[[i]]@x, contoplotList[[i]], muList[[i]][1], 
-	   plotoptions@linrange, 
-           type = "l", add = !(i == 1), lty = i, ylab = "concentration", 
-           xlab = plotoptions@xlab, main = "Concentrations", 
-	   xlim = c(xmin, xmax), ylim = c(minc, maxc) )
-            if(plotoptions@writecon) 
+           conmax[[i]] <- attributes(contoplotList[[length(contoplotList)]])$max
+	}
+	minc <- min(unlist(lapply(contoplotList,min)))
+	maxc <- max(unlist(lapply(contoplotList,max)))
+        for(i in 1:length(m)) {
+
+          matlinlogplot(m[[i]]@x, contoplotList[[i]], muList[[i]][1], 
+                plotoptions@linrange, 
+           	type = "l", add = !(i == 1), lty = i, ylab = "concentration", 
+           	xlab = plotoptions@xlab, main = "Concentrations", 
+	   	xlim = c(xmin, xmax), ylim = c(minc, maxc) )
+           	
+		if(plotoptions@writecon) 
 		 write.table(contoplotList[[i]], file=paste(plotoptions@makeps,
 		 "_concen_dataset_", i, ".txt", sep=""), quote = FALSE,
 		 row.names = m[[i]]@x)
-	}
+        }
+
 	if(length(model@kin2scal)!=0) {
 		perA<-vector()
 		for(i in 1:length(m)) 
 		      perA <- append(perA, t[[i]]@kin2scal[2])
-		
 		matplot(1:length(m), perA, type = "l", 
 		main = "% Concentration Photoconverted", 
 		xlab = "Dataset number", ylab = "percent")
-		
 	}
         spectralist <- getSpecList(multimodel, t)
-
-	mins <- maxs <- 0 
 	specList <- list() 
         for (i in 1:length(m)) {
             if (length(conmax) > 0) 
                 spec <- getSpecToPlot(spectralist[[i]], conmax[[i]], 
 		m[[i]]@cohcol,  plotoptions@plotcohcolspec)
             else spec <- spectralist[[i]]
-	    mins <- min(mins, min(spec))
-	    maxs <- max(maxs, max(spec))
+	    
 	    specList[[length(specList)+1]] <- spec
 	  }
+		maxA <- lapply(specList, max)
+	maxs <- max(unlist(maxA))
+
+	minA <- lapply(specList, min)
+	mins <- min(unlist(minA))
+
 	  for (i in 1:length(m)) {
 	    matplot(m[[i]]@x2, specList[[i]], type = "l", main = "Spectra", 
                 xlab = plotoptions@ylab, ylab = "amplitude", lty = i, 
@@ -193,15 +160,12 @@
 		 row.names = m[[i]]@x2, quote=FALSE)  
 	}
 	abline(0,0)
-	minmu <- min(muList[[1]])
-	maxmu <- max(muList[[1]])
-	for (i in 1:length(m)) {
-	   	minmu <- min(minmu, min(muList[[i]]))
-		maxmu <- max(maxmu, max(muList[[i]]))
-	}
+	
 	notplotted <- TRUE
 	for (i in 1:length(m)) {
 	    if(m[[i]]@dispmu) {
+	      	minmu <- min(unlist(lapply(muList, min)))
+		maxmu <- max(unlist(lapply(muList, max)))
 	      matplot(m[[i]]@x2, muList[[i]], type = "l", 
 	      main = "IRF location",  xlim=c(x2min,x2max),
 	      add = !notplotted, ylim = c(minmu, maxmu), col=i,
@@ -209,20 +173,13 @@
 	      notplotted <- FALSE  
 	  }
        }
-        if(m[[1]]@disptau) {
-		mintau <- min(tauList[[1]])
-		maxtau <- max(tauList[[1]])
-	}
+	
+ 	notplotted <- TRUE
 	for (i in 1:length(m)) {
 	    if(m[[i]]@disptau) {
-	   	mintau <- min(mintau, min(tauList[[i]]))
-		maxtau <- max(maxtau, max(tauList[[i]]))
-	    }
-	}
-	notplotted <- TRUE
-	for (i in 1:length(m)) {
-	    if(m[[i]]@disptau) {
-	      matplot(m[[i]]@x2, tauList[[i]], type = "l", 
+	       mintau <- min(unlist(lapply(tauList, min)))
+	       maxtau<- max(unlist(lapply(tauList, max)))
+ 	      matplot(m[[i]]@x2, tauList[[i]], type = "l", 
 	      main = "IRF width",   add = !notplotted, col=i,
 	       xlim=c(x2min,x2max),ylim = c(mintau, maxtau),
 	      xlab = plotoptions@ylab, ylab = "IRF width")
@@ -285,7 +242,7 @@
        for (i in 1:length(m)) {     
 	   if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
 	    
-            matplot(m[[i]]@x2, svdresidlist[[i]]$right[1,],
+            matplot(m[[i]]@x2, svdresidlist[[i]]$right[1,], 
 	    type = "l", xlim=c(x2min,x2max),
 	    ylim = c(minrightr, maxrightr), 
             main = "Right sing. vectors residuals ", 
@@ -358,11 +315,8 @@
 		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
     }
     mtext(tit, side = 3, outer = TRUE, line = 1)
-    par(las = 2)
-
-  
-	par(mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
-	plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
+    par(las = 2, mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
+    plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
 	writeEst(multimodel, multitheta, plotoptions, plotEstout)
         displayEst(plotoptions)
 
@@ -371,12 +325,10 @@
 				      pdev <- pdf 
 	   else  pdev <- postscript
 	    dev.print(device = pdev, file = paste(plotoptions@makeps, 
-                "_summary.",  
-		plotoptions@output,
-		sep = ""))
+                "_summary.",  plotoptions@output, sep = ""))
         }
         if (plotoptions@plotkinspec) {
-            plotKinSpec(multimodel, t, plotoptions)
+            plotClp(multimodel, t, plotoptions)
         }
 	if (plotoptions@kinspecest) {
             plotKinSpecEst(t, plotoptions, multimodel)
@@ -384,5 +336,5 @@
 	
 	
 
-    })
-}
+    }
+)

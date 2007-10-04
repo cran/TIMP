@@ -1,7 +1,7 @@
 "plotFLIMresid" <- function (multimodel, multitheta, plotoptions, dind) 
 {
-    get(getOption("device"))()
-    model <- multimodel@modellist[[1]]
+  get(getOption("device"))()
+  model <- multimodel@modellist[[1]]
     if (!identical(model@title, "")) 
         tit <- c(0, 0, 1, 0)
     else tit <- c(0, 0, 0, 0)
@@ -21,7 +21,7 @@
     resultlist <- multimodel@fit@resultlist
     require(fields)
     require(gclus)
-    tracemat <- matrix(0, dim(model@inten)[1], dim(model@inten)[2])
+    tracemat <- matrix(0, nrow(model@inten), ncol(model@inten))
     residlist <- svdresidlist <- list()
     for (i in 1:length(m)) {
         residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
@@ -55,32 +55,32 @@
         
     }
 ### get selected indices 
-    csave <- rep(-1, dim(tracemat)[1]*dim(tracemat)[2])
+    csave <- rep(-1, nrow(tracemat)*ncol(tracemat))
     csave[model@x2] <- 1 
     dim(csave) <- dim(tracemat)
      c1 <- c2 <- TRUE 
-   for(i in 1:dim(csave)[2]) { 
+   for(i in 1:ncol(csave)) { 
 	 if(c1)
 	    if(1 %in% csave[,i]) {	
 	        rowstart <- i
 		c1 <- FALSE 
             }
 	 if(c2)
-	    if(1 %in% csave[,dim(csave)[2]-(i-1)]) {	
-		rowend <- dim(csave)[2]-(i-1) 
+	    if(1 %in% csave[,ncol(csave)-(i-1)]) {	
+		rowend <- ncol(csave)-(i-1) 
 		c2 <- FALSE 
 	    }
    }
    c1 <- c2 <- TRUE 
-   for(i in 1:dim(csave)[1]) { 
+   for(i in 1:nrow(csave)) { 
 	  if(c1) 
 	      if(1 %in% csave[i,]) {	
 	          colstart <- i
 		  c1 <- FALSE
 	      }
 	   if(c2)     
-	      if(1 %in% csave[dim(csave)[1]-(i-1),] ) {	
-	        colend <- dim(csave)[1]-(i-1)
+	      if(1 %in% csave[nrow(csave)-(i-1),] ) {	
+	        colend <- nrow(csave)-(i-1)
 	        c2 <- FALSE
 	      }
    }

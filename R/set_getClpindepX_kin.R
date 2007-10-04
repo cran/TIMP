@@ -1,6 +1,3 @@
-"set_getClpindepX_kin" <-
-function () 
-{
     setMethod("getClpindepX", signature(model = "kin"), function(model, 
         multimodel, theta, returnX, rawtheta, dind) {
 	if(returnX) 
@@ -16,10 +13,9 @@ function ()
 	    kin2scal = theta@kin2scal, reftau = model@reftau, 
 	    anispec = model@anispec, anipar = theta@anipar, 
 	    cohcol = model@cohcol)
-        if(returnX) 
+	if(returnX) 
 		    x <- as.vector(x) 
 	
 	x
 		    
     })
-}

@@ -28,7 +28,15 @@ fitModel(data, modspec=list(), datasetind = vector(), modeldiffs = list(),
   have the same clp.  Note that if \code{linkclp} is not given, it will 
   default to \code{list{1:length(data)}}, so that the clp from all datasets
   are equated when they represent conditions within \code{thresh} of each 
-  other.}  
+  other.  
+
+  Consider the situation where the clp from many different datasets are 
+  equated.  \bold{
+  Then it is important to note that the specification of constraints
+  applicable to the clp will also be equated, and will be read from the model
+  assigned to the first dataset in the group. }
+
+  }  
   \item{dscal}{list of lists specifying linear scaling relations between 
    datasets; each list has elements \code{to, from, value}.  The index of the 
    dataset to be scaled is given in \code{to}; the index of the dataset on 
@@ -123,6 +131,12 @@ optimize nonlinear parameters and to solve for conditionally linear parameters
 }
 \value{list with element \code{toPlotter}.  
 \itemize{
+  \item{currTheta}{is a list of objects
+    of class \code{theta} whose elements contain the parameter estimates
+    associated with each dataset modeled.}
+  \item{currModel}{is an object of class \code{multimodel}
+    containing the results of fitting as well as the model
+    specification}
 \item{toPlotter}{is a list containing all arguments used by the plotting 
 function; it is used to regenerate plots and other output by the 
 \code{examineFit}  function}

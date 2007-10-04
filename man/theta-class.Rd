@@ -4,11 +4,14 @@
 \alias{theta}
 \title{Class "theta" for storage of nonlinear parameter estimates}
 \description{
-\code{theta} is the class to store parameter estimates associated with possibly 
-many datasets; after a call to fitModel a list containing n theta objects 
-for each of the n datasets analyzed in the call to fitModel is created
-as the invisible object \code{.currTheta}.  To see the parameter estimates 
-associated with the ith dataset, examine \code{.currTheta[[i]]} }
+  \code{theta} is the class to store parameter estimates associated with
+  possibly 
+  many datasets; after a call to \code{fitModel}
+  a list containing \code{theta} objects 
+  for each of the n datasets analyzed in the call to \code{fitModel} is
+  created.   To see the parameter estimates 
+  associated with the datasets, examine the object \code{currTheta}
+  in the list returned by \code{fitModel}}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("theta", ...)} or 
 \code{theta(...)}. 
@@ -39,7 +42,7 @@ datasets (linear, and possibly per-wavelength or, in general, per-clp)}
 
 \details{after a call to \code{\link{fitModel}}, an object of class 
 \code{theta} exists in the global environment as the variable 
-\code{.currTheta}  }  
+\code{currTheta}  }  
 \seealso{ \code{\link{fitModel} }, \code{\link{multitheta-class}}}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \keyword{classes}

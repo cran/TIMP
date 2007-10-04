@@ -1,4 +1,4 @@
-"plotEst" <- function (mod, plotoptions, tr=FALSE)  
+"plotEst" <- function (mod, plotoptions, tr=FALSE, addplot=TRUE)  
 {
 	options(scipen=-4) 
 	m <- mod@modellist
@@ -6,7 +6,7 @@
 	parorder <- mod@parorder
 	x <- xret<- list()
 	cnt <- 0
-	freepar <- dim(sumonls$parameter)[1]
+	freepar <- nrow(sumonls$parameter)
 	for(i in 1:length(parorder)){
 	      removepar <- parorder[[i]]$rm 
 	      name <- parorder[[i]]$name
@@ -166,13 +166,14 @@
 	     if(z[[i]]$name == "kinpar") 
 		       xmat[i+length(x)+length(y)+1, 4]<-paste("tau:",signif(1/z[[i]]$pest,digits=2))
         }
+      if(addplot) {
       if(!tr) 
 	      textplot(xmat, mar=c(1,0,1,0),cmar=.7,halign="left")
       else 
 	      textplot(t(xmat), mar=c(1,0,1,0),cmar=.7,halign="left")
       title(main=paste("RMSE:", signif(sumonls$sigma, digits=3)))
       options(scipen=0)
- 
+    }
       list(x=xret, y=yret, z=zret)
     
 }

@@ -4,6 +4,7 @@
 \alias{plotter} 
 \alias{plotter,kin-method}
 \alias{plotter,spec-method}
+\alias{plotter,mass-method}
 \title{Generic function plotter in Package `TIMP'}
 \description{
 Methods for function \code{plotter} in Package `TIMP' that 

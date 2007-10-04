@@ -1,6 +1,3 @@
-"set_plotter_spec" <- 
-function(){
-
   setMethod("plotter", signature(model="spec"), 
     function (model, multimodel, multitheta, plotoptions) 
     {  
@@ -9,25 +6,25 @@ function(){
 	}
 	plotoptions@addest <- c("specpar")
 	plotoptions@paropt <-  par(mgp = c(2, 1, 0), mar=c(4,4,.5,.5))
-	get(getOption("device"))()
+	
 	if(!identical(model@title,""))
 		tit <- c(0,0,1,0)
 	else 
 		tit <- c(0,0,0,0)
 	plotrow<-4
 	plotcol<-4
-	par(plotoptions@paropt)
+        get(getOption("device"))()
+        par(plotoptions@paropt)
 	par(mfrow = c(plotrow, plotcol))
 	nt <- model@nt
 	nl <- model@nl
 	x <- model@x
 	x2 <- model@x2
-	groups <- multimodel@modeldiffs$groups	
 	m <- multimodel@modellist
 	t <- multitheta 
 	resultlist <- multimodel@fit@resultlist
 	conmax <- list()       
-	conlist <- getClpList(multimodel, t) 
+	conlist <- getSpecList(multimodel, t) 
         for(i in 1:length(m)) {
 			contoplot <- conlist[[i]]
 			matplot(m[[i]]@x, contoplot,
@@ -35,7 +32,8 @@ function(){
                         add=!(i==1), lty=i, ylab = "concentration", 
                         xlab=plotoptions@xlab,main = "Concentrations")
        }
-	# SPECTRA 
+	# SPECTRA
+        specList <- vector("list", length(m))
 	for(i in 1:length(m)) {
 		   if(m[[i]]@timedep)
 		     specpar <- specparF(t[[i]]@specpar, m[[i]]@x[1], 
@@ -45,25 +43,19 @@ function(){
 		     specpar <- t[[i]]@specpar 
 		   
 		   spectra <- doClpConstr(specModel(specpar, m[[i]]),
-			  clp_ind = 1, clpCon = m[[i]]@clpCon, 
-			  clpequ = t[[i]]@clpequ, dataset = i)
-
+			  clp_ind = 1, 
+                  	 clpCon = m[[i]]@clpCon, clpequ = t[[i]]@clpequ, 
+		  	 num_clpequ = length(m[[i]]@clpequspec), 
+			 usecompnames0 = m[[i]]@usecompnames0, 
+			 usecompnamesequ = m[[i]]@usecompnamesequ)
+                   specList[[i]] <- spectra 
 		      matplot(m[[i]]@x2, spectra, type = "l", 
 		      main = "Spectra", 
 		      xlab = plotoptions@ylab, ylab="amplitude", lty = i, 
 		      add = !(i ==1)) 
         }
 	for(i in 1:length(m)) {
-		   if(m[[i]]@timedep)
-		     specpar <- specparF(t[[i]]@specpar, m[[i]]@x[1], 
-			1, m[[i]]@specref, m[[i]]@specdispindex, 
-			t[[i]]@specdisppar, parmufunc = m[[i]]@parmufunc)
-		   else 
-		     specpar <- t[[i]]@specpar 
-		   spectra <- doClpConstr(specModel(specpar, m[[i]]),
-			  clp_ind = 1, clpCon = m[[i]]@clpCon, 
-			  clpequ = t[[i]]@clpequ, dataset = i)
-		      matplot(m[[i]]@x2, normdat(spectra), type = "l", 
+		      matplot(m[[i]]@x2, normdat(specList[[i]]), type = "l", 
 		      main = "Normalized spectra", xlab = plotoptions@ylab, 
 		      ylab="amplitude", lty = i, add = !(i ==1)) 
 	}
@@ -75,9 +67,7 @@ function(){
 				    ncol = m[[i]]@nl)
 		for(j in 1:length(resultlist[[i]]@resid)){ 
 		    
-		    if(m[[i]]@mod_type != "spec")
-			 residuals[,j] <- resultlist[[i]]@resid[[j]]
-		    else
+		    
 			residuals[j,] <- resultlist[[i]]@resid[[j]]
 		    
 		}
@@ -202,7 +192,7 @@ function(){
         displayEst(plotoptions)
        
        if(plotoptions@plotkinspec) {
-		      plotSpecKin(multimodel, t, plotoptions) 
+		      plotClp(multimodel, t, plotoptions) 
 	}
      })	
-}
+

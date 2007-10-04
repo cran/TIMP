@@ -2,7 +2,7 @@
 function (theta, kinscal, kmat) 
 #fillK
 {
-     dimk <- dim(kmat)[1]  # kmat is square 
+     dimk <- nrow(kmat)  # kmat is square 
      reskmat<-matrix(0, nrow=dimk, ncol=dimk)
      for(i in 1:dimk) {
 	    for(j in 1:dimk) {

@@ -81,8 +81,8 @@ cohspec = list( type = "irf"))
 ##############################
 
 denRes<-fitModel(list(mdDat), list(model1), 
-opt=kinopt(iter=10, linrange = .2,
+opt=kinopt(iter=4, linrange = .2,
 makeps = "visible", xlab = "time (ps)", 
-ylab = "wavelength", notraces=FALSE,
-selectedtraces = seq(1,256,by=20),
-paropt=list(mar=c(2,2,2,2), mgp=c(1,.2,0) ))) 
+ylab = "wavelength", stderrclp = TRUE, 
+plotkinspec = TRUE, kinspecerr = TRUE,
+selectedtraces = seq(1,256,by=20)))

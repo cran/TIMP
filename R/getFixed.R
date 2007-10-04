@@ -1,6 +1,7 @@
 "getFixed" <-
 function (model) 
 {
+	
 	# model@fixed is a list of lists 
 	# eg
 	# fixed = list(kinpar = list( c(1,2), c(2,3)), irfpar = list(1,2)) 
@@ -18,16 +19,21 @@ function (model)
 		if(!is.list(fixed[[r]])){ 
 			finde[[ names(fixed)[r] ]] <- as.vector(fixed[[r]])
 		}
-		else 
-		     for(s in 1:length(fixed[[r]]))
+		else {
+		     for(s in 1:length(fixed[[r]])) {
+			indf <- fixed[[r]][[s]][2]
+			if(fixed[[r]][[s]][1] > 1){
+			slW<-slot(model, names(fixed[r]))
+			indf <- indf + sum(unlist(lapply(slW, length))[1:(fixed[[r]][[s]][1]-1)]) 
+			}
 		     	finde[[ names(fixed[r]) ]] <-
-			append(finde[[ names(fixed[r]) ]], 
-			if(fixed[[r]][[s]][1] > 1) 
-			(length(unlist(slot(model, names(fixed[r]))[[1:(
-			fixed[[r]][[s]][1] - 1)]])) + fixed[[r]][[s]][2]) 
-			else fixed[[r]][[s]][2])
-	   }
-        }
+			append(finde[[ names(fixed[r]) ]], indf)
+
+	         }
+		}
+	     }
+	}
+        
 	if(length(free) > 0) {
 	   for(f in 1:length(finde)) finde[[f]]<-vector()
 	   for(r in 1:length(ppars)) 
@@ -41,13 +47,15 @@ function (model)
 		}
 		else 
 		     for(s in 1:length(free[[r]])) {
-			if(fixed[[r]][[s]][1] > 1) 
-			   rx <- (length(unlist(slot(model, names(free[r]))[[1:(
-				 free[[r]][[s]][1] - 1)]])) + free[[r]][[s]][2])
-			else 
-			   rx <- free[[r]][[s]][2]
+
+			indf <- free[[r]][[s]][2]
+			if(free[[r]][[s]][1] > 1){
+			slW<-slot(model, names(free[r]))
+			indf <- indf + sum(unlist(lapply(slW, length))[1:(free[[r]][[s]][1]-1)]) 
+			}
+		
 			finde[[ names(free)[r] ]] <- finde[[names(free)[r]]][- 
-			which( finde[[ names(free)[r]]] %in% rx)]
+			which( finde[[ names(free)[r]]] %in% indf)]
 		    }
 	   }
          }

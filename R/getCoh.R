@@ -36,6 +36,7 @@ function (model)
 	if(numcohcol > 0) {
 	           model@cohcol <- (model@ncolc[1]-numcohcol+1):model@ncolc[1]
 	}
+	model@ncomp <- max(model@ncolc)
 	model
 
 }

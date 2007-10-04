@@ -3,6 +3,7 @@
 \alias{getClpindepX-methods}
 \alias{getClpindepX,kin-method} 
 \alias{getClpindepX,spec-method}
+\alias{getClpindepX,mass-method}
 \alias{getClpindepX}
 \title{Generic function getClpindepX in Package `TIMP'}
 \description{

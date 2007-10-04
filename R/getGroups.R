@@ -4,7 +4,7 @@ function (m, modeldiffs, labels)
 
     thresh <- if (length(modeldiffs$thresh) == 0) 0 else modeldiffs$thresh
     linkclp <- rep(1, length(m))
-    sl <- if (m[[1]]@mod_type != "spec") "x2" else "x"
+    sl <- m[[1]]@clpType 
     allsl <- datasetind <- clplongind <- vector()
     for (i in 1:length(m)) {
         allsl <- append(allsl, slot(m[[i]], sl))
@@ -17,7 +17,7 @@ function (m, modeldiffs, labels)
     sortclp <- sort_tmp$x
     sortindex <- sort_tmp$ix
     markclp <- sortclp[1]
-    groups <- list(list(c(clplongind[sortindex[1]] , labels[datasetind[sortindex[1]]])))
+    groups <- list(list(c(clplongind[sortindex[1]], labels[datasetind[sortindex[1]]])))
     refgroup <- linkclp[datasetind[sortindex[1]]]
     for (i in 2:length(sortclp)) {
         overlimit  <- abs(markclp - sortclp[i]) > thresh 

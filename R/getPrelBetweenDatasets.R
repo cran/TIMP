@@ -18,7 +18,8 @@
 		 else 
 		     	pinde[[diffs$what1]] <-
 			append(pinde[[diffs$what1]], ifelse(diffs$ind1[1] > 1, 
-			length(unlist(slot(model, diffs$what1)[[1:(diffs$ind1[1] 
+			length(unlist(slot(modellist[[i]],
+                                           diffs$what1)[[1:(diffs$ind1[1] 
 			- 1)]]) + diffs$ind1[2]), diffs$ind1[2]))
 		slot(modellist[[i]], "mvecind") <- pinde
 	        if(diffs$what1 == "prel"){

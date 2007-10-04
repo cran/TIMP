@@ -42,6 +42,5 @@ cohspec = list( type = "irf"))
 denRes<-fitModel(list(mdDat), list(model1), 
 opt=kinopt(iter=5, linrange = .2,
 makeps = "MARI", xlab = "time (ps)", 
-ylab = "wavelength", 
-paropt=list(mar=c(2,2,2,2), mgp=c(1,.2,0) )))
+ylab = "wavelength", plotkinspec = TRUE))
 

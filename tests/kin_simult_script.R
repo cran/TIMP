@@ -99,8 +99,8 @@ list(what = "kinpar", ind = 4, dataset = 2, start= .0159)
 opt=kinopt(iter=5,superimpose = c(1,2), divdrel = TRUE, linrange = .2,
 makeps = "den3", selectedtraces = c(1,5,10), plotkinspec =TRUE, 
 paropt=list(cex.main=1.2,cex.lab=1.2,cex.axis=1.2),
-stderrclp = TRUE, kinspecerr=TRUE, 
-kinspecest=TRUE, xlab = "time (ps)", ylab = "wavelength", 
+stderrclp = TRUE, kinspecerr=TRUE,
+xlab = "time (ps)", ylab = "wavelength", 
 breakdown = list(plot=c(643.50, 658.62, 677.52), 
 superimpose=1:2 )))
 

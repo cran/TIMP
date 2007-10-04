@@ -53,7 +53,7 @@ function (filenm, sep = "")
         }
 	if (x2[1] > x2[nl]) {
 	 psi2 <- psisim 
-	 for(j in 1:dim(psi2)[1]) 
+	 for(j in 1:nrow(psi2)) 
 	    psi2[j,] <- rev( psi2[j,])
 	 psisim <- psi2 
 	 x2 <- rev(x2)
@@ -75,7 +75,7 @@ function (filenm, sep = "")
         }
 	if (x2[1] > x2[nl]) {
 	 psi2 <- psisim 
-	 for(j in 1:dim(psi2)[1]) 
+	 for(j in 1:nrow(psi2)) 
 	    psi2[j,] <- rev( psi2[j,])
 	 psisim <- psi2 
 	 x2 <- rev(x2)
@@ -83,9 +83,9 @@ function (filenm, sep = "")
     }
     if (typ[1] == "MG") {
 	bd <- read.table(filenm, skip=4, header=FALSE, sep=";")  
-	x <- na.omit(as.numeric(read.table(filenm, skip=3, header=FALSE, sep=";")[1,2:dim(bd)[2]]))
+	x <- na.omit(as.numeric(read.table(filenm, skip=3, header=FALSE, sep=";")[1,2:ncol(bd)]))
 	attributes(x) <- NULL 
-	x2 <- na.omit(bd[2:dim(bd)[1],1])
+	x2 <- na.omit(bd[2:nrow(bd),1])
 	attributes(x2) <- NULL
 	nl <- as.integer(length(x2))
 	nt <- as.integer(length(x))

@@ -28,7 +28,7 @@ function (data, sample = c(), sample_time = c(), sample_lambda = c(),
         else data@psi.df[lmin:lmax]
         data@psi.df <- as.matrix(data@psi.df)
         data@nl <- if (is.matrix(data@psi.df)) 
-            dim(data@psi.df)[2]
+            ncol(data@psi.df)
         else as.integer(1)
         data@x2 <- data@x2[lmin:lmax]
         if (data@simdata) 
@@ -47,7 +47,7 @@ function (data, sample = c(), sample_time = c(), sample_lambda = c(),
                             which(data@x2 >= sel_lambda_ab[2]))]
 	}
 	data@psi.df <- data@psi.df[,lmin:lmax]
-        data@nt <- ifelse(is.matrix(data@psi.df), dim(data@psi.df)[1], 
+        data@nt <- ifelse(is.matrix(data@psi.df), nrow(data@psi.df), 
             as.integer(1))
         data@x2 <- data@x2[lmin:lmax]
         if (data@simdata) 

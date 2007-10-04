@@ -1,0 +1,15 @@
+citEntry(entry = "Article",
+  author	= personList(as.person("Katharine M. Mullen"), 
+                             as.person("Ivo H. M. van Stokkum")),
+  title		= "TIMP: an R package for modeling multi-way spectroscopic measurements",
+  journal	= "Journal of Statistical Software",
+  year		= "2007",
+  volume	= "18",
+  number	= "3",
+  url		= "http://www.jstatsoft.org/v18/i03/",
+textVersion = paste("Mullen KM, van Stokkum IHM (2007).",  
+	"TIMP: An R Package for Modeling Multi-way Spectroscopic
+Measurements.", "Journal of Statistical Software, 18(9).", "URL
+http://www.jstatsoft.org/v18/i09/.")
+
+)

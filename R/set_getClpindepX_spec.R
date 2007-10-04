@@ -1,6 +1,3 @@
-"set_getClpindepX_spec" <- 
-function(){
-
   setMethod("getClpindepX", signature(model="spec"), 
     function(model, multimodel, theta, returnX, rawtheta, dind) 
     {
@@ -12,4 +9,3 @@ function(){
 		    x <- as.vector(x) 
        x
    }) 
-}
