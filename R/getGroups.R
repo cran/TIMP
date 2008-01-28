@@ -12,7 +12,7 @@ function (m, modeldiffs, labels)
         clplongind <- append(clplongind, 1:length(slot(m[[i]], sl)))
     }
     if (length(allsl) < 2) 
-        return(list(c(1, labels[1])))
+        return(list(list(c(1, labels[1]))))
     sort_tmp <- sort(allsl, index.return = TRUE)
     sortclp <- sort_tmp$x
     sortindex <- sort_tmp$ix

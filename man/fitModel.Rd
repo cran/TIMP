@@ -42,7 +42,7 @@ fitModel(data, modspec=list(), datasetind = vector(), modeldiffs = list(),
    dataset to be scaled is given in \code{to}; the index of the dataset on 
    which the scaling is to be based is given in \code{from}.  The starting 
    value parameterizing the relationship is given as \code{value}. For 
-   example, \code{dscal = list(list(to=2,from=1,value=.457))}.     
+   example, \code{dscal = list(list(to=2,from=1,value=.457))}. }    
    \item{thresh}{numeric describing the tolerance with which clp from 
    different datasets are to be considered as equal.  
    For instance, for 
@@ -54,7 +54,7 @@ fitModel(data, modspec=list(), datasetind = vector(), modeldiffs = list(),
   \item{free}{ list of lists specifying individual 
   parameters to free for a given dataset. each sublist has 
   named elements 
-  \itemize{ 
+  \describe{ 
   \item{what}{character string naming parameter type, e.g., "kinpar"}
   \item{ind}{vector of indices into parameter vector or list, e.g.,
   \code{c(2,3)} or \code{4}}
@@ -117,7 +117,10 @@ parameter will depend }
     between parameters; defaults to "lin" for linear relationship }
      \item{start}{starting value or vector of values parameterizing 
      relationship between parameters  }
-   } 
+   }
+   \item{weightlist}{List of new weights for the datasets returned
+  by the function \code{outlierCorrs} (as the element
+  \code{weightList} of the list that is the return value of this function). 
   }
   }
  }
@@ -129,7 +132,7 @@ This function applies the \code{\link{nls}} function internally to
 optimize nonlinear parameters and to solve for conditionally linear parameters
 (clp) via the partitioned variable projection algorithm. 
 }
-\value{list with element \code{toPlotter}.  
+\value{ A list is returned containing the following elements: 
 \itemize{
   \item{currTheta}{is a list of objects
     of class \code{theta} whose elements contain the parameter estimates

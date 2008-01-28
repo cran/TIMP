@@ -11,6 +11,8 @@
         model@wavedep <- (model@dispmu || model@disptau || model@weight || 
             model@lclp0 || model@lclpequ || length(model@parmu) > 
             0)
+        model@getX <- !(model@dispmu || model@disptau || model@weight || 
+            length(model@parmu) > 0)
         model@clpdep <- model@wavedep
         if(model@fullk) 
 	    model@ncomp <- nrow(model@kmat) + length(model@kinpar2)

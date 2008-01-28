@@ -2,9 +2,8 @@
     function (model) 
     {
 	model@clpdep <- (model@weight || model@lclp0 || model@lclpequ)
-	if(length(model@extracomp) > 0) 
-		model@lextracomp <- TRUE
-	model@ncomp <- length(model@peakpar) + length(model@extracomp)
+	
+	model@ncomp <- length(model@peakpar) + if(model@extracomp) 1 else 0
 	model@ncolc <- model@ncomp	
 	model
    }) 

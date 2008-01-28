@@ -7,11 +7,14 @@
 may be read from file into an R object for analysis.  
 }
 \usage{
-readData(filenm, sep = "")
+readData(filenm, typ="", sep = "")
 }
 \arguments{
   \item{filenm}{ This is the path to the file to read in, as a quoted
 string. }
+ \item{typ}{if \code{typ="plain"} the the file being read in stores 
+data as a plain matrix, with \code{x} values as the first element of 
+each row except the first and \code{x2} values as the first row. }
   \item{sep}{This is an optional argument describing how the data is 
 delimited; defaults to \code{""}}
 }

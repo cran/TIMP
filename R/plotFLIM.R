@@ -2,27 +2,28 @@
 {
     ## this function results in plots associated with modeling FLIM data
 
-    m <- multimodel@modellist
-    t <- multitheta
-    if(plotoptions@residplot)
-         plotFLIMresid(multimodel, multitheta, plotoptions) 
-    if(plotoptions@noFLIMsummary) return()
-    for(i in 1:length(m)) {
-      k <- t[[i]]@kinpar
-      model <- m[[i]]
+  m <- multimodel@modellist
+  t <- multitheta
+  if(plotoptions@residplot)
+    plotFLIMresid(multimodel, multitheta, plotoptions) 
+  if(plotoptions@noFLIMsummary) return()
+  for(i in 1:length(m)) {
+    k <- t[[i]]@kinpar
+    model <- m[[i]]
+    if(dev.cur() != 1)
       get(getOption("device"))()
-      par(plotoptions@paropt)
-      par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), cex.main=.95,
+    par(plotoptions@paropt)
+    par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), cex.main=.95,
 	mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
-      nt <- model@nt
-      nl <- model@nl
-      x <- model@x
+    nt <- model@nt
+    nl <- model@nl
+    x <- model@x
     x2 <- model@x2
     resultlist <- multimodel@fit@resultlist
     irfmu <- vector()
     cohirfmu <- vector()
     irftau <- vector()
-   
+    
     conmax <- list()
     spectralist <- getSpecList(multimodel, t)
 	spec <- spectralist[[i]]
@@ -142,12 +143,14 @@
     
 	limd<- max(  max(residlist[[1]]), abs(min(residlist[[1]]))) 
 	if(plotoptions@FLIMresidimag) {
-	image.plot(x, x2, residlist[[1]], 
-	xlab = plotoptions@xlab, ylab = plotoptions@ylab, 
-            main = paste("Residuals Dataset",i), zlim=c(-limd,limd),
-		col = diverge_hcl(40, h = c(0, 120), c = 60, l = c(45, 90), 
-		power = 1.2))
-
+            if (! (any(diff(x) <= 0) || any(diff(x2) <= 0)))
+              image.plot(x, x2, residlist[[1]], 
+                         xlab = plotoptions@xlab, ylab = plotoptions@ylab, 
+                         main = paste("Residuals Dataset",i),
+                         zlim=c(-limd,limd),
+                         col = diverge_hcl(40, h = c(0, 120),
+                           c = 60, l = c(45, 90), 
+                           power = 1.2))
         } 
     ## matplot function with "log" option is not compatible with 
     ## neg. x values; do the below to avoid warning
@@ -194,8 +197,5 @@
     }
       plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE,addplot=FALSE)
       writeEst(multimodel, multitheta, plotoptions, plotEstout)
-      displayEst(plotoptions)
-
-    
 
 }

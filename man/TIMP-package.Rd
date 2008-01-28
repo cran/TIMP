@@ -2,45 +2,24 @@
 \docType{package}
 \alias{TIMP-package}
 \alias{TIMP}
-\title{a problem solving environment for fitting superposition models}
+\title{a problem solving environment for fitting separable nonlinear models in physics and chemistry applications}
 \description{
-Measurements often represent a superposition of the contributions of distinct
-sub-systems resolved with respect to many experimental variables (time,
-temperature, wavelength, pH, polarization, etc).  A parametric model for each
-component may be desirable to apply to the data, but only to the evolution of
-components with respect to a subset of the independent variables.  For
-instance, given time-resolved spectroscopy data, a parametric model for the
-time-evolution of components may be available, while a physically-inspired
-parametric model for the spectra of components may be difficult to formulate
-and interpret.  Such situations give rise to a separable nonlinear parameter
-estimation problem, namely that of estimating the (nonlinear) parameters
-associated with the parametric model, while estimating parameters representing
-the evolution of components with respect to the independent variables to which
-a parametric model does not apply as conditionally linear.  The partitioned
-variable projection algorithm is well-suited to solving such problems under
-the criteria of efficiency, quality of standard error estimates, and precision
-of parameter estimates.  TIMP implements the partitioned variable projection
-algorithm and allows its application to fitting a wide range of models,
-including those for the simultaneous analysis of multiple datasets collected
-under different experimental conditions.  The package has been extensively
-applied to modeling data arising in spectroscopy experiments.
-}
-\details{
-Package: TIMP
-Type: Package
-Title: a problem solving environment for fitting superposition models
-Version: 1.4
-Author: Katharine M. Mullen, Ivo H. M. van Stokkum 
-Maintainer: Katharine M. Mullen <kate@nat.vu.nl>
-Depends: R (>= 2.5.0), methods, tcltk, vcd, fields, gplots, splines
-Suggests: gclus
-License: GPL version 2 or newer
+ TIMP is a problem solving environment for fitting separable nonlinear models to measurements arising in physics and chemistry experiments, and has been extensively applied to time-resolved spectroscopy and FLIM-FRET data.
 }
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum  
 Maintainer: Katharine M. Mullen \email{kate@nat.vu.nl} 
 }
 \references{
-See \url{http://www.nat.vu.nl/~kate/TIMP/} for further 
-documentation.
+  Mullen KM, van Stokkum IHM (2007). ``TIMP: An R Package for Modeling
+  Multi-way Spectroscopic Measurements.'' Journal of Statistical
+  Software, 18(3). URL \url{http://www.  jstatsoft.org/v18/i03/}.
+
+  Laptenok S, Mullen KM, Borst JW, van Stokkum IHM, Apanasovich VV,
+  Visser AJWG (2007). ``Fluorescence Lifetime Imaging Microscopy (FLIM)
+  Data Analysis with TIMP.''  Journal of Statistical Software,
+  18(8). URL \url{http://www.jstatsoft.org/v18/i08/}.
+  
+  See \url{ http://timp.r-forge.r-project.org/} or
+  \url{http://www.nat.vu.nl/~kate/TIMP/} for further documentation.
 }
 \keyword{package}

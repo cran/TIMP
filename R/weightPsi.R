@@ -2,10 +2,11 @@
 function (model) 
 {
     psisim <- model@psi.df
-    weight <- array(1, c(model@nt, model@nl))
+    if(is.na(model@weightM[1,1])) # weight not used from previous analysis 
+      weight <- matrix(1, nrow=model@nt, ncol=model@nl)
+    else weight <- model@weightM
     wt <- model@weightpar
     typ <- model@weightsmooth$funct
-
     if(length(wt)  !=  0 && length(wt$poisson) == 0) {
       for (i in 1:length(wt)) {
         if (is.na(wt[[i]][1])) 

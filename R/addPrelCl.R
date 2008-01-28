@@ -20,21 +20,21 @@
 	      if(length(diffs$ind1)==2) {
 		    slot(thetaClass, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar 
 
-	}
+                  }
 	      cnt <- cnt + 2       
-	   }
+            }
 	   else { 
-	    if(diffs$rel == "multilin"){
-	      newpar <- parvec[cnt] + multiLin(thetaClass, diffs,parvec[(cnt+1):(cnt+length(diffs$start))] )
-	      if(length(diffs$ind1)==1)
-		    slot(thetaClass, diffs$what1)[diffs$ind1] <- newpar 
-	      if(length(diffs$ind1)==2) 
-		    slot(thetaClass, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar 
+             if(diffs$rel == "multilin"){
+               newpar <- parvec[cnt] + multiLin(thetaClass, diffs,parvec[(cnt+1):(cnt+length(diffs$start))] )
+               if(length(diffs$ind1)==1)
+                 slot(thetaClass, diffs$what1)[diffs$ind1] <- newpar 
+               if(length(diffs$ind1)==2) 
+                 slot(thetaClass, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar 
 	       cnt <- cnt + length(diffs$start) 
                
-	    }
-	}
-      }
-      thetaClass
+             }
+           }
+         }
+     thetaClass
 }
 

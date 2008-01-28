@@ -26,13 +26,25 @@ Objects can be created by calls of the form \code{new("mass", ...)} or
 that specifies the function by which components are parameterized in time; 
 this is by default "expmodgaus" for the exponentially modified Gaussian 
 function.}
-    \item{\code{lzero fule}:}{ Object of class \code{"character"}  that 
+    \item{\code{lzerofile}:}{ Object of class \code{"character"}  that 
 specifies the filename of the lzero specification to read in from file.  This
 file has the format: 1st line not read; lines thereafter 
 are the space-delimited index of the component to constrain, the 
 lower bound of the constraint, and the upper bound of the 
 constraint, e.g., \code{1 218.800000000000011 220.099999999999994}
-}}}
+}
+ \item{\code{extracomp}:}{ Object of class \code{"logical"}  that
+defaults to \code{TRUE} and determines whether a component with 
+constant concentration in time is added to the model to represent 
+a baseline.}  
+ \item{\code{shift}:}{ Object of class \code{"vector"} that represents
+a shift of the location of each elution profile peak; this can be
+specified per-component, in which case \code{length(shift)} is the 
+number of components (not including a baseline component) or for
+all components, in which case \code{length(shift == 1)}. 
+}
+}
+}
 \section{Extends}{
 Class \code{\link{kin-class}}, directly.
 }

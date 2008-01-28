@@ -13,9 +13,9 @@ function (thetaClass, diffs, parvec)
    }
    else {
 	for(i in 1:length(diffs$ind2)) {
-	      newpar <- newpar + ( parvec[cnt] * slot(thetaClass, 
-	      diffs$what2[i])[diffs$ind2[i] ] ) 
-	      cnt <- cnt + 1 
+          newpar <- newpar + ( parvec[cnt] * slot(thetaClass, 
+              diffs$what2[i])[diffs$ind2[i] ] ) 
+          cnt <- cnt + 1 
 	}
    }	      
    newpar 

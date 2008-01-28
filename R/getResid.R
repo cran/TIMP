@@ -3,7 +3,6 @@ function (data, modspec = list(), datasetind = vector(), modeldiffs = list(),
 opt = opt()) 
 {
     optN <- opt
-    optN@plot <- FALSE
     result <- fitModel(data, modspec, datasetind, modeldiffs, optN)
     resultlist <- result$toPlotter$multimodel@fit@resultlist 
     m <- result$toPlotter$multimodel@modellist 

@@ -1,8 +1,25 @@
 "readData" <-
-function (filenm, sep = "") 
-{
+function (filenm, typ = "", sep = "") 
+{   
+    inten <- matrix()
+    if(typ == "plain") {
+	   psisim <- as.matrix(read.table(filenm))
+	   x <- as.numeric(rownames(psisim))
+	   nt <- length(x) 
+	   x2 <- as.numeric(scan(filenm, nlines=1))
+	   nl <- length(x2)
+    }
+    else { 
     typ <- scan(filenm, sep = sep, skip = 2, what = "", nmax = 1)
-    inten <- matrix() 
+
+    # taking out the NetCDF support since we have to work out
+    # the dependency issue
+    #filespl <- strsplit(filenm, split=".",fixed=TRUE)[[1]]
+    #endn <- filespl[length(filespl)]
+    #if(endn =="cdf" || endn == "CDF") {
+    #  newdat <- readNetCDF_TIMP(filenm)
+    #  return(newdat)
+    #} 
     if (typ[1] == "FLIM") {
         file.str <- scan(filenm, sep = sep, skip = 3, what = "")
 	origheight <- as.integer(file.str[1])
@@ -91,6 +108,7 @@ function (filenm, sep = "")
 	nt <- as.integer(length(x))
 	psisim <- t(as.matrix(bd[2:(nl+1),2:(nt+1)]))	
     }
+   }
     dat(psi.df = psisim, x = x, nt = nt, x2 = x2, nl = nl, simdata = FALSE, 
         datCall = list(match.call()), inten = inten, datafile = filenm)
 }

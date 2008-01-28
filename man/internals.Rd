@@ -85,10 +85,14 @@
 \alias{compModelMass}
 \alias{barplot3}
 \alias{getAutoClp0}
+\alias{getResidRet}
+\alias{linlogtics}
+\alias{unitstep}
+\alias{getSelectedTracesMax}
 \title{TIMP function used internally}
 \description{TIMP function used internally}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
-\details{The functions linked to below are for direct use. }
+\details{}
 \seealso{
 \code{\link{baseIRF}},\code{\link{readData}}, 
 \code{\link{preProcess}},\code{\link{initModel}},

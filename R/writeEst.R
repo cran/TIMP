@@ -1,10 +1,11 @@
 "writeEst" <- function (multimodel, multitheta, plotoptions, plotEstout) 
 {
+  if(plotoptions@nls && !plotoptions@noplotest) {
     onls <- multimodel@fit@nlsres$onls
     if (length(plotoptions@makeps) != 0) 
             filename <- paste(plotoptions@makeps, "_paramEst.txt", sep = "")
     else
-	   filename <- ".currParamEst"	
+	   filename <- "currParamEst"	
     fileparam <- file(filename, "w")
     if(length(plotoptions@title) != 0)
 	cat(plotoptions@title, "\n\n", file = fileparam)
@@ -59,5 +60,6 @@
       write.table(xmat[-nrow(xmat),], file=filename, quote=FALSE, append =
       TRUE, col.names = FALSE, na="")
     close(fileparam)
- }
+  }
+}
 

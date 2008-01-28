@@ -20,8 +20,10 @@ function (model)
 			cat(paste("WARNING: too many component names, last", 
 			model@compnames-model@ncomp, "names not used\n"))
     }
-    if(length(model@autoclp0) > 0)
+    if(length(model@autoclp0) > 0){
       model@clp0 <- getAutoClp0(model)
+      model@autoclp0 <- list() ## don't want to store the old result
+    }  
     model@clpCon <- getClpConstr(
 			 if (model@clpType == "x")
 			 clp = model@x else clp = model@x2,

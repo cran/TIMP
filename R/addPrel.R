@@ -18,8 +18,8 @@ function (model)
 		    slot(model, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar      
 	   }
 	   else {
-	    if(diffs$rel == "multilin"){
-	      newpar <- diffs$start[1] + multiLin(model, diffs, diffs$start[2:length(diffs$start) ] )
+             if(diffs$rel == "multilin"){
+	      newpar <- diffs$start[1] + multiLin(model, diffs, diffs$start[2:length(diffs$start)])
 	      if(length(diffs$ind1)==1)
 		    slot(model, diffs$what1)[diffs$ind1] <- newpar 
 	      if(length(diffs$ind1)==2) 

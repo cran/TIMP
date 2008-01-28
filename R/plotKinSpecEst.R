@@ -1,7 +1,8 @@
 "plotKinSpecEst" <-
 function(t, plotoptions, multimodel)
 {
-  get(getOption("device"))()
+   if(dev.cur() != 1)
+     get(getOption("device"))()
   resultlist <- multimodel@fit@resultlist
 	par(mfrow=c(1,2), mar=c(5,2,2,2))
 	plotClp(multimodel, t, plotoptions, newplot=FALSE, 

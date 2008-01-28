@@ -9,7 +9,7 @@ citEntry(entry = "Article",
   url		= "http://www.jstatsoft.org/v18/i03/",
 textVersion = paste("Mullen KM, van Stokkum IHM (2007).",  
 	"TIMP: An R Package for Modeling Multi-way Spectroscopic
-Measurements.", "Journal of Statistical Software, 18(9).", "URL
-http://www.jstatsoft.org/v18/i09/.")
+Measurements.", "Journal of Statistical Software, 18(3).", "URL
+http://www.jstatsoft.org/v18/i03/.")
 
 )

@@ -1,31 +1,39 @@
 "rescomp" <-
-function (theta, d = vector(), currModel) 
+function (theta=vector(), d=vector(), currModel=currModel, currTheta=vector()) 
 {
-	currTheta <- getThetaCl(theta, currModel)
+
+        if(length(currTheta) == 0) 
+          currTheta <- getThetaCl(theta, currModel)
 	groups <- currModel@groups 
 	m <- currModel@modellist
 	resid <- clpindepX <-list() 
 	for(i in 1:length(m)) 
 	      clpindepX[[i]] <- if(!m[[i]]@clpdep || m[[i]]@getX) 
-		               getClpindepX(model = m[[i]], theta =
-				currTheta[[i]], multimodel = currModel,
-				returnX = FALSE, rawtheta= theta, dind=0)
-				 else 
-				   matrix() 
+                             getClpindepX(model = m[[i]], theta =
+                             currTheta[[i]], multimodel = currModel,
+                             returnX = FALSE, rawtheta= theta, dind=0)
+                             else matrix() 
 	for(i in 1:length(groups)) {
-	      resid[[i]] <-  residPart(model = m[[1]], 
-	      group = groups[[i]], multimodel = currModel, 
-	      thetalist = currTheta, clpindepX = clpindepX, 
-	      finished = currModel@finished, returnX = FALSE,
-	      rawtheta = theta) 
-	      if(currModel@finished){
-		currModel <- fillResult(group = groups[[i]],
-                multimodel = currModel, thetalist = currTheta,
-                clpindepX = clpindepX, rlist = resid[[i]], rawtheta =
-                theta)
+          resid[[i]] <- residPart(model = m[[1]], 
+                                  group = groups[[i]], multimodel = currModel, 
+                                  thetalist = currTheta, clpindepX = clpindepX,
+                                  finished = currModel@finished,
+                                  returnX = FALSE, rawtheta = theta) 
+          if(currModel@finished){
+            currModel <- fillResult(group = groups[[i]],
+                                    multimodel = currModel,
+                                    thetalist = currTheta,
+                                    clpindepX = clpindepX, rlist = resid[[i]],
+                                    rawtheta = theta)
               
-              }
-            }
+          }
+        }
+        # if using a trilinear type model, we have cp=AE; so separate A out. 
+        if(currModel@finished && currModel@trilinear){ 
+          trires <- triResolve(currModel, currTheta)
+          currModel <- trires$currModel
+          currTheta <- trires$currTheta
+        }
         if(currModel@finished) return(list(currModel=currModel,
                                            currTheta=currTheta))
 	unlist(resid)

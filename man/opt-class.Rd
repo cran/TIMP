@@ -11,8 +11,32 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
 }
 \section{Slots}{
 	 \describe{
+      \item{\code{nls}:}{Object of class \code{"logical"}  that defaults to
+    \code{TRUE}; if \code{nls=TRUE} the Gauss-Newton algorithm implemented in the
+    function \code{nls} is used for parameter optimization; if
+    \code{nls=FALSE} the Levenberg-Marquardt algorithm ported from MINPACK
+    by the \code{nls.lm} function of the package "minpack.lm" is
+    used.  }
+     \item{\code{nnls}:}{Object of class \code{"numeric"}  that defaults to
+    \code{0}.  It has the following meaning:
+ \describe{
+ \item{\code{0}:}{Do not constrain the conditionally linear parameters
+ to nonnegativity} 
+ \item{\code{1}:}{Constrain the conditionally linear parameters
+ to nonnegativity via an nonnegative least squares algorithm as
+ implemented via the function \code{optim} with \code{method="L-BFGS-B"}} 
+ \item{\code{2}:}{Constrain the conditionally linear parameters
+ to nonnegativity via an nonnegative least squares algorithm as
+ implemented via the function \code{nnls} from the package by the same
+ name.} 
+ \item{\code{3}:}{Constrain the conditionally linear parameters
+ to nonnegativity via an nonnegative least squares algorithm as
+ implemented via a quadratic program using the function
+ \code{solve.qp}  from the package "quadprog".} 
+}
+    }
     \item{\code{writecon}:}{Object of class \code{"logical"}  that defaults to
-    FALSE; if true then 
+    \code{FALSE}; if true then 
     concentrations are written to a txt file; row labels are \code{x}}
     \item{\code{writespec}:}{Object of class \code{"logical"} that defaults to
     \code{FALSE}; if \code{TRUE} then 
@@ -120,10 +144,13 @@ clp are normalized in plots}
  \item{writespecinterpol}{Object of class \code{"logical"} that defaults to 
     \code{FALSE}; if \code{TRUE}, a spline-based representation of clp
     is written to ASCII files}
+\item{nlsalgorithm}{Object of class \code{"character"} that defaults to 
+    \code{"default"} and determines the algorithm used by \code{nls}, if
+    \code{nls} is used in optimization.  See \code{help(nls)} for other
+    possibilities, such as \code{"port"}, which is more stable with
+    respect to starting values but requires more time.  }
+    }
 }
-  
-}
-
 \details{See \code{\link{kinopt-class}}, \code{\link{specopt-class}} and
    \code{\link{massopt-class}} for 
 the specification of fitting/plotting options that are specific to the 

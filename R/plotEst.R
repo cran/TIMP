@@ -1,6 +1,7 @@
 "plotEst" <- function (mod, plotoptions, tr=FALSE, addplot=TRUE)  
 {
-	options(scipen=-4) 
+  if(plotoptions@nls && !plotoptions@noplotest) {
+        options(scipen=-4) 
 	m <- mod@modellist
 	sumonls <- mod@fit@nlsres$sumonls
 	parorder <- mod@parorder
@@ -174,6 +175,6 @@
       title(main=paste("RMSE:", signif(sumonls$sigma, digits=3)))
       options(scipen=0)
     }
-      list(x=xret, y=yret, z=zret)
-    
+      return(list(x=xret, y=yret, z=zret))
+      }
 }

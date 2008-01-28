@@ -25,9 +25,11 @@
 	modeldiffs$change <- reCh$diffsadd
     }
     if (length(modeldiffs$rel) != 0) 
-        modellist <- diffRel(modellist, modeldiffs$rel)
+      modellist <- diffRel(modellist, modeldiffs$rel)
     if (length(modeldiffs$dscal) == 0) 
         modeldiffs$dscal <- list()
+    if(length(modeldiffs$weightList) > 0)
+      modellist <- addOutlierWeights(modellist,modeldiffs$weightList) 
     modellist <- lapply(modellist, applyWeightingModel)
     modellist <- lapply(modellist, initModellist)
     modellist <- getPrelBetweenDatasets(modellist, modeldiffs$rel) 
@@ -50,6 +52,7 @@
     else getXsuper <- FALSE
     multimodel(modellist = modellist, data = data, datasetind = datasetind, 
     modelspec = modelspec, stderrclp = opt@stderrclp, modeldiffs = modeldiffs,
-    nonnegclp = opt@nonnegclp, nnls = opt@nnls, 
-    groups = grlist, getXsuper = getXsuper, fit = fit(resultlist=resultlist))
+    nnlscrit = opt@nnlscrit, nnls = opt@nnls, optlist = list(opt),
+    groups = grlist, getXsuper = getXsuper, trilinear = opt@trilinear,
+    fit = fit(resultlist=resultlist))
 }

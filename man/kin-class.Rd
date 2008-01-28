@@ -12,7 +12,7 @@ argument of \code{initModel}.
 All objects of class \code{kin} are sub-classes of 
 class \code{dat}; see documentation for \code{dat} 
 for a description of 
-these slots.  }
+these slots.  }  
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("kin", ...)} or 
  \code{kin(...)}.
@@ -69,31 +69,61 @@ compartmental model}
     \item{\code{kmatfit}:}{Object of class \code{"array"}  of fitted values for a compartmental model}
     \item{\code{cohspec}:}{ Object of class \code{"list"}   describing the model for 
 coherent artifact/scatter component(s) containing the element  \code{type}
-and optionally the element \code{numdatasets}
-if \code{type} is \code{"irf"}, the coherent artifact/scatter has the 
-time profile of 
-the IRF.  if \code{type} is \code{"freeirfdisp"} the  coherent 
+and optionally the element \code{numdatasets}.  The element
+\code{type} can be set as follows: 
+	 \describe{
+      \item{\code{"irf"}:}{if \code{type="irf"}, the coherent artifact/scatter has the 
+time profile of  the IRF.} 
+  \item{\code{"freeirfdisp"}:}{if \code{type="freeirfdisp"}, the  coherent 
 artifact/scatter has  a
 Gaussian time profile whose location and width are parameterized in the 
-vector \code{coh}.  if \code{type} is \code{"irfmulti"} the time profile of 
+vector \code{coh}.  }
+ \item{\code{"irfmulti"}:}{if \code{type="irfmulti"} the time profile of 
 the IRF is used for
 the coherent artifact/scatter model, but the IRF parameters are taken per 
 dataset (for the multidataset case), and the integer argument 
 \code{numdatasets} must be equal to the 
-number of datasets modeled.  if \code{type} is \code{"seq"} 
-a sequential exponential decay 
-model is applied, whose parameters are contained in \code{coh}.
-if \code{type} is \code{"mix"} a sequential exponential decay 
+number of datasets modeled.}  
+ \item{\code{"seq"}:}{if \code{type="seq"} a sequential exponential decay 
+model is applied, whose starting value are contained in an additional
+list element \code{start}. This
+often models oscillating behavior well, where the number of
+oscillations is the number of parameter starting values given in
+\code{start}.  The starting values after optimization will be found in
+the slot \code{coh} of the object of class \code{theta} corresponding
+to each dataset modeled. }
+\item{\code{"mix"}:}{if \code{type="mix"} if \code{type="mix"} a sequential exponential decay 
 model is applied along with a model that follows the time profile of the IRF;
 the coherent artifact/scatter is then a linear superposition of these two 
-models.  }
+models; see the above description of \code{seq} for how to supply the
+starting values. }}}
     \item{\code{coh}:}{ Object of class \code{"vector"}  of starting values for the parameterization of a  
 coherent artifact}
     \item{\code{wavedep}:}{Object of class \code{"logical"}  describing whether the kinetic model is dependent on
 \code{x2} index (i.e., whether there is clp-dependence)}
     \item{\code{lambdac}:}{ Object of class \code{"numeric"}  for the center wavelength to be used in a polynomial 
 description of \code{x2}-dependence }
+ \item{\code{amplitudes}:}{ Object of class \code{"vector"}  
+that may be used to multiply the concentrations by a square diagonal 
+matrix with the number of columns that the concentration matrix has;
+the diagonal is given in \code{amplitudes} and these values will be
+treated as parameters to be optimized.
 }
+\item{\code{streak}:}{ Object of class \code{"logical"}  
+that defaults to \code{FALSE}; if \code{streak=TRUE} then 
+the period of the laser is expected via \code{streakT}.}
+\item{\code{streakT}:}{ Object of class \code{"numeric"}  
+the period of the laser; this will be used to add a 
+backsweep term to the concentration matrix and should be 
+set in conjunction \code{streak=TRUE}.} 
+\item{\code{doublegaus}:}{ Object of class \code{"logical"}  
+that defaults to \code{FALSE} and determines whether a double
+Gaussian should be used to model the IRF. If   \code{doublegaus=TRUE}
+then \code{irfpar} should contain four numeric values corresponding to
+the location (mean) of the IRF, the FWHM of the first Gaussian, the 
+FWHM of the second Gaussian, and the relative amplitude of the 
+second Gaussian, respectively. 
+}}
 \section{Extends}{
 Class \code{\link{dat-class}}, directly.
 }

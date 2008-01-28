@@ -6,31 +6,50 @@ opt = opt())
 
     tr <- getTheta(currModel)
     theta <- tr$theta
-    currModel <- tr$mod 
-    
+    currModel <- tr$mod
+
     currTheta <- getThetaCl(theta, currModel)
 
     iter <- opt@iter
-    d <- vector()
-    dummy <- as.data.frame(d)
+    assign(".currTheta", currTheta, envir = .GlobalEnv)
+    assign(".currModel", currModel, envir = .GlobalEnv)
     
-    currModel@fit@nlsres$onls <- nls(~rescomp(t=t, d=d,
-                                      currModel=currModel),
-                                      data=dummy, control =
-                                      nls.control(maxiter = iter,
-                                      warnOnly = TRUE, printEval =
-                                      TRUE), start = list(t = theta),
-                                      trace = TRUE)
-
-    currModel@fit@nlsres$sumonls <- summary(currModel@fit@nlsres$onls)
-
+    
+    if(opt@nls) {
+      d <- vector()
+      dummy <- as.data.frame(d)
+      currModel@fit@nlsres$onls <- nls(~rescomp(t=t, d=d,
+                                              currModel=currModel),
+                                              data=dummy, control =
+                                              nls.control(maxiter =
+                                              iter, minFactor =
+                                              opt@minFactor, warnOnly
+                                              = TRUE, printEval =
+                                              TRUE), start = list(t =
+                                              theta),
+                                              algorithm = opt@nlsalgorithm,
+                                              trace = TRUE)
+      currModel@fit@nlsres$sumonls <- summary(currModel@fit@nlsres$onls)
+    }
+    else {
+      currModel@fit@nlsres$onls <- nls.lm(par=theta,
+                                          fn = rescomp, 
+                                          currModel=currModel,
+                                          control=list(nprint=1))
+    } 
     currModel@finished <- TRUE
-
-    resFinal <- rescomp(t=currModel@fit@nlsres$onls$m$getPars(),
-                          currModel=currModel)
-
+    if(opt@nls)
+      resFinal <- rescomp(t=currModel@fit@nlsres$onls$m$getPars(),
+                        currModel=currModel)
+    else 
+       resFinal <- rescomp(t=currModel@fit@nlsres$onls$par,
+                        currModel=currModel)
+    
     currModel <- resFinal$currModel
     currTheta <- resFinal$currTheta
+
+    assign(".currTheta", currTheta, envir = .GlobalEnv)
+    assign(".currModel", currModel, envir = .GlobalEnv)
     
     if (opt@plot) 
         plotter(currModel@modellist[[1]], currModel, currTheta, opt)

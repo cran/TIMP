@@ -1,7 +1,7 @@
 "irfparF" <-
 function (irfpar, lambdac, lambda, i, mudisp = FALSE, parmu=vector(), 
 	 taudisp = FALSE, partau = vector(), dispmufun = "",
-	 disptaufun = "", irffun) 
+	 disptaufun = "", doublegaus = FALSE) 
 {
 	irfvec<-vector()
 	if(mudisp){ 
@@ -33,6 +33,8 @@ function (irfpar, lambdac, lambda, i, mudisp = FALSE, parmu=vector(),
 	     irfvec[2] <- if(dispmufun != "discrete") irfpar[2]
 			  else irfpar[1]
 	}
+	## assuming no dispersion for 2nd gaussian
+	if(doublegaus) irfvec <- append(irfvec, irfpar[3:4])
 	irfvec
 }
 

@@ -57,7 +57,7 @@ function(th, thetaClasslist, mod) {
 	      pcnt <- pcnt+1
 	      if(length(diff$ind1)==1 && length(diff$ind2)==1){
 		for(i in 1:length(ds1)){
-		    slot(thetaClasslist[[ds1[i]]], 
+                    slot(thetaClasslist[[ds1[i]]], 
 	            diff$what1)[diff$ind1] <- slot(thetaClasslist[[ds2[i]]],
 	diff$what2)[diff$ind2] * thscal[1] + thscal[2]
 

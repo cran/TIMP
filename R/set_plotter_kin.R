@@ -1,340 +1,330 @@
-    setMethod("plotter", signature(model = "kin"),function(model, 
-        multimodel, multitheta, plotoptions) {
-	if(length(plotoptions@paropt) == 0)
-	          plotoptions@paropt <- par(mgp = c(1.5, 1, 0), 
-			      mai = c(0.5, 0.6, .5, 0.5),mar=c(3,3,4,1))
-	plotoptions@addest <- c("kinpar")
-	resultlist <- multimodel@fit@resultlist
-	if(length(plotoptions@superimpose) > 0) {
-	    if (!plotoptions@notraces) 
-	       plotTracesSuper(multimodel, multitheta, plotoptions)
-        }
-        else {
-            if (!plotoptions@notraces) 
-	       plotTraces(multimodel, multitheta, plotoptions)
-        }
-	if(plotoptions@residplot) {
-		if(!plotoptions@FLIM) 
-		   plotResids(multimodel, multitheta, plotoptions) 
-	}
-	if(plotoptions@writefit || plotoptions@writefitivo)
-		writeFit(multimodel, multitheta, plotoptions)
-        if (length(plotoptions@breakdown)>0) 
-            plotKinBreakDown(multimodel, multitheta, 
-                plotoptions)  
-        if (plotoptions@FLIM) {
-            plotFLIM(multimodel, multitheta, plotoptions)
-            return()
-        }
-	get(getOption("device"))()
-	par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), 
-	mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
-        m <- multimodel@modellist
-        t <- multitheta
-        groups <- multimodel@groups
-	allx2 <- allx <- vector() 
+setMethod("plotter", signature(model = "kin"),function(model, 
+                                 multimodel, multitheta, plotoptions) {
+  
+  
+  if (!plotoptions@notraces) 
+    plotTracesSuper(multimodel, multitheta, plotoptions)
+  
+  if(plotoptions@residplot) {
+    if(!plotoptions@FLIM) 
+      plotResids(multimodel, multitheta, plotoptions) 
+  }
+  if(plotoptions@writefit || plotoptions@writefitivo)
+    writeFit(multimodel, multitheta, plotoptions)
+  if (length(plotoptions@breakdown)>0) 
+    plotKinBreakDown(multimodel, multitheta, 
+                     plotoptions)  
+  if (plotoptions@FLIM) {
+    plotFLIM(multimodel, multitheta, plotoptions)
+    return()
+  }
+  if(dev.cur() != 1)
+    get(getOption("device"))()
+  par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), 
+      mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
+
+  resultlist <- multimodel@fit@resultlist
+  m <- multimodel@modellist
+  t <- multitheta
+  groups <- multimodel@groups
+  allx2 <- allx <- vector() 
+  for(i in 1:length(m)) {
+    allx2 <- append(allx2, m[[i]]@x2) 
+    allx <- append(allx, m[[i]]@x)
+  }
+  xmax <- max(allx)
+  xmin <- min(allx)
+  x2max <- max(allx2)
+  x2min <- min(allx2)
+  conmax <- tauList <- muList <- contoplotList <- list()
+  
+  if(m[[i]]@anispec$useparperp) 
+    calcAniSignal(m, plotoptions)
+  
+  f1<-function(x){x[[1]]}   
+  f2<-function(x){x[[2]]}
+  ## will plot the first concentration from each dataset
+  grtoplot <- vector("list", length(m)) 
 	for(i in 1:length(m)) {
-	  allx2 <- append(allx2, m[[i]]@x2) 
-	  allx <- append(allx, m[[i]]@x)
-	}
-	xmax <- max(allx)
-        xmin <- min(allx)
-	x2max <- max(allx2)
-        x2min <- min(allx2)
-        conmax <- list()
-	tauList <- list() 
-	muList <- list()       
-	contoplotList <- list() 
-	if(m[[i]]@anispec$useparperp) {
-		calcAniSignal(m, plotoptions)
-	}
-	f1<-function(x){x[[1]]}   
-	f2<-function(x){x[[2]]}
-	
-        ## will plot the first concentration from each dataset
-        grtoplot <- vector("list", length(m)) 
-        cnt <- 1
-        ds <- vector()
-        while(length(ds) < length(m)){
-          for(i in 1:length(groups[[cnt]])){
-            gds <- groups[[cnt]][[i]][2]
-            if(!gds%in%ds){
-              ds <- append(ds, gds)
-              grtoplot[[ gds ]] <- list(groups[[cnt]], i)
+          cnt <- 1
+          notfound <- TRUE 
+          while(notfound) {
+            for(j in 1:length(groups[[cnt]])) {
+              if(groups[[cnt]][[j]][2] == i) {
+                grtoplot[[i]]<-list(groups[[cnt]],j)
+                notfound<-FALSE
+              }
+				
             }
-            ds <- append(ds, gds)
+            cnt<-cnt+1
+          }	
+	}
+        
+  for(i in 1:length(m)) {
+    group <- grtoplot[[i]][[1]]
+    place <-  grtoplot[[i]][[2]]
+    dset <- group[[place]][2]
+    irfmu <- unlist(lapply(resultlist[[i]]@irfvec, f1))
+    irftau <- unlist(lapply(resultlist[[i]]@irfvec, f2))
+    muList[[i]] <- irfmu 
+    tauList[[i]] <- irftau
+    if(plotoptions@writerawcon || 
+       length(plotoptions@writeplaincon)>0){ 
+      C <- getKinConcen(group, multimodel, t, doConstr = FALSE,
+                        oneDS = place)
+      if(plotoptions@writerawcon)
+        write.table(C, file=paste(plotoptions@makeps,
+                         "_rawconcen_dataset_", dset, ".txt", sep=""),
+                    quote = FALSE,
+                    row.names = m[[dset]]@x)
+      if(length(plotoptions@writeplaincon)>0){
+        xplot <- plotoptions@writeplaincon$x 
+        CWRITE <- C 
+        write.table(CWRITE, file=paste(plotoptions@makeps,
+                              "_plaincon_dataset_", dset, ".txt", sep=""),
+                    quote = FALSE,
+                    row.names = m[[dset]]@x)
+      }
+    }
+    
+    contoplotList[[length(contoplotList)+1]] <- getConToPlot( getKinConcen(
+                                                                                   group, multimodel, t, oneDS = place), m[[i]]@cohspec, m[[i]]@cohcol)
+    
+    conmax[[i]] <- attributes(contoplotList[[length(contoplotList)]])$max
+  }
+  minc <- do.call("min", contoplotList)
+  maxc <- do.call("max", contoplotList)
+  for(i in 1:length(m)) {
+    
+    matlinlogplot(m[[i]]@x, contoplotList[[i]], muList[[i]][1], 
+                  plotoptions@linrange, 
+                  type = "l", add = !(i == 1), lty = i, ylab = "concentration", 
+                  xlab = plotoptions@xlab, main = "Concentrations", 
+                  xlim = c(xmin, xmax), ylim = c(minc, maxc) )
+    
+    if(plotoptions@writecon) 
+      write.table(contoplotList[[i]], file=paste(plotoptions@makeps,
+                                        "_concen_dataset_", i, ".txt", sep=""), quote = FALSE,
+		 row.names = m[[i]]@x)
+  }
+  
+  if(length(model@kin2scal)!=0) {
+    perA<-vector()
+		for(i in 1:length(m)) 
+                  perA <- append(perA, t[[i]]@kin2scal[2])
+    matplot(1:length(m), perA, type = "l", 
+            main = "% Concentration Photoconverted", 
+            xlab = "Dataset number", ylab = "percent")
+	}
+  spectralist <- getSpecList(multimodel, t)
+  specList <- list() 
+  for (i in 1:length(m)) {
+    if (length(conmax) > 0) 
+                spec <- getSpecToPlot(spectralist[[i]], conmax[[i]], 
+                                      m[[i]]@cohcol,  plotoptions@plotcohcolspec)
+    else spec <- spectralist[[i]]
+	    
+    specList[[length(specList)+1]] <- spec
+  }
+  maxs <- do.call("max", specList)
+  mins <- do.call("min", specList)
+  
+  for (i in 1:length(m)) {
+    matplot(m[[i]]@x2, specList[[i]], type = "l", main = "Spectra", 
+            xlab = plotoptions@ylab, ylab = "amplitude", lty = i, 
+            add = !(i == 1), xlim=c(x2min,x2max), ylim=c(mins, maxs))
+    if(plotoptions@writespec)
+      write.table(specList[[i]], file=paste(plotoptions@makeps,
+                                   "_spec_dataset_", i, ".txt", sep=""),
+                  row.names = m[[i]]@x2, quote=FALSE) 
+  }
+  
+  abline(0,0)
+  for (i in 1:length(m)) {
+    matplot(m[[i]]@x2, normdat(specList[[i]]), type = "l", 
+	    main = "Normalized spectra",  xlim=c(x2min,x2max),
+            xlab = plotoptions@ylab, ylab = "amplitude", lty = i, 
+            add = !(i == 1))
+    abline(0,0)
+    if(plotoptions@writenormspec)
+      write.table( normdat(specList[[i]]),	
+                  file=paste(plotoptions@makeps,
+                    "_normspec_dataset_", i, ".txt", sep=""),
+                  row.names = m[[i]]@x2, quote=FALSE)  
+  }
+  abline(0,0)
+  notplotted <- TRUE
+  minmu <- do.call("min", muList)
+  maxmu <- do.call("max", muList)
+  for (i in 1:length(m)) {
+    if(m[[i]]@dispmu) {
+      matplot(m[[i]]@x2, muList[[i]], type = "l", 
+              main = "IRF location",  xlim=c(x2min,x2max),
+              add = !notplotted, ylim = c(minmu, maxmu), col=i,
+              xlab = plotoptions@ylab, ylab = "IRF location")
+      notplotted <- FALSE  
+    }
+  }
+  notplotted <- TRUE
+  mintau <- do.call("min", tauList)
+  maxtau <- do.call("max", tauList)
+  for (i in 1:length(m)) {
+          if(m[[i]]@disptau) {
+            
+            matplot(m[[i]]@x2, tauList[[i]], type = "l", 
+                    main = "IRF width",   add = !notplotted, col=i,
+                    xlim=c(x2min,x2max),ylim = c(mintau, maxtau),
+                    xlab = plotoptions@ylab, ylab = "IRF width")
+            notplotted <- FALSE
           }
         }
-
-        for(i in 1:length(m)) {
-          group <- grtoplot[[i]][[1]]
-          place <-  grtoplot[[i]][[2]]
-          dset <- group[[place]][2]
-          irfmu <- unlist(lapply(resultlist[[i]]@irfvec, f1))
-          irftau <- unlist(lapply(resultlist[[i]]@irfvec, f2))
-          muList[[i]] <- irfmu 
-          tauList[[i]] <- irftau
-          if(plotoptions@writerawcon || 
-             length(plotoptions@writeplaincon)>0){ 
-             C <- getKinConcen(group, multimodel, t, doConstr = FALSE,
-                               oneDS = place)
-             if(plotoptions@writerawcon)
-               write.table(C, file=paste(plotoptions@makeps,
-                                "_rawconcen_dataset_", dset, ".txt", sep=""), quote = FALSE,
-                           row.names = m[[dset]]@x)
-	        if(length(plotoptions@writeplaincon)>0){
-		xplot <- plotoptions@writeplaincon$x 
-	         CWRITE <- C 
-	          write.table(CWRITE, file=paste(plotoptions@makeps,
-		  "_plaincon_dataset_", dset, ".txt", sep=""), quote = FALSE,
-		  row.names = linloglines(xplot, irfvec[1], 0  ))
-	        }
-            }
-	
-            contoplotList[[length(contoplotList)+1]] <- getConToPlot( getKinConcen(
-	    group, multimodel, t, oneDS = place), m[[i]]@cohspec, m[[i]]@cohcol)
-	   
-           conmax[[i]] <- attributes(contoplotList[[length(contoplotList)]])$max
-	}
-	minc <- min(unlist(lapply(contoplotList,min)))
-	maxc <- max(unlist(lapply(contoplotList,max)))
-        for(i in 1:length(m)) {
-
-          matlinlogplot(m[[i]]@x, contoplotList[[i]], muList[[i]][1], 
-                plotoptions@linrange, 
-           	type = "l", add = !(i == 1), lty = i, ylab = "concentration", 
-           	xlab = plotoptions@xlab, main = "Concentrations", 
-	   	xlim = c(xmin, xmax), ylim = c(minc, maxc) )
-           	
-		if(plotoptions@writecon) 
-		 write.table(contoplotList[[i]], file=paste(plotoptions@makeps,
-		 "_concen_dataset_", i, ".txt", sep=""), quote = FALSE,
-		 row.names = m[[i]]@x)
+  
+  svddatalist <- list()
+  residlist <- svdresidlist <- list()
+  for (i in 1:length(m)) {
+    residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
+    for (j in 1:length(resultlist[[i]]@resid)) {
+      residuals[, j] <- resultlist[[i]]@resid[[j]]
+    }
+    svdresidlist[[length(svdresidlist) + 1]] <- doSVD(residuals, 2, 2)
+    residlist[[length(residlist) + 1]] <- residuals
+    svddatalist[[length(svddatalist) + 1]] <- doSVD(multimodel@data[[i]]@psi.df, 2, 2)
         }
-
-	if(length(model@kin2scal)!=0) {
-		perA<-vector()
-		for(i in 1:length(m)) 
-		      perA <- append(perA, t[[i]]@kin2scal[2])
-		matplot(1:length(m), perA, type = "l", 
-		main = "% Concentration Photoconverted", 
-		xlab = "Dataset number", ylab = "percent")
-	}
-        spectralist <- getSpecList(multimodel, t)
-	specList <- list() 
-        for (i in 1:length(m)) {
-            if (length(conmax) > 0) 
-                spec <- getSpecToPlot(spectralist[[i]], conmax[[i]], 
-		m[[i]]@cohcol,  plotoptions@plotcohcolspec)
-            else spec <- spectralist[[i]]
-	    
-	    specList[[length(specList)+1]] <- spec
-	  }
-		maxA <- lapply(specList, max)
-	maxs <- max(unlist(maxA))
-
-	minA <- lapply(specList, min)
-	mins <- min(unlist(minA))
-
-	  for (i in 1:length(m)) {
-	    matplot(m[[i]]@x2, specList[[i]], type = "l", main = "Spectra", 
-                xlab = plotoptions@ylab, ylab = "amplitude", lty = i, 
-		add = !(i == 1), xlim=c(x2min,x2max), ylim=c(mins, maxs))
-	     if(plotoptions@writespec)
-	        write.table(specList[[i]], file=paste(plotoptions@makeps,
-		 "_spec_dataset_", i, ".txt", sep=""),
-		 row.names = m[[i]]@x2, quote=FALSE) 
-	}
-	
-	abline(0,0)
-        for (i in 1:length(m)) {
-            matplot(m[[i]]@x2, normdat(specList[[i]]), type = "l", 
-	    main = "Normalized spectra",  xlim=c(x2min,x2max),
-                xlab = plotoptions@ylab, ylab = "amplitude", lty = i, 
-		add = !(i == 1))
-	    abline(0,0)
-	    if(plotoptions@writenormspec)
-	         write.table( normdat(specList[[i]]),	
-		 file=paste(plotoptions@makeps,
-		 "_normspec_dataset_", i, ".txt", sep=""),
-		 row.names = m[[i]]@x2, quote=FALSE)  
-	}
-	abline(0,0)
-	
-	notplotted <- TRUE
-	for (i in 1:length(m)) {
-	    if(m[[i]]@dispmu) {
-	      	minmu <- min(unlist(lapply(muList, min)))
-		maxmu <- max(unlist(lapply(muList, max)))
-	      matplot(m[[i]]@x2, muList[[i]], type = "l", 
-	      main = "IRF location",  xlim=c(x2min,x2max),
-	      add = !notplotted, ylim = c(minmu, maxmu), col=i,
-	      xlab = plotoptions@ylab, ylab = "IRF location")
-	      notplotted <- FALSE  
-	  }
-       }
-	
- 	notplotted <- TRUE
-	for (i in 1:length(m)) {
-	    if(m[[i]]@disptau) {
-	       mintau <- min(unlist(lapply(tauList, min)))
-	       maxtau<- max(unlist(lapply(tauList, max)))
- 	      matplot(m[[i]]@x2, tauList[[i]], type = "l", 
-	      main = "IRF width",   add = !notplotted, col=i,
-	       xlim=c(x2min,x2max),ylim = c(mintau, maxtau),
-	      xlab = plotoptions@ylab, ylab = "IRF width")
-	      notplotted <- FALSE
-	    }
-	}
-	  
-      	svddatalist <- list()
-        residlist <- svdresidlist <- list()
-        for (i in 1:length(m)) {
-            residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
-            for (j in 1:length(resultlist[[i]]@resid)) {
-                residuals[, j] <- resultlist[[i]]@resid[[j]]
-            }
-            svdresidlist[[length(svdresidlist) + 1]] <- doSVD(residuals, 2, 2)
-            residlist[[length(residlist) + 1]] <- residuals
-	    svddatalist[[length(svddatalist) + 1]] <- doSVD(multimodel@data[[i]]@psi.df, 2, 2)
-        }
-	maxleftr <- minleftr <- maxrightr <- minrightr <- maxvalr <- minvalr <- 0
-	maxleftd <- minleftd <- maxrightd <- minrightd <-  maxvald <- minvald <- 0
-	for(i in 1:length(m)) {
-	      maxleftr <- max(svdresidlist[[i]]$left[,1], maxleftr)
-	      maxrightr <- max(svdresidlist[[i]]$right[1,], maxrightr)
-	      minleftr <- min(svdresidlist[[i]]$left[,1], minleftr)
-	      minrightr <- min(svdresidlist[[i]]$right[1,], minrightr)
-	      maxvalr <- max(svdresidlist[[i]]$values, maxvalr)
-	      minvalr <- min(svdresidlist[[i]]$values, minvalr)
-
-	      maxleftd <- max(svddatalist[[i]]$left[,1], maxleftd)
-	      maxrightd <- max(svddatalist[[i]]$right[1,], maxrightd)
-	      minleftd <- min(svddatalist[[i]]$left[,1], minleftd)
-	      minrightd <- min(svddatalist[[i]]$right[1,], minrightd)
-	      maxvald <- max(svddatalist[[i]]$values, maxvald)
-	      minvald <- min(svddatalist[[i]]$values, minvald)
-	 
-	}
-	##START RESID PLOTTING
-	for (i in 1:length(m)) {          
-	    limd<- max(  max(residlist[[i]]), abs(min(residlist[[i]]))) 
-	    image.plot(m[[i]]@x, m[[i]]@x2, 
-	    residlist[[i]], xlab = plotoptions@xlab, 
-	    ylab = plotoptions@ylab, 
-            main = paste("Residuals Dataset", i),  
-		zlim=c(-limd,limd),
-		col = diverge_hcl(40, h = c(0, 120), c = 60, 
-		l = c(45, 90), power = 1.2))
-        }
-	for (i in 1:length(m)) {     
-	   if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
-	       xpos <- m[[i]]@x 
-	       xpos[which(xpos <= 0)] <- NA  
-	       matplot(xpos, svdresidlist[[i]]$left[,1], 
-	       type = "l", ylim = c(minleftr, maxleftr), 
-               main = "Left sing. vectors residuals ",  add = !(i == 1),
-               log = "x", xlab = plotoptions@xlab, col=i, 
-	       ylab = plotoptions@ylab)
+  maxleftr <- minleftr <- maxrightr <- minrightr <- maxvalr <- minvalr <- 0
+  maxleftd <- minleftd <- maxrightd <- minrightd <-  maxvald <- minvald <- 0
+  for(i in 1:length(m)) {
+    maxleftr <- max(svdresidlist[[i]]$left[,1], maxleftr)
+    maxrightr <- max(svdresidlist[[i]]$right[1,], maxrightr)
+    minleftr <- min(svdresidlist[[i]]$left[,1], minleftr)
+    minrightr <- min(svdresidlist[[i]]$right[1,], minrightr)
+    maxvalr <- max(svdresidlist[[i]]$values, maxvalr)
+    minvalr <- min(svdresidlist[[i]]$values, minvalr)
+    
+    maxleftd <- max(svddatalist[[i]]$left[,1], maxleftd)
+    maxrightd <- max(svddatalist[[i]]$right[1,], maxrightd)
+    minleftd <- min(svddatalist[[i]]$left[,1], minleftd)
+    minrightd <- min(svddatalist[[i]]$right[1,], minrightd)
+    maxvald <- max(svddatalist[[i]]$values, maxvald)
+    minvald <- min(svddatalist[[i]]$values, minvald)
+    
+  }
+  ##START RESID PLOTTING
+  for (i in 1:length(m)) {          
+    limd<- max(  max(residlist[[i]]), abs(min(residlist[[i]]))) 
+    if (! (any(diff(m[[i]]@x) <= 0) || any(diff(m[[i]]@x2) <= 0)))
+      image.plot(m[[i]]@x, m[[i]]@x2, 
+                 residlist[[i]], xlab = plotoptions@xlab, 
+                 ylab = plotoptions@ylab, 
+                 main = paste("Residuals Dataset", i),  
+                 zlim=c(-limd,limd),
+                 col = diverge_hcl(40, h = c(0, 120), c = 60, 
+                   l = c(45, 90), power = 1.2))
+  }
+  for (i in 1:length(m)) {     
+    if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
+      xpos <- m[[i]]@x 
+      xpos[which(xpos <= 0)] <- NA  
+      matplot(xpos, svdresidlist[[i]]$left[,1], 
+              type = "l", ylim = c(minleftr, maxleftr), 
+              main = "Left sing. vectors residuals ",  add = !(i == 1),
+              log = "x", xlab = plotoptions@xlab, col=i, 
+              ylab = plotoptions@ylab)
+      
+    }
+  }
+       for (i in 1:length(m)) {     
+         if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
            
-        }
-       }
-       for (i in 1:length(m)) {     
-	   if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
-	    
             matplot(m[[i]]@x2, svdresidlist[[i]]$right[1,], 
-	    type = "l", xlim=c(x2min,x2max),
-	    ylim = c(minrightr, maxrightr), 
-            main = "Right sing. vectors residuals ", 
-	    xlab = plotoptions@xlab, add = !(i == 1),
-            col=i, ylab = plotoptions@ylab)
-           }
+                    type = "l", xlim=c(x2min,x2max),
+                    ylim = c(minrightr, maxrightr), 
+                    main = "Right sing. vectors residuals ", 
+                    xlab = plotoptions@xlab, add = !(i == 1),
+                    col=i, ylab = plotoptions@ylab)
+          }
        }
-       for (i in 1:length(m)) {     
-	    if(i == 1)
-	      plot(1:length(svdresidlist[[i]]$values), 
-	      log10(svdresidlist[[1]]$values), xlab="",
+  for (i in 1:length(m)) {     
+    if(i == 1)
+      plot(1:length(svdresidlist[[i]]$values), 
+           log10(svdresidlist[[1]]$values), xlab="",
               ylab = plotoptions@ylab, col=i, 
-              main = "Sing. values residuals", type = "b")
-           else
-	      lines(1:length(svdresidlist[[i]]$values), 
-	      log10(svdresidlist[[i]]$values), type = "b", col=i)
-       }
-       ##START DATA PLOTTING
-       	for (i in 1:length(m)) {     
-	   if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
-	    xpos <- m[[i]]@x 
-	    xpos[which(xpos <= 0)] <- NA  
-	    matplot(xpos, svddatalist[[i]]$left[,1], type = "l", 
-            main = "Left sing. vectors data",  add = !(i == 1),
-            log = "x", xlab = plotoptions@xlab, col=i, 
-	    ylim = c(minleftd, maxleftd),
-	    ylab = plotoptions@ylab)
-           }
-       }    
-       for (i in 1:length(m)) {     
-	   if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
+           main = "Sing. values residuals", type = "b")
+    else
+      lines(1:length(svdresidlist[[i]]$values), 
+            log10(svdresidlist[[i]]$values), type = "b", col=i)
+  }
+  ##START DATA PLOTTING
+  for (i in 1:length(m)) {     
+    if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
+      xpos <- m[[i]]@x 
+      xpos[which(xpos <= 0)] <- NA  
+      matplot(xpos, svddatalist[[i]]$left[,1], type = "l", 
+              main = "Left sing. vectors data",  add = !(i == 1),
+              log = "x", xlab = plotoptions@xlab, col=i, 
+              ylim = c(minleftd, maxleftd),
+              ylab = plotoptions@ylab)
+    }
+  }    
+  for (i in 1:length(m)) {     
+    if (m[[i]]@nt > 1 && m[[i]]@nl > 1) {
 	    matplot(m[[i]]@x2, svddatalist[[i]]$right[1,], type = "l", 
-            main = "Right sing. vectors data", xlim=c(x2min,x2max),
-	    ylim = c(minrightd, maxrightd),
-	    xlab = plotoptions@xlab, add = !(i == 1),
-            col=i, ylab = plotoptions@ylab)
-           }
+                    main = "Right sing. vectors data", xlim=c(x2min,x2max),
+                    ylim = c(minrightd, maxrightd),
+                    xlab = plotoptions@xlab, add = !(i == 1),
+                    col=i, ylab = plotoptions@ylab)
+          }
+  }
+        for (i in 1:length(m)) {     
+          if(i == 1)
+            plot(1:length(svddatalist[[i]]$values), 
+                 log10(svddatalist[[1]]$values), xlab="",
+                 ylab = plotoptions@ylab, col=i,
+                 main = "Sing. values data", type = "b")
+          else
+            lines(1:length(svddatalist[[i]]$values), 
+                  log10(svddatalist[[i]]$values), type = "b", col=i)
        }
-       for (i in 1:length(m)) {     
-	    if(i == 1)
-	      plot(1:length(svddatalist[[i]]$values), 
-	      log10(svddatalist[[1]]$values), xlab="",
-              ylab = plotoptions@ylab, col=i,
-              main = "Sing. values data", type = "b")
-           else
-	      lines(1:length(svddatalist[[i]]$values), 
-	      log10(svddatalist[[i]]$values), type = "b", col=i)
-       }
-       ## OTHER PLOTS
-        for (i in 1:length(m)) {
-            pl <- FALSE
-            if (length(m[[i]]@dscalspec$perclp) != 0) 
+  ## OTHER PLOTS
+  for (i in 1:length(m)) {
+    pl <- FALSE
+    if (length(m[[i]]@dscalspec$perclp) != 0) 
                 if (m[[i]]@dscalspec$perclp) {
                   if (!pl) {
                     plot(m[[i]]@x2, t[[i]]@drel, 
-		    main = "Dataset scaling per clp", 
-                    xlab = plotoptions@ylab, ylab = "", type = "l")
+                         main = "Dataset scaling per clp", 
+                         xlab = plotoptions@ylab, ylab = "", type = "l")
                     pl <- TRUE
                   }
                   else lines(m[[i]]@x2, t[[i]]@drel, type = "l", 
-                    col = i)
+                             col = i)
                 }
-        }
-	if(length(plotoptions@title) != 0){
-			tit <- plotoptions@title
-			if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
-    }
+  }
+  if(length(plotoptions@title) != 0){
+    tit <- plotoptions@title
+    if(plotoptions@addfilename) tit <- paste(tit,m[[i]]@datafile)
+  }
     else {
-                        tit <- ""
-		        if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
+      tit <- ""
+      if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
     }
-    mtext(tit, side = 3, outer = TRUE, line = 1)
-    par(las = 2, mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
-    plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
-	writeEst(multimodel, multitheta, plotoptions, plotEstout)
-        displayEst(plotoptions)
-
+  mtext(tit, side = 3, outer = TRUE, line = 1)
+  par(las = 2, mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
+  plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
+  writeEst(multimodel, multitheta, plotoptions, plotEstout)
         if (dev.interactive() && length(plotoptions@makeps) != 0) {
-	   if(plotoptions@output == "pdf")
-				      pdev <- pdf 
-	   else  pdev <- postscript
-	    dev.print(device = pdev, file = paste(plotoptions@makeps, 
-                "_summary.",  plotoptions@output, sep = ""))
+          if(plotoptions@output == "pdf")
+            pdev <- pdf 
+          else  pdev <- postscript
+          dev.print(device = pdev, file = paste(plotoptions@makeps, 
+                                     "_summary.",  plotoptions@output,
+                                     sep = ""))
         }
-        if (plotoptions@plotkinspec) {
-            plotClp(multimodel, t, plotoptions)
-        }
-	if (plotoptions@kinspecest) {
-            plotKinSpecEst(t, plotoptions, multimodel)
-        }
-	
-	
-
-    }
-)
+  if (plotoptions@plotkinspec) {
+    plotClp(multimodel, t, plotoptions)
+  }
+  if (plotoptions@kinspecest) {
+    plotKinSpecEst(t, plotoptions, multimodel)
+  }
+  
+}
+          )

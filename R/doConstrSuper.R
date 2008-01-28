@@ -6,8 +6,7 @@ function (X, Xlist, multimodel, thetalist, group)
     colnames(X) <- m@compnames 
     if(multimodel@getXsuper) 
 	X <- getXsuper(Xlist, multimodel@modellist, thetalist, group)
-    
-    t <- thetalist[[ dset  ]]
+    t <- thetalist[[dset]]
     if(m@clpdep) {
 	X <- doClpConstr(X,  clp_ind = group[[1]][1], 
                   	 clpCon = m@clpCon, clpequ = t@clpequ, 

@@ -2,7 +2,7 @@
         multimodel, theta, returnX, rawtheta, dind) {
 	if(returnX) 
 		 theta <-  getThetaCl(rawtheta, multimodel)[[dind]]
-        x <- compModel(k = theta@kinpar, kinscal = model@kinscal, 
+        x <- compModel(k = theta@kinpar, kinscal = theta@kinscal, 
             x = model@x, irfpar = theta@irfpar, irf = model@irf, 
 	    seqmod = model@seqmod, 
             convalg = model@convalg, fullk = model@fullk, kmat = model@kmat, 
@@ -12,7 +12,12 @@
 	    usekin2 = model@usekin2, kinpar2 = theta@kinpar2, 
 	    kin2scal = theta@kin2scal, reftau = model@reftau, 
 	    anispec = model@anispec, anipar = theta@anipar, 
-	    cohcol = model@cohcol)
+	    cohcol = model@cohcol, amplitudes = theta@amplitudes, 
+            streak = model@streak, streakT = model@streakT, 
+	    doublegaus = model@doublegaus,fixedkmat=model@fixedkmat,
+            irffun=model@irffun, kinscalspecial = theta@kinscalspecial,
+            kinscalspecialspec = model@kinscalspecialspec,
+                       lightregimespec = model@lightregimespec)
 	if(returnX) 
 		    x <- as.vector(x) 
 	

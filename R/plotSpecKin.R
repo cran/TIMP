@@ -9,6 +9,8 @@ ylim=vector(), kinspecerr=FALSE)
 	   kinspecerr <- plotoptions@kinspecerr
 	}
 	superimpose <- plotoptions@superimpose 
+        if(length(superimpose) < 1 || any(superimpose > length(m)))
+           superimpose <- 1:length(m)
 	if(is.na(max_x) || is.na(max_x))
 			 withlim <- FALSE 
 	else		 withlim <- TRUE

@@ -12,9 +12,11 @@ function (model) {
                  oldRes$currModel@modellist[[ind]]@clpType)
   getConstr <- function(r) list(high = clpval[ r[1] ], low = clpval[ r[1] ],
                                 comp = r[2])
+  oldclp0 <- oldRes$currModel@modellist[[ind]]@clp0
   clp0 <- vector("list", nrow(negclp))
   for(i in 1:nrow(negclp)) {
     clp0[[i]] <- getConstr(negclp[i,])
   }
-  clp0
+  clpall <- append(oldclp0, clp0)
+  clpall
 }

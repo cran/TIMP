@@ -9,10 +9,12 @@ function (...)
             model <- spec(...)
 	if (dots$mod_type == "mass") 
             model <- mass(...)
+        if (dots$mod_type == "amp") 
+            model <- amp(...)
     }
-    if(model@mod_type == "kin" || model@mod_type == "mass")
-	model@clpType <- "x2"
-    else model@clpType <- "x"
+    if(model@mod_type == "spec")
+	model@clpType <- "x"
+    else model@clpType <- "x2"
     model@datCall <- append(model@datCall, match.call())   
     model <- initOneModel(model) 
     model

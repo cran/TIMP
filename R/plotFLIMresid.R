@@ -1,29 +1,30 @@
 "plotFLIMresid" <- function (multimodel, multitheta, plotoptions, dind) 
 {
-  get(getOption("device"))()
+  if(dev.cur() != 1)
+    get(getOption("device"))()
   model <- multimodel@modellist[[1]]
-    if (!identical(model@title, "")) 
-        tit <- c(0, 0, 1, 0)
-    else tit <- c(0, 0, 0, 0)
-    plotrow <- 2
-    plotcol <- 2
-    par(plotoptions@paropt)
-    par(mfrow = c(plotcol, plotrow))
-   
-    nt <- model@nt
-    nl <- model@nl
-    x <- model@x
-    x2 <- model@x2
-    increasing_x2 <- model@x2[2] > model@x2[1]
+  if (!identical(model@title, "")) 
+    tit <- c(0, 0, 1, 0)
+  else tit <- c(0, 0, 0, 0)
+  plotrow <- 2
+  plotcol <- 2
+  par(plotoptions@paropt)
+  par(mfrow = c(plotcol, plotrow))
+  
+  nt <- model@nt
+  nl <- model@nl
+  x <- model@x
+  x2 <- model@x2
+  increasing_x2 <- model@x2[2] > model@x2[1]
     
-    m <- multimodel@modellist
-    t <- multitheta
-    resultlist <- multimodel@fit@resultlist
-    require(fields)
-    require(gclus)
-    tracemat <- matrix(0, nrow(model@inten), ncol(model@inten))
-    residlist <- svdresidlist <- list()
-    for (i in 1:length(m)) {
+  m <- multimodel@modellist
+  t <- multitheta
+  resultlist <- multimodel@fit@resultlist
+  require(fields)
+  require(gclus)
+  tracemat <- matrix(0, nrow(model@inten), ncol(model@inten))
+  residlist <- svdresidlist <- list()
+  for (i in 1:length(m)) {
         residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
         for (j in 1:length(resultlist[[i]]@resid)) {
             residuals[, j] <- resultlist[[i]]@resid[[j]]
