@@ -1,23 +1,30 @@
 "getSelectedTracesMax" <- function (multimodel, t, plotoptions) 
 {
-  specList <- getSpecList(multimodel, t)
-  sp <- specList[[1]]
+  sp <-getSpecList(multimodel, t)[[1]]
   ## this assumes the spectra are same for all datasets 
   
-  selectedtraces <- c()
   sorted <- apply(sp, 2, sort, index.return = TRUE, decreasing = TRUE)
-  cnt1 <- 1
+  ## now each element of sorted is a sorted component
+  
   cnt <- plotoptions@nummaxtraces 
-  col <- ncol(sp)
-  while(cnt > 0) {
-    for(i in 1:col) {
-      if(cnt > 0  && (! (sorted[[i]]$ix[cnt1] %in% selectedtraces))){
-        selectedtraces <- append(selectedtraces, sorted[[i]]$ix[cnt1])   	
-        cnt <- cnt - 1	
+  cc <- ncol(sp)
+  
+  ll <- 0
+  selectedtraces <- vector()
+  while(length(selectedtraces) < cnt && ll < nrow(sp)) {
+    for(i in 1:cc) {
+      ss <- sorted[[i]]$ix
+      if(ll==0)
+        selectedtraces <- ss[1]
+      else {
+        addto <- which(! ss %in% selectedtraces)
+        if(length(addto) > 0) 
+          selectedtraces <- append(selectedtraces, ss[addto[1]])
       }
-      cnt1 <- cnt1 + 1
+      
+      ll <- ll + 1 
     }
   }
-  cat("The following traces will be plotted:\n", toString(selectedtraces), "\n")
-  selectedtraces 
+  cat("The following traces will be plotted:\n", toString(selectedtraces),"\n")
+  selectedtraces
 }

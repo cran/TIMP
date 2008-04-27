@@ -57,7 +57,7 @@ most are most often made by invoking another function such as
   Note that if vector elements 1-4 are \code{NA} (not a number), the firstmost 
   point of the data is taken for elements 1 and 3, and the lastmost points
   are taken for 2 and 4. 
-  For example, \code{ weight_par = list(c(40, 1500, 400, 600, .9), 
+  For example, \code{ weightpar = list(c(40, 1500, 400, 600, .9), 
   c(NA, NA, 700, 800, .1))}  will weight data between times 40 and 1500 
   picoseconds and 700 and 800 wavelengths by .9, and will weight data at 
   all times between wavelength 700 and 800 by .1.  

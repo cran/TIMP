@@ -8,25 +8,20 @@ setMethod("plotter", signature(model = "mass"), function(model,
   if(plotoptions@nummaxtraces > 0 ) 
     plotoptions@selectedtraces <- getSelectedTracesMax(multimodel, 
                                                        multitheta, plotoptions)
-  if(length(plotoptions@superimpose) > 0) {
-    if (!plotoptions@notraces) 
-      plotTracesSuper(multimodel, multitheta, plotoptions)
-  }
-  else {
-    if (!plotoptions@notraces) 
-      plotTraces(multimodel, multitheta, plotoptions)
-  }
+  if (!plotoptions@notraces) 
+    plotTracesSuper(multimodel, multitheta, plotoptions)
   if(plotoptions@residplot) {
     if(!plotoptions@FLIM) 
       plotResids(multimodel, multitheta, plotoptions) 
   }
+  if(plotoptions@residtraces)
+    plotTracesResids(multimodel, multitheta, plotoptions)
   if(plotoptions@writefit || plotoptions@writefitivo)
     writeFit(multimodel, multitheta, plotoptions)
   if (length(plotoptions@breakdown)>0) 
-    plotKinBreakDown(multimodel, multitheta, 
-                     plotoptions)           
+    plotKinBreakDown(multimodel, multitheta, plotoptions)           
   if(dev.cur() != 1)
-    get(getOption("device"))()
+    dev.new()
   par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), 
       mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
   m <- multimodel@modellist
@@ -52,20 +47,14 @@ setMethod("plotter", signature(model = "mass"), function(model,
                   row.names = m[[i]]@x)
     CTil <- C
     
-                                        # leaving out the constraints to plot like tim
-                                        #doClpConstr(C, 1, m[[i]]@clpCon, t[[i]]@clpequ, 
-                                        #num_clpequ = length(m[[i]]@clpequspec))
-    
     conList[[length(conList)+1]] <- CTil
     minc <- min(minc, min(conList[[length(conList)]]))
     maxc <- max(maxc, max(conList[[length(conList)]]))
   }
-  
   if(plotoptions@scale.concen) {
     specList <- getSpecList(multimodel, t)	
     conList <- scaleConList(conList, specList) 
   }
-  
   for(i in 1:length(m)) {
     matlinlogplot(m[[i]]@x, conList[[i]], 0, 
                   plotoptions@linrange, 
@@ -74,7 +63,7 @@ setMethod("plotter", signature(model = "mass"), function(model,
                   xlim = c(xmin, xmax), ylim = c(minc, maxc) )
     if(plotoptions@writecon) 
       write.table(conList[[i]], file=paste(plotoptions@makeps,
-                                  "_concen_dataset_", i, ".txt", sep=""), quote = FALSE,
+             "_concen_dataset_", i, ".txt", sep=""), quote = FALSE,
                   row.names = m[[i]]@x)
   }
   svddatalist <- list()
@@ -182,16 +171,14 @@ setMethod("plotter", signature(model = "mass"), function(model,
            lines(1:length(svddatalist[[i]]$values), 
 	      log10(svddatalist[[i]]$values), type = "b", col=i)
        }
-  plotMassSpec(multimodel, t, plotoptions)
-  
   if (dev.interactive() && length(plotoptions@makeps) != 0) {
     if(plotoptions@output == "pdf")
       pdev <- pdf 
     else  pdev <- postscript
-	    dev.print(device = pdev, file = paste(plotoptions@makeps, 
+    dev.print(device = pdev, file = paste(plotoptions@makeps, 
                                        "_summary.",  
-                                       plotoptions@output,
-                                       sep = ""))
+                               plotoptions@output,
+                               sep = ""))
   }       	
-  
+  plotMassSpec(multimodel, t, plotoptions)
 })

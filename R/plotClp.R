@@ -8,7 +8,7 @@ ylim=vector(), kinspecerr=FALSE)
     par(oma = c(3,3,3,0), mfrow= c(1,1))
     kinspecerr <- plotoptions@kinspecerr
     if(dev.cur() != 1)
-      get(getOption("device"))()
+      dev.new()
   }
   superimpose <- plotoptions@superimpose 
   if(length(superimpose) < 1 || any(superimpose > length(m)))

@@ -282,7 +282,6 @@ void calcB(double *bvec, double *k, int *lenk){
     for(i = 1; i < j; i++) {
       bvec[matind(i,j,(*lenk))] = (bvec[ matind(i,(j-1), (*lenk))] 
 				   * k[j-2]) /(k[j-1] - k[i-1]);
-	     
     }
     sumcol = 0;
     for(i = 1; i <= (*lenk); i++)

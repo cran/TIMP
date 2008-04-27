@@ -26,12 +26,22 @@ export(dat, kin, spec, mass, amp, theta, multimodel, res, multitheta,
        diffFree, diffRel, diffRemove, displayEst, initModellist, doClpConstr,
        simndecay_gen, doSVD, simpExp, simpPol, skew, specModel, irfparF,
        specparF, fillK, l2nu, linloglines, fullKF, linlogplot, gaus,
-       getClpConstr, weightNL, matlinlogplot, weightPsi, getCoh, writeEst,
-       getCohToPlot, normdat, writeFit, getConToPlot, plotEst,
-       plotKinSpecEst, fillResult, getResid, getResidRet, processOrder,
-       multiLin,readclp0, compModelMass, barplot3, getXsuper, doConstrSuper,
-       getKinConcen, getAutoClp0, outlierCorr, linlogtics, unitstep,
-       modifyModel, parEst, onls, sumnls, getCLPList, getDataList,
-       getTracesList, getdim1List, getdim2List, getResidualList, getXList,
-       getSelectedTracesMax)
+       getClpConstr, weightNL, matlinlogplot, weightPsi, getCoh,
+       writeEst, getCohToPlot, normdat, writeFit, getConToPlot,
+       plotEst, plotKinSpecEst, fillResult, getResid, getResidRet,
+       processOrder, multiLin, readclp0, compModelMass, barplot3,
+       getXsuper, doConstrSuper, getKinConcen, getAutoClp0,
+       outlierCorr, linlogtics, unitstep, modifyModel, parEst, onls,
+       sumnls, getCLPList, getData, getSVDResiduals, getSVDData,
+       getTraces, getdim1List, getdim2List, getResiduals, getXList,
+       getSelectedTracesMax, writeAverage, efit2file, divergeZimage)
 
+S3method("summary", "timp.nls.lm")
+S3method("summary", "timp.nls")
+S3method("summary", "timp.optim")
+S3method("print", "summary.timp.nls.lm")
+S3method("print", "summary.timp.nls")
+S3method("print", "summary.timp.optim")
+S3method("print", "timp.nls.lm")
+S3method("print", "timp.nls")
+S3method("print", "timp.optim")

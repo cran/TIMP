@@ -60,10 +60,11 @@ sTcp <- getCLPList(sT)[[1]]
 ##############################
 ## FIT INITIAL MODEL 
 ## adding constraints to non-negativity of the
-## spectra via the opt option nnls=2
+## spectra via the opt option nnls=TRUE
 ##############################
 
-sV <- fitModel(list(dt4), list(mod1), opt=kinopt(iter=50, nnls=2, plot=FALSE))
+sV <- fitModel(list(dt4), list(mod1), opt=kinopt(iter=50, nnls=TRUE,
+                                        plot=FALSE))
 
 ##############################
 ## EXTRACT ESTIMATED SPECTRA 
@@ -120,10 +121,11 @@ sTcp <- getCLPList(sT)[[1]]
 ##############################
 ## FIT INITIAL MODEL 
 ## adding constraints to non-negativity of the
-## spectra via the opt option nnls=2
+## spectra via the opt option nnls=TRUE
 ##############################
 
-sV <- fitModel(list(dt4_2), list(mod1), opt=kinopt(iter=50, nnls=2,plot=FALSE))
+sV <- fitModel(list(dt4_2), list(mod1), opt=kinopt(iter=50, nnls=TRUE,
+                                          plot=FALSE))
 
 ##############################
 ## EXTRACT ESTIMATED SPECTRA 

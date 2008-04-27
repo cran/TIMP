@@ -1,6 +1,6 @@
 "plotTri" <- function(xx) {
   if(dev.cur() != 1)
-    get(getOption("device"))()
+    dev.new()
   par(mfrow=c(3, 1))	
   svddatalist <-doSVD(xx, 2, 2)
   

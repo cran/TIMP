@@ -2,25 +2,32 @@
 ## return various results
 getCLPList <- function(result, getclperr = FALSE) 
   getSpecList(result$currModel, result$currTheta, getclperr)
-getDataList <- function(result, numsing = 2) {
-  resultlist <- result$currModel@fit@resultlist
-  m <- result$currModel@modellist
-  multimodel <- result$currModel
-  svddatalist <- datalist <- vector("list", length(m)) 
-  for (i in 1:length(m)) {
-    svddatalist[[i]] <- doSVD(multimodel@data[[i]]@psi.df, numsing, numsing)
-    datalist[[i]] <- multimodel@data[[i]]@psi.df
-  }
-  list(svddatalist = svddatalist, datalist = datalist)
+getData <- function(result, dataset = 1, weighted = FALSE) {
+  if(weighted)   
+    datamat <- result$currModel@data[[dataset]]@psi.weight
+  else
+    datamat <- result$currModel@data[[dataset]]@psi.df
+  datamat
 }
-getTracesList <- function(result) {
-  m <- result$currModel@modellist   
-  t <- result$currTheta 
-  res <- result$currModel@fit@resultlist
-  fittedList <- vector("list", length(m))
-  for(i in 1:length(m)) 
-    fittedList[[i]] <-  res[[i]]@fitted
-  fittedList
+getSVDData <- function(result, numsing = 2, dataset) {
+  datamat <- getData(result, dataset) 
+  doSVD(datamat, numsing, numsing)
+}
+getResiduals <- function(result, dataset = 1) {
+  residlist <- result$currModel@fit@resultlist[[dataset]]@resid
+  residmat <- unlist(residlist)
+  dim(residmat) <- c(length(residlist[[1]]), length(residlist) )
+  residmat
+}
+getSVDResiduals <- function(result, numsing = 2, dataset = 1) {
+  residmat <- getResiduals(result, dataset) 
+  doSVD(residmat, numsing, numsing)
+}
+getTraces <- function(result, dataset=1) {
+  fitted <- result$currModel@fit@resultlist[[dataset]]@fitted 
+  tracesmat <- unlist(fitted)
+  dim(tracesmat) <- c(length(fitted[[1]]), length(fitted) )
+  tracesmat
 }
 getdim1List <- function(result) {
   m <- result$currModel@modellist
@@ -35,20 +42,6 @@ getdim2List <- function(result) {
   for(i in 1:length(m))
     waveList[[i]] <- m[[i]]@x2
   waveList
-}
-getResidualList <- function(result, numsing = 2) {
-  resultlist <- result$currModel@fit@resultlist
-  m <- result$currModel@modellist
-  residlist <- svdresidlist <-  vector("list", length(m)) 
-  for (i in 1:length(m)) {
-    residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)
-    for (j in 1:length(resultlist[[i]]@resid)) {
-      residuals[, j] <- resultlist[[i]]@resid[[j]]
-    }
-    svdresidlist[[i]] <- doSVD(residuals, numsing, numsing)
-    residlist[[i]] <- residuals
-  }
-  list(svdresidlist = svdresidlist, residlist = residlist)
 }
 parEst <- function(result, param = "", dataset = NA, verbose = TRUE) {
   currTheta <- result$currTheta

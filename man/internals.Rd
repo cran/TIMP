@@ -92,7 +92,6 @@
 \title{TIMP function used internally}
 \description{TIMP function used internally}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
-\details{}
 \seealso{
 \code{\link{baseIRF}},\code{\link{readData}}, 
 \code{\link{preProcess}},\code{\link{initModel}},

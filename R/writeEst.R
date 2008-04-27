@@ -1,6 +1,6 @@
 "writeEst" <- function (multimodel, multitheta, plotoptions, plotEstout) 
 {
-  if(plotoptions@nls && !plotoptions@noplotest) {
+  if(!plotoptions@algorithm=="optim" && !plotoptions@noplotest) {
     onls <- multimodel@fit@nlsres$onls
     if (length(plotoptions@makeps) != 0) 
             filename <- paste(plotoptions@makeps, "_paramEst.txt", sep = "")
@@ -11,7 +11,7 @@
 	cat(plotoptions@title, "\n\n", file = fileparam)
     cat("Sum square error:", onls$m$deviance(), "\n\n", 
         file = fileparam)
-    s <- summary(onls)
+    s <- summary(onls, multimodel)
     cat("Residual standard error:", s$sigma, "on", s$df[2], "degrees
     of freedom\n\n\n", file = fileparam)
 

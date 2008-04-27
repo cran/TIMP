@@ -9,7 +9,7 @@ preProcess(data, sample = 1, sample_time = 1, sample_lambda = 1,
     sel_time = vector(), sel_lambda = vector(), baselinetime = vector(), 
     baselinelambda = vector(), scalx = NULL, scalx2 = NULL, 
     sel_lambda_ab = vector(), sel_time_ab = vector(), rm_x2=vector(), 
-    rm_x = vector(), svdResid = list(), numV = 0)
+    rm_x = vector(), svdResid = list(), numV = 0, sel_special = list())
 }
 \arguments{
   \item{data}{Object of class \code{dat}}
@@ -57,9 +57,18 @@ preProcess(data, sample = 1, sample_time = 1, sample_lambda = 1,
   \item{svdResid}{list returned from the \code{getResid} function, containing
   residuals to be used in data correction. } 
  \item{numV}{numeric specifying how many singular vectors to use in data
- correction.  Maximum is five. }
-  
-}
+   correction.  Maximum is five. }
+ \item{sel_special}{list of lists specifying \code{x} indices to remove
+   from individual wavelength ranges, e.g.,
+   \code{sel_special = list(c(400,600,10,12),c(600,800,11,13))}
+ indicates that between wavelength 400 and 600, time indices between 10
+ and 12 should be removed from the data, and between wavelengths 600 and
+800, time indices between 11 and 13 should be removed from the data.
+Note that the number of time indices to remove should be the same in
+each wavelength interval specified.  Also note that the time vector
+associated with the data after the first set of indices is removed will
+be associated with the resulting dataset. }
+}  
 \value{
 object of class \code{dat}. 
 }

@@ -57,9 +57,15 @@ getXList <- function(result) {
     }
   }
   if(modtype=="mass") {
-   for (i in 1:length(m)) {
+    for (i in 1:length(m)) {
      XList[[i]] <- compModelMass(theta = t[[i]], model = m[[i]])
    }
- }
+  }
+  for(i in 1:length(XList)) {
+    xdim <- dim(XList[[i]])
+    attributes(XList[[i]])<-NULL
+    dim(XList[[i]])<- xdim
+  }
+  
   XList
 }

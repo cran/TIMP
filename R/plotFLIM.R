@@ -1,7 +1,7 @@
 "plotFLIM" <- function (multimodel, multitheta, plotoptions) 
 {
     ## this function results in plots associated with modeling FLIM data
-
+   
   m <- multimodel@modellist
   t <- multitheta
   if(plotoptions@residplot)
@@ -11,7 +11,7 @@
     k <- t[[i]]@kinpar
     model <- m[[i]]
     if(dev.cur() != 1)
-      get(getOption("device"))()
+      dev.new()
     par(plotoptions@paropt)
     par(mgp = c(2, 1, 0), mar=c(3,3,3,2), oma = c(1,0,4,0), cex.main=.95,
 	mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))

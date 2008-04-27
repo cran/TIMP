@@ -1,6 +1,6 @@
 "plotEst" <- function (mod, plotoptions, tr=FALSE, addplot=TRUE)  
 {
-  if(plotoptions@nls && !plotoptions@noplotest) {
+  if(!plotoptions@algorithm=="optim" && !plotoptions@noplotest) {
         options(scipen=-4) 
 	m <- mod@modellist
 	sumonls <- mod@fit@nlsres$sumonls
@@ -167,14 +167,14 @@
 	     if(z[[i]]$name == "kinpar") 
 		       xmat[i+length(x)+length(y)+1, 4]<-paste("tau:",signif(1/z[[i]]$pest,digits=2))
         }
-      if(addplot) {
-      if(!tr) 
-	      textplot(xmat, mar=c(1,0,1,0),cmar=.7,halign="left")
-      else 
-	      textplot(t(xmat), mar=c(1,0,1,0),cmar=.7,halign="left")
-      title(main=paste("RMSE:", signif(sumonls$sigma, digits=3)))
-      options(scipen=0)
-    }
-      return(list(x=xret, y=yret, z=zret))
+        if(addplot) {
+          if(!tr) 
+            textplot(xmat, mar=c(1,0,1,0),cmar=.7,halign="left")
+          else 
+            textplot(t(xmat), mar=c(1,0,1,0),cmar=.7,halign="left")
+          title(main=paste("RMSE:", signif(sumonls$sigma, digits=3)))
+          options(scipen=0)
+        }
+        return(list(x=xret, y=yret, z=zret))
       }
 }

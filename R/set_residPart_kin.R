@@ -10,6 +10,7 @@ setMethod("residPart", signature(model = "kin"), function(model,
   rlist <- attr(concen, "rlist")
   psi <- attr(concen, "psi")
   retval <- getResidRet(concen, psi, rlist, returnX, finished, 
-                              multimodel@nnls,multimodel@nnlscrit, group) 
+                        multimodel@nnls, multimodel@algorithm,
+                        multimodel@nnlscrit, group) 
   retval 
 })

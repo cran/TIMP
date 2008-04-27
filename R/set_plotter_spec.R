@@ -1,9 +1,14 @@
 setMethod("plotter", signature(model="spec"),
-          function (model,multimodel, multitheta, plotoptions) 
-          {  
+          function (model,multimodel, multitheta, plotoptions) {  
             if(length(plotoptions@residplot) == 1) {
               plotResids(multimodel, multitheta, plotoptions) 
             }
+            if(plotoptions@residtraces)
+              plotTracesResids(multimodel, multitheta, plotoptions)
+            if (!plotoptions@notraces) 
+              plotSpectraSuper(multimodel, multitheta, plotoptions)
+            if(plotoptions@writefit || plotoptions@writefitivo)
+              writeFit(multimodel, multitheta, plotoptions)
             plotoptions@addest <- c("specpar")
             plotoptions@paropt <-  par(mgp = c(2, 1, 0), mar=c(4,4,.5,.5))
             
@@ -11,12 +16,11 @@ setMethod("plotter", signature(model="spec"),
               tit <- c(0,0,1,0)
             else 
               tit <- c(0,0,0,0)
-            plotrow<-4
-            plotcol<-4
-            if(dev.cur() != 1) 
-              get(getOption("device"))()
+
+            if(dev.cur() != 1)
+              dev.new()
             par(plotoptions@paropt)
-            par(mfrow = c(plotrow, plotcol))
+            par(mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
             nt <- model@nt
             nl <- model@nl
             x <- model@x
@@ -184,7 +188,7 @@ setMethod("plotter", signature(model="spec"),
                   "_summary.ps", plotoptions@output, sep=""))
             }
             par(mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
-            plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE)
+            plotEstout <- plotEst(multimodel, plotoptions,tr=TRUE,addplot=FALSE)
             writeEst(multimodel, multitheta, plotoptions, plotEstout)
                         
             if(plotoptions@plotkinspec) {

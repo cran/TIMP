@@ -11,37 +11,32 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
 }
 \section{Slots}{
 	 \describe{
-      \item{\code{nls}:}{Object of class \code{"logical"}  that defaults to
-    \code{TRUE}; if \code{nls=TRUE} the Gauss-Newton algorithm implemented in the
-    function \code{nls} is used for parameter optimization; if
-    \code{nls=FALSE} the Levenberg-Marquardt algorithm ported from MINPACK
-    by the \code{nls.lm} function of the package "minpack.lm" is
-    used.  }
-     \item{\code{nnls}:}{Object of class \code{"numeric"}  that defaults to
-    \code{0}.  It has the following meaning:
- \describe{
- \item{\code{0}:}{Do not constrain the conditionally linear parameters
- to nonnegativity} 
- \item{\code{1}:}{Constrain the conditionally linear parameters
- to nonnegativity via an nonnegative least squares algorithm as
- implemented via the function \code{optim} with \code{method="L-BFGS-B"}} 
- \item{\code{2}:}{Constrain the conditionally linear parameters
- to nonnegativity via an nonnegative least squares algorithm as
- implemented via the function \code{nnls} from the package by the same
- name.} 
- \item{\code{3}:}{Constrain the conditionally linear parameters
- to nonnegativity via an nonnegative least squares algorithm as
- implemented via a quadratic program using the function
- \code{solve.qp}  from the package "quadprog".} 
-}
-    }
-    \item{\code{writecon}:}{Object of class \code{"logical"}  that defaults to
+      \item{\code{algorithm}:}{Object of class \code{"character"}  that defaults to
+    \code{algorithm="nls"}, so that the function \code{nls} is used to
+    optimize nonlinear parameters under least squares criteria.
+    Other options are
+    \describe{
+      \item{\code{nls.lm}:}{optimize nonlinear parameters under least
+	squares criteria using \code{nls.lm} }
+      \item{\code{optim}:}{optimize nonlinear parameters under poisson
+	regression criteria with the Nelder-Mead algorithm in
+	\code{optim}; if this option is used then it MUST be used in
+	conjunction with \code{nnls=TRUE}. Currently, it must also be
+      used with \code{stderrclp=FALSE}. } 
+  }}
+  \item{\code{nnls}:}{Object of class \code{"logical"}  that defaults to
+    \code{FALSE}.  If \code{nnls=TRUE},
+    constrain the conditionally linear parameters
+    to nonnegativity via a nonnegative least squares algorithm as
+    implemented via the function \code{nnls} from the package by the same
+    name.}
+  \item{\code{writecon}:}{Object of class \code{"logical"}  that defaults to
     \code{FALSE}; if true then 
     concentrations are written to a txt file; row labels are \code{x}}
-    \item{\code{writespec}:}{Object of class \code{"logical"} that defaults to
+  \item{\code{writespec}:}{Object of class \code{"logical"} that defaults to
     \code{FALSE}; if \code{TRUE} then 
     spectra are written to a txt file; row labels are \code{x2}}
-    \item{\code{writenormspec}:}{Object of class \code{"logical"} that 
+  \item{\code{writenormspec}:}{Object of class \code{"logical"} that 
     defaults to \code{FALSE}; if \code{TRUE} then normalized spectra are 
     written to a txt file; row labels are \code{x2}}
     \item{\code{writefit}:}{Object of class 
@@ -95,7 +90,12 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
     number of rows in summary plot; defaults to \code{4}}
       \item{\code{summaryplotcol}:}{Object of class \code{"numeric"} giving  
     number of columns in summary plot; defaults to \code{4}}
-        \item{\code{iter}:}{Object of class \code{"numeric"} giving  number of iterations to optimize model parameters}
+        \item{\code{iter}:}{Object of class \code{"numeric"} giving
+	  number of iterations to optimize model parameters; if
+	  \code{nls=FALSE} so that the Levenberg-Marquardt algorithm is
+	  applied, then \code{iter} is interpretted as the
+	  maximum number of residual function evaluations (see the help
+	  page of the function \code{nls.lm} for details)}
     \item{\code{paropt}:}{Object of class \code{"list"} 
     of graphical parameters in format \code{par(...)} 
     to apply to plots. }
@@ -149,7 +149,26 @@ clp are normalized in plots}
     \code{nls} is used in optimization.  See \code{help(nls)} for other
     possibilities, such as \code{"port"}, which is more stable with
     respect to starting values but requires more time.  }
-    }
+  \item{ltyfit}{Object of class \code{"numeric"} if given, sets the line
+    type of the fit in plots of the fit/data; see \code{lty} in 
+    \code{help(par)} for options. }
+    \item{ltydata}{Object of class \code{"numeric"} if given, sets the line
+    type of the data in plots of the fit/data; see \code{lty} in 
+    \code{help(par)} for options. }
+   \item{colfit}{Object of class \code{"vector"} if given, sets the color
+     of the fit corresponding to each dataset
+     in plots of the fit/data; see \code{col} in 
+     \code{help(par)} for options.  If given
+     \code{length(colfit)} must be equal to
+    the number of datasets in the analysis}
+   \item{coldata}{Object of class \code{"vector"} if given, sets the color
+     of the data for each dataset
+     in plots of the fit/data; see \code{col} in 
+     \code{help(par)} for options. If given,
+     \code{length(coldata)} must be equal to
+    the number of datasets in the analysis}
+
+}
 }
 \details{See \code{\link{kinopt-class}}, \code{\link{specopt-class}} and
    \code{\link{massopt-class}} for 

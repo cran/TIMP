@@ -2,7 +2,7 @@
 customtitle="", preps="", ylimlist=list(), kinspecerr=TRUE ) {
 
   if(dev.cur() != 1)
-    get(getOption("device"))()
+    dev.new()
   par(mfrow=c(length(listFits),2))
   par(mai = c(0.5, 0.6, .5, 0.5))
   par(mgp = c(2, 1, 0), mar=c(1,3,1,1))

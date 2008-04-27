@@ -83,7 +83,6 @@
                             thetalist, group)
   if(oneDS > 0) {
     xst <- 1
-          
     if(oneDS > 1) {
       for(j in 1:(oneDS-1)) 
         xst <- xst + multimodel@modellist[[ group[[j]][2] ]]@nt

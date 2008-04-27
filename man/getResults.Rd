@@ -4,11 +4,14 @@
 \alias{sumnls}
 \alias{parEst}
 \alias{getCLPList}
-\alias{getDataList}
-\alias{getTracesList}
+\alias{getData}
+\alias{getSVDData}
+\alias{getSVDResiduals}
+\alias{getTraces}
 \alias{getdim1List}
 \alias{getdim2List}
-\alias{getResidualList}
+\alias{getResiduals}
+\alias{getSVDResiduals}
 \alias{getXList}
 \title{Functions to print and return parts of the object returned
 by the fitting routines. }
@@ -27,9 +30,10 @@ sumnls(result)
 parEst(result, param = "", dataset = NA, verbose = TRUE)
 getXList(result)
 getCLPList(result, getclperr = FALSE) 
-getDataList(result, numsing = 2)
-getResidualList(result, numsing = 2)
-getTracesList(result)
+getData(result, dataset = 1, weighted = FALSE)
+getResiduals(result, dataset = 1)
+getSVDResiduals(result, numsing = 2, dataset = 1)
+getTraces(result, dataset = 1)
 getdim1List(result) 
 getdim2List(result)
 }
@@ -48,6 +52,8 @@ getdim2List(result)
   linear parameters themselves}
 \item{numsing}{integer that defaults to 2; determines the number of
   singular vectors to return}
+\item{weighted}{logical indicating whether to return weighted or
+  unweighted data}
 }
 \value{
   \code{sumnls} returns an object of class \code{"summary.nls"}.
@@ -65,40 +71,33 @@ getdim2List(result)
   datasets modeled, where each element represents the matrix determined
   as conditionally linear parameters (under a kinetic model, the spectra).
 
-  \code{getDataList} returns a \code{"list"} of length 2.
-  The first element is named \code{svddatalist} and is a 
- \code{"list"} of length equal to the number of
- datasets modeled, where each element is a list with elements
- \code{values}, \code{left} and \code{right}, where  \code{values}
- contains the singular values, \code{left} contains \code{numsing}
- left singular vectors, and  \code{right} contains \code{numsing}
- right singular vectors, all of the residuals. 
- The second
- element is named "datalist" and   
- is a \code{"list"} of length equal to the number of
- datasets modeled, where each element represents the matrix of
- unweighted data.
- 
- \code{getResidualList} returns a \code{"list"} of length 2.
-  The first element is named \code{svdresidlist} and is a 
-  \code{"list"} of length equal to the number of
-  datasets modeled, where each element is a list with elements
+  \code{getSVDData} 
+  returns a \code{"list"} of length 3 with named elements
   \code{values}, \code{left} and \code{right}, where  \code{values}
   contains the singular values, \code{left} contains \code{numsing}
   left singular vectors, and  \code{right} contains \code{numsing}
-  right singular vectors, all of the residuals. 
-  The second
-  element is named "residlist" and   
-  is a \code{"list"} of length equal to the number of
-  datasets modeled, where each element represents the matrix of
-  residuals.
+  right singular vectors, all of the unweighted data. The number of singular
+  vectors returned is determined by \code{numsing}. 
+  
+ \code{getData} returns the dataset specified by the
+ argument \code{dataset} (weighted data in the case
+ that \code{weighted=TRUE}) as a \code{"matrix"}
+  
+ \code{getResiduals} returns a \code{"matrix"} of residuals for the
+  dataset with index given by the argument \code{dataset}; the matrix
+  returned has the dimension of the dataset itself. 
 
-  \code{getTracesList}  returns a \code{"list"} of length equal to the
-  number of datasets modeled, where each element is a  \code{"list"} of
-  length equal to the number of \code{x2} values in the dataset
-  (wavelengths for kinetic models).  Each of the \code{x2} elements
-  represents the trace, that is, fit with respect to time, at the
-  corresponding \code{x2}-value.  
+  \code{getSVDResiduals}
+  returns a \code{"list"} of length 3 with named elements
+  \code{values}, \code{left} and \code{right}, where  \code{values}
+  contains the singular values, \code{left} contains \code{numsing}
+  left singular vectors, and  \code{right} contains \code{numsing}
+  right singular vectors, all of the residuals. The number of singular
+  vectors returned is determined by \code{numsing}. 
+  
+  \code{getTraces}  returns a \code{"matrix"} of model estimates for the
+  dataset with index given by the argument \code{dataset}; the matrix
+  returned has the dimension of the dataset itself. 
 
   \code{getdim1List}  returns a \code{"list"} of length equal to the
   number of datasets modeled, where each element is a  \code{"vector"} of

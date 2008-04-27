@@ -32,9 +32,6 @@ estimated spectra.
 \details{
 This looks best with less than five objects in \code{listFits}.
 }
-\value{
-
-}
 
 \seealso{ \code{\link{fitModel}}, \code{\link{examineFit}} }
 
