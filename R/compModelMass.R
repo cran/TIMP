@@ -4,6 +4,7 @@ function (theta, model)
   peakpar <- theta@peakpar
   amp <- theta@amplitudes
   if(model@extracomp) {
+    cat("here")
     if(length(amp)==0)
       eamp <- 1
     else {
@@ -30,7 +31,7 @@ function (theta, model)
                           as.integer(model@nt), PACKAGE="TIMP")$cmat)
     dim(massm) <- c(model@nt, lpp)
     if(length(amp) > 0)
-      massm <- t(t(massm)*amp)
+      massm <- massm %*% diag(amp)
   }
   if(model@extracomp)
     massm <- cbind(massm, rep(eamp, model@nt))

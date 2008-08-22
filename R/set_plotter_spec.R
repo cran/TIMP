@@ -1,6 +1,6 @@
 setMethod("plotter", signature(model="spec"),
           function (model,multimodel, multitheta, plotoptions) {  
-            if(length(plotoptions@residplot) == 1) {
+            if(plotoptions@residplot) {
               plotResids(multimodel, multitheta, plotoptions) 
             }
             if(plotoptions@residtraces)
@@ -10,17 +10,17 @@ setMethod("plotter", signature(model="spec"),
             if(plotoptions@writefit || plotoptions@writefitivo)
               writeFit(multimodel, multitheta, plotoptions)
             plotoptions@addest <- c("specpar")
-            plotoptions@paropt <-  par(mgp = c(2, 1, 0), mar=c(4,4,.5,.5))
+            plotoptions@paropt <- par(mgp = c(2, 1, 0),
+                                      mar=c(3,3,3,2), oma = c(1,0,4,0), 
+                                      mfrow=c(plotoptions@summaryplotrow,
+                                        plotoptions@summaryplotcol))
             
-            if(!identical(model@title,""))
-              tit <- c(0,0,1,0)
-            else 
-              tit <- c(0,0,0,0)
-
             if(dev.cur() != 1)
               dev.new()
-            par(plotoptions@paropt)
-            par(mfrow=c(plotoptions@summaryplotrow, plotoptions@summaryplotcol))
+            par(mgp = c(2, 1, 0),
+                mar=c(3,3,3,2), oma = c(1,0,4,0), 
+                mfrow=c(plotoptions@summaryplotrow,
+                  plotoptions@summaryplotcol))
             nt <- model@nt
             nl <- model@nl
             x <- model@x
@@ -29,7 +29,19 @@ setMethod("plotter", signature(model="spec"),
             t <- multitheta 
             resultlist <- multimodel@fit@resultlist
             conmax <- list()       
-            conlist <- getSpecList(multimodel, t) 
+            conlist <- getSpecList(multimodel, t)
+
+	    if(plotoptions@adddataimage){
+	            for(i in 1:length(m)) {
+			datarev <- t(apply(m[[i]]@psi.df, 2, rev))
+			xr <- rev(m[[i]]@x)
+			x2lab <- xr[seq(1,length(xr), length=10)]
+			x2at <- m[[i]]@x[seq(1,length(xr), length=10)]
+			image(x=m[[i]]@x2, y=m[[i]]@x, z=datarev, ylab = plotoptions@xlab, yaxt="n",main = "Data", xlab = plotoptions@ylab, col=tim.colors())
+			axis(2, at=x2at, labels=x2lab)
+            	}
+	    }
+
             for(i in 1:length(m)) {
               contoplot <- conlist[[i]]
               matplot(m[[i]]@x, contoplot,
@@ -188,9 +200,9 @@ setMethod("plotter", signature(model="spec"),
                   "_summary.ps", plotoptions@output, sep=""))
             }
             par(mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
-            plotEstout <- plotEst(multimodel, plotoptions,tr=TRUE,addplot=FALSE)
-            writeEst(multimodel, multitheta, plotoptions, plotEstout)
-                        
+            writeEst(multimodel, multitheta, plotoptions)
+            displayEst(plotoptions)
+            
             if(plotoptions@plotkinspec) {
               plotClp(multimodel, t, plotoptions) 
             }

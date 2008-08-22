@@ -3,7 +3,8 @@ function (data, sample = 1, sample_time = 1, sample_lambda = 1,
     sel_time = vector(), sel_lambda = vector(), baselinetime = vector(), 
     baselinelambda = vector(), scalx = NULL, scalx2 = NULL, 
     sel_lambda_ab = vector(), sel_time_ab = vector(), rm_x2 = vector(), 
-    rm_x = vector(), svdResid = list(), numV = 0, sel_special = list() ) 
+    rm_x = vector(), svdResid = list(), numV = 0, sel_special = list(),
+    doubleDiff = FALSE, doubleDiffFile = "doubleDiff.txt") 
 {
     ## Note that the options are _not_ compatible with each other
     ## call preProcess repeatedly for consistency
@@ -44,7 +45,8 @@ function (data, sample = 1, sample_time = 1, sample_lambda = 1,
 		subtr <- subtr / svdResid$weightM
     dataN@psi.df <- dataN@psi.df - subtr
   }
-
+  if(doubleDiff) 
+    dataN <- doubleDiff(dataN, file=doubleDiffFile)
   dataN@datCall <- append(data@datCall, match.call())
   dataN
 }

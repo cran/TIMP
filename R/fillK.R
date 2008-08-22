@@ -6,9 +6,9 @@
     if(length(kinscalspecialspec) > 0) 
       special <- TRUE
     else special <- FALSE
-     #kmat is 3d array with elements kmat[i,j,]
-     #<- c(thetaindex, theta scal index)
-     dimk <- nrow(kmat)  # kmat is square 
+     ##kmat is 3d array with elements kmat[i,j,]
+     ##<- c(thetaindex, theta scal index)
+     dimk <- nrow(kmat)  ## kmat is square 
      reskmat<-matrix(0, nrow=dimk, ncol=dimk)
      for(i in 1:dimk) {
 	    for(j in 1:dimk) {
@@ -18,16 +18,16 @@
                 else	pl<- 1
               else pl <- 1
               
-              if(!special) {# k is (possibly) linearly dep. on scaling
+              if(!special) {## k is (possibly) linearly dep. on scaling
                 if(kmat[i,j,1] != 0 && kmat[i,j,2] != 0)
-			# use scaling and theta
+                  ## use scaling and theta
                   reskmat[i,j]<-pl*theta[kmat[i,j,1]]*
                     kinscal[kmat[i,j,2]]
                 if(kmat[i,j,1] != 0 && kmat[i,j,2] == 0)	
-                                        # use theta 
+                  ## use theta 
                   reskmat[i,j]<-pl*theta[kmat[i,j,1]]
                 if(kmat[i,j,1] == 0 && kmat[i,j,2] != 0)	
-                                        # use scaling 
+                  ## use scaling 
                   reskmat[i,j]<-pl*kinscal[kmat[i,j,2]]
               }
               else{ ## have a function to describe k 

@@ -35,8 +35,9 @@
     modellist <- getPrelBetweenDatasets(modellist, modeldiffs$rel) 
     linkclp <- if(length(modeldiffs$linkclp) < 1) 
       list(1:length(modellist))
-    else modeldiffs$linkclp 
+    else modeldiffs$linkclp
     grlist <- list()
+    
     for(i in 1:length(linkclp)) {
 	  mlist <- list()
 	  mlabel <- vector()

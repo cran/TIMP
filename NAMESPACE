@@ -28,13 +28,15 @@ export(dat, kin, spec, mass, amp, theta, multimodel, res, multitheta,
        specparF, fillK, l2nu, linloglines, fullKF, linlogplot, gaus,
        getClpConstr, weightNL, matlinlogplot, weightPsi, getCoh,
        writeEst, getCohToPlot, normdat, writeFit, getConToPlot,
-       plotEst, plotKinSpecEst, fillResult, getResid, getResidRet,
+       displayEst, plotKinSpecEst, fillResult, getResid, getResidRet,
        processOrder, multiLin, readclp0, compModelMass, barplot3,
        getXsuper, doConstrSuper, getKinConcen, getAutoClp0,
        outlierCorr, linlogtics, unitstep, modifyModel, parEst, onls,
        sumnls, getCLPList, getData, getSVDResiduals, getSVDData,
-       getTraces, getdim1List, getdim2List, getResiduals, getXList,
-       getSelectedTracesMax, writeAverage, efit2file, divergeZimage)
+       getTraces, getdim1, getdim2, getX, getCLP, getResiduals, getXList,
+       getSelectedTracesMax, writeAverage, efit2file, divergeZimage,
+       plotHistAmp, plotHistNormComp, plotIntenImage, plotTau,
+       plotNormComp, plotSelIntenImage)
 
 S3method("summary", "timp.nls.lm")
 S3method("summary", "timp.nls")

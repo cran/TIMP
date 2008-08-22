@@ -2,7 +2,7 @@
 \alias{writeAverage}
 \title{Writes the average of scans stored in a file to a new file in the
 'ivo' format}
-\description{Some measurements set ups dump a set of matrices stacked on
+\description{Some measurement set-ups dump a set of matrices stacked on
   top of each other to a file; each matrix represents a scan.  This
   function writes the average of the scans to a file in the '.ivo'
   format.

@@ -8,11 +8,13 @@
 \alias{getSVDData}
 \alias{getSVDResiduals}
 \alias{getTraces}
-\alias{getdim1List}
-\alias{getdim2List}
+\alias{getdim1}
+\alias{getdim2}
 \alias{getResiduals}
 \alias{getSVDResiduals}
 \alias{getXList}
+\alias{getX}
+\alias{getCLP}
 \title{Functions to print and return parts of the object returned
 by the fitting routines. }
 \description{Functions to print and return parts of the object returned
@@ -27,15 +29,17 @@ by the fitting routines. }
 \usage{
 onls(result)
 sumnls(result) 
-parEst(result, param = "", dataset = NA, verbose = TRUE)
-getXList(result)
-getCLPList(result, getclperr = FALSE) 
+parEst(result, param = "", dataset = NA, verbose = TRUE, file="")
+getXList(result, group = vector())
+getCLPList(result, getclperr = FALSE)
+getX(result, group = vector(), dataset=1)
+getCLP(result, getclperr = FALSE, dataset=1) 
 getData(result, dataset = 1, weighted = FALSE)
 getResiduals(result, dataset = 1)
 getSVDResiduals(result, numsing = 2, dataset = 1)
 getTraces(result, dataset = 1)
-getdim1List(result) 
-getdim2List(result)
+getdim1(result, dataset = 1) 
+getdim2(result, dataset = 1)
 }
 \arguments{
   \item{result}{return value of \code{fitModel}}
@@ -54,6 +58,11 @@ getdim2List(result)
   singular vectors to return}
 \item{weighted}{logical indicating whether to return weighted or
   unweighted data}
+\item{file}{character vector; if not \code{""} writes the results to a
+  file with name \code{file}. }
+\item{group}{The value at which to determine the X matrix (maybe a
+  wavelenth index, for example)}
+  
 }
 \value{
   \code{sumnls} returns an object of class \code{"summary.nls"}.
@@ -63,14 +72,22 @@ getdim2List(result)
   \code{parEst} returns an object of class \code{"list"} representing
   the parameter estimates.
 
-  \code{XList} returns a \code{"list"} of length equal to the number of
+  \code{getXList} returns a \code{"list"} of length equal to the number of
   datasets modeled, where each element represents the matrix determined
   by the nonlinear parameters (under a kinetic model, the concentrations). 
   
-  \code{CLPList} returns a \code{"list"} of length equal to the number of
+  \code{getCLPList} returns a \code{"list"} of length equal to the number of
   datasets modeled, where each element represents the matrix determined
   as conditionally linear parameters (under a kinetic model, the spectra).
 
+  \code{getX} returns a numeric \code{"matrix"} 
+  that represents the matrix determined
+  by the nonlinear parameters (under a kinetic model, the concentrations). 
+  
+  \code{getCLPList} returns a numeric \code{"matrix"}
+  that represents the matrix determined
+  as conditionally linear parameters (under a kinetic model, the spectra).
+  
   \code{getSVDData} 
   returns a \code{"list"} of length 3 with named elements
   \code{values}, \code{left} and \code{right}, where  \code{values}
@@ -99,15 +116,11 @@ getdim2List(result)
   dataset with index given by the argument \code{dataset}; the matrix
   returned has the dimension of the dataset itself. 
 
-  \code{getdim1List}  returns a \code{"list"} of length equal to the
-  number of datasets modeled, where each element is a  \code{"vector"} of
-  length equal to the number of \code{x} values in the dataset
-  (times for kinetic models).
+  \code{getdim1}  returns a \code{"vector"} of
+  \code{x} values in the dataset (times for kinetic models).
 
-  \code{getdim2List}  returns a \code{"list"} of length equal to the
-  number of datasets modeled, where each element is a  \code{"vector"} of
-  length equal to the number of \code{x2} values in the dataset
-  (wavelengths for kinetic models).
+  \code{getdim2}  returns a  \code{"vector"} of
+  \code{x2} values (wavelengths for kinetic models).
 }
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \seealso{ \code{\link{fitModel}} }

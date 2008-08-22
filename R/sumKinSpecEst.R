@@ -12,8 +12,8 @@ customtitle="", preps="", ylimlist=list(), kinspecerr=TRUE ) {
     tit <- customtitle 
   else
     tit <- "Summary of EADS for: "
-	max_x2 <- max(listFits[[1]]$toPlotter$multimodel@modellist[[1]]@x2)
-  min_x2 <- min(listFits[[1]]$toPlotter$multimodel@modellist[[1]]@x2)
+	max_x2 <- max(listFits[[1]]$currModel@modellist[[1]]@x2)
+  min_x2 <- min(listFits[[1]]$currModel@modellist[[1]]@x2)
   limlist <- list()
   for(i in 1:length(listFits))
     limlist[[i]] <- vector()			  
@@ -21,25 +21,25 @@ customtitle="", preps="", ylimlist=list(), kinspecerr=TRUE ) {
     for(i in 1:length(ylimlist))
       limlist[[ylimlist[[i]]$ind]] <- ylimlist[[i]]$ylim
   for(i in 1:length(listFits)){
-    m <- listFits[[i]]$toPlotter$multimodel@modellist
+    m <- listFits[[i]]$currModel@modellist
     for(j in 1:length(m)){
       max_x2 <- max(m[[j]]@x2, max_x2)
       min_x2 <- min(m[[j]]@x2, min_x2)
     }
   }
   for(i in 1:length(listFits)){
-    resultlist <- listFits[[i]]$toPlotter$multimodel@fit@resultlist 
-    multimodel <- listFits[[i]]$toPlotter$multimodel
+    resultlist <- listFits[[i]]$currModel@fit@resultlist 
+    multimodel <- listFits[[i]]$currModel
     m <- multimodel@modellist
-    t <- listFits[[i]]$toPlotter$multitheta
-	      plotoptions <- listFits[[i]]$toPlotter$plotoptions 
+    t <- listFits[[i]]$currTheta
+	      plotoptions <- listFits[[i]]$currModel@optlist[[1]]
     if(length(plotoptions@addest) == 0)
       plotoptions@addest <- c("kinpar")
     
     plotClp(multimodel, t, plotoptions, kinspecerr=kinspecerr,
             newplot=FALSE, min_clp=min_x2,max_clp=max_x2, ylim=limlist[[i]])
 
-    plotEst(multimodel, plotoptions) 
+    ##plotEst(multimodel, plotoptions) 
     
     if(length(customtitle)==0) {
       if(addtitle && i==1)

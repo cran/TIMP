@@ -4,8 +4,8 @@ opt = opt())
 {
     optN <- opt
     result <- fitModel(data, modspec, datasetind, modeldiffs, optN)
-    resultlist <- result$toPlotter$multimodel@fit@resultlist 
-    m <- result$toPlotter$multimodel@modellist 
+    resultlist <- result$currModel@fit@resultlist 
+    m <- result$currModel@modellist 
     svdresidlist <- list()
     for (i in 1:length(m)) {
             residuals <- matrix(nrow = m[[i]]@nt, ncol = m[[i]]@nl)

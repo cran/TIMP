@@ -58,6 +58,8 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
     \item{\code{residplot}:}{Object of class \code{"logical"} defaults to 
     \code{FALSE}; if \code{TRUE} generate a plot of residuals in a 
     separate window.}
+    \item{\code{adddataimage}:}{Object of class \code{"logical"} defaults to 
+    \code{FALSE}; if \code{TRUE} adding imageplot of data in summary plot.}
     \item{\code{plot}:}{Object of class \code{"logical"} that defaults to 
     \code{TRUE}; if \code{FALSE} then do not write output in the form of 
     plots and other windows to the screen. }
@@ -114,7 +116,7 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
  \item{xlimspec}{Object of class \code{"vector"} that defaults to 
 \code{vector()}; if changed, it should specify the desired x-limits of 
 the plot of clp}
- \item{ylimspec}{Object of class \code{"vector"} that defaults to 
+\item{ylimspec}{Object of class \code{"vector"} that defaults to 
 \code{vector()}; if changed, it should specify the desired y-limits of 
 the plot of clp. In the case of plotting the results of FLIM image 
 analysis, \code{ylimspec} can be used to determine the range used in the 

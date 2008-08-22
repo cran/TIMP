@@ -66,7 +66,14 @@ that defaults to \code{TRUE}; if \code{FALSE} then the spectra associated
 with the coherent artifact (pulse-follower) are not included in the summary
 plots
   }
+ \item{\code{plotpulsefol}:}{Object of class \code{"logical"} defaults to 
+    \code{FALSE}; if \code{TRUE} adding imageplots of pulsefolower amplitudes in summary plot (only with FLIM plots).}
+\item{ylimcomp}{Object of class \code{"vector"} that defaults to 
+\code{vector()}; Works In the case of plotting the results of FLIM image 
+analysis, \code{ylimspec} can be used to determine the range used in the 
+image plot of normalized amplitudes.}
 }}
+  
 \details{See \code{\link{opt-class}} for 
 the specification of fitting/plotting options that are not specific to the 
 class type.}

@@ -40,8 +40,10 @@
         if (m[[dset]]@cohspec$type ==  "freeirfdisp") 
           res@cohirf[[clpind]] <- rlist$cohirf[[i]] 
       }
+      res@irfvec[[clpind]] <- irfvec[[i]] 
     }
-    res@irfvec[[clpind]] <- irfvec[[i]] 
+    else
+      res@irfvec[[clpind]] <- c(0,0) 
     if(m[[dset]]@clpType == "x2") 
       nt_or_nl <- m[[dset]]@nt
     else  nt_or_nl <- m[[dset]]@nl

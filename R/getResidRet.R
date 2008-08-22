@@ -8,28 +8,12 @@
     rlist$psi <- psi 
     return(rlist) 
   }
-  if(algorithm != "optim") {
-    if(!nnls) { ## just varpro
-      qty.temp <- qr.qty( qr(X) , psi)
-      residQspace <- qty.temp[-(1:ncol(X))]
-      retval <- residQspace
-    }
-    else {
-      if(length(nnlscrit$negpos) > 0) {
-        con <- nnlscrit$spec[[as.character(group[[1]][1])]]
-        cp <- coef(nnnpls(A = X, b = psi, con=con))
-      }
-      else {
-        sol <- try(nnls(A = X, b = psi))
-        if(class(sol) == "try-error")
-          cp <- rep(0, ncol(X))
-        else
-          cp <- coef(sol)
-      }
-      retval <- psi - X %*% cp
-    }
+  if(!nnls) { ## just varpro
+    qty.temp <- qr.qty( qr(X) , psi)
+    residQspace <- qty.temp[-(1:ncol(X))]
+    retval <- residQspace
   }
-  else { 
+  else {
     if(length(nnlscrit$negpos) > 0) {
       con <- nnlscrit$spec[[as.character(group[[1]][1])]]
       cp <- coef(nnnpls(A = X, b = psi, con=con))
@@ -41,11 +25,10 @@
       else
         cp <- coef(sol)
     }
-    mod <- X %*% cp
-    xx<-2*sum(psi*log(psi/mod),na.rm=TRUE)
-    #xx[which(is.na(xx))] <- 0
-    retval <- xx #sum(xx)
-    
+    if(algorithm != "optim") 
+      retval <- psi - X %*% cp
+    else
+      retval <-  sum((psi - X %*% cp)^2)
   }
   retval
 }

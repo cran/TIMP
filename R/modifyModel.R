@@ -3,7 +3,7 @@
      if(length(newest) == 0) 
        theta <- get(".currTheta", envir = .GlobalEnv)[[1]]
      else 
-        theta <- newest$toPlotter$multitheta[[1]]
+        theta <- newest$currTheta[[1]]
      if(length(model) == 0)
         m <- get(".currModel", envir = .GlobalEnv)@model
      else 

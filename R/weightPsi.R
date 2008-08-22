@@ -19,7 +19,8 @@ function (model)
             wt[[i]][4] <- model@x2[model@nl]
         for (j in 1:model@nl) {
             for (k in 1:model@nt) {
-                if (((model@x2[j] >= wt[[i]][3]) && (model@x2[j] <= 
+              
+              if (((model@x2[j] >= wt[[i]][3]) && (model@x2[j] <= 
                   wt[[i]][4])) && ((model@x[k] >= wt[[i]][1]) && 
                   (model@x[k] <= wt[[i]][2]))) {
                   weight[k, j] <- wt[[i]][5] * weight[k, j]                    

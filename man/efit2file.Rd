@@ -1,6 +1,6 @@
 \name{efit2file}
 \alias{efit2file}
-\title{covert 'tim' FORTRAN efit files to a plain matrices}
+\title{covert 'tim' FORTRAN efit files to plain matrices in ASCII files}
 \description{'tim' efit files sometimes represent spectra associated
   with multiple datasets; for each matrix of spectra stored in such a
   file, this function writes a plain text file.

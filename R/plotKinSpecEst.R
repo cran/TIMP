@@ -7,7 +7,7 @@ function(t, plotoptions, multimodel)
    par(mfrow=c(1,2), mar=c(5,2,2,2))
    plotClp(multimodel, t, plotoptions, newplot=FALSE, 
            kinspecerr = plotoptions@kinspecerr)
-   plotEst(multimodel, plotoptions) 
+   ##plotEst(multimodel, plotoptions) 
    if (length(plotoptions@title) != 0) {
      mtext(plotoptions@title, side = 3, outer = TRUE, 
            line = 1)

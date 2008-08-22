@@ -12,9 +12,8 @@ function (multimodel, multitheta, plotoptions)
   t <- multitheta
   
   superimpose <- plotoptions@breakdown$superimpose
-  if(length(superimpose) < 0 || any(superimpose > length(m)))
+  if(length(superimpose) == 0 || any(superimpose > length(m)))
     superimpose <- 1:length(m)
-  ##if(any(superimpose > length(m)))
   indList <- list()
   divdrel <- plotoptions@divdrel
   m <- multimodel@modellist
@@ -68,6 +67,7 @@ function (multimodel, multitheta, plotoptions)
     allx2 <- append(allx2, m[[i]]@x2)
     allx <- append(allx, m[[i]]@x)
   }
+  
   allx2 <- sort(unique(allx2))
   allx <- sort(unique(allx))
   xmax <- max(allx)
@@ -171,11 +171,11 @@ function (multimodel, multitheta, plotoptions)
   }
   mtext(tit, side = 3, outer = TRUE, line = 1)
   par(las = 2)
-    if (dev.interactive() && length(plotoptions@makeps) != 0) {
-      if (plotoptions@output == "pdf") 
-        pdev <- pdf
-      else pdev <- postscript
-      dev.print(device = pdev, file = paste(plotoptions@makeps, 
-                                 "_breakdown.", plotoptions@output, sep = ""))
-    }
+  if (dev.interactive() && length(plotoptions@makeps) != 0) {
+    if (plotoptions@output == "pdf") 
+      pdev <- pdf
+    else pdev <- postscript
+    dev.print(device = pdev, file = paste(plotoptions@makeps, 
+                               "_breakdown.", plotoptions@output, sep = ""))
+  }
 }

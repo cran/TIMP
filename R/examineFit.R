@@ -2,13 +2,13 @@
 function (resultfitModel, opt=vector()) 
 {
      if(length(opt) == 0)
-	plotoptions <-    resultfitModel$toPlotter$plotoptions
+	plotoptions <-    resultfitModel$currModel@optlist[[1]]
      else 
 	plotoptions <- opt
 
-     plotter(resultfitModel$toPlotter$model, 
-     resultfitModel$toPlotter$multimodel, 
-     resultfitModel$toPlotter$multitheta,
+     plotter(resultfitModel$currModel@modellist[[1]],
+     resultfitModel$currModel, 
+     resultfitModel$currTheta,
      plotoptions)
 
 }

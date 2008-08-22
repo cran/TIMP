@@ -34,6 +34,18 @@ setMethod("plotter", signature(model = "kin"),function(model,
   x2max <- max(allx2)
   x2min <- min(allx2)
   conmax <- tauList <- muList <- contoplotList <- list()
+
+    if(plotoptions@adddataimage){
+            for(i in 1:length(m)) {
+		datarev <- t(apply(m[[i]]@psi.df, 2, rev))
+		xr <- rev(m[[i]]@x)
+		x2lab <- xr[seq(1,length(xr), length=10)]
+		x2at <- m[[i]]@x[seq(1,length(xr), length=10)]
+		image(x=m[[i]]@x2, y=m[[i]]@x, z=datarev, ylab = plotoptions@xlab, yaxt="n",main = "Data", xlab = plotoptions@ylab, col=tim.colors())
+		axis(2, at=x2at, labels=x2lab)
+	    }
+     }
+
   if(m[[i]]@anispec$useparperp) 
     calcAniSignal(m, plotoptions)
   f1<-function(x){x[[1]]}   
@@ -285,8 +297,10 @@ setMethod("plotter", signature(model = "kin"),function(model,
     if(plotoptions@addfilename) tit <- paste(tit, m[[i]]@datafile)
   }
   mtext(tit, side = 3, outer = TRUE, line = 1)
-  plotEstout <- plotEst(multimodel, plotoptions, tr=TRUE, addplot=FALSE)
-  writeEst(multimodel, multitheta, plotoptions, plotEstout)
+  
+  writeEst(multimodel, multitheta, plotoptions)
+  displayEst(plotoptions)
+  
   if (dev.interactive() && length(plotoptions@makeps) != 0) {
     if(plotoptions@output == "pdf")
       pdev <- pdf 
