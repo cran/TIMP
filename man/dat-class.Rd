@@ -220,7 +220,7 @@ that is "nt" if the model has clp in the "x" dimension and "nl" otherwise
  E[, 1] <- amp[1] * exp( - log(2) * (2 * (wavenum - location[1])/delta[1])^2)
  E[, 2] <- amp[2] * exp( - log(2) * (2 * (wavenum - location[2])/delta[2])^2)
  sigma <- .001
- Psi_q  <- C %*% t(E) + sigma * rnorm(dim(C)[1] * dim(E)[1]) 
+ Psi_q  <- C \%*\% t(E) + sigma * rnorm(nrow(C) * nrow(E)) 
 
  # initialize an object of class dat 
  Psi_q_data <- dat(psi.df = Psi_q, x = t, nt = length(t), 

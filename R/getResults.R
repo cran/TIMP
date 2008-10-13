@@ -1,9 +1,24 @@
 ## all of these functions act on the output of the fitModel function to
 ## return various results
-getCLPList <- function(result, getclperr = FALSE) 
-  getSpecList(result$currModel, result$currTheta, getclperr)
-getCLP <- function(result, getclperr = FALSE, dataset=1) 
-  getSpecList(result$currModel, result$currTheta, getclperr)[[dataset]]
+getCLPList <- function(result, getclperr = FALSE, file="") {
+  specList <- getSpecList(result$currModel, result$currTheta, getclperr)
+  if(file!="")
+    for(i in 1:length(specList))
+      write.table(specList[[i]], file=paste(file,
+                                   "_spec_dataset_", i, ".txt", sep=""),
+                  row.names = result$currModel@modellist[[i]]@x2,
+                  quote=FALSE) 
+  specList
+}
+getCLP <- function(result, getclperr = FALSE, dataset=1, file=""){ 
+  spec <- getSpecList(result$currModel, result$currTheta, getclperr)[[dataset]]
+  if(file!="")
+    write.table(spec, file=paste(file,
+                        "_spec_dataset_", dataset, ".txt", sep=""),
+                row.names = result$currModel@modellist[[dataset]]@x2,
+                quote=FALSE) 
+  spec
+}
 getData <- function(result, dataset = 1, weighted = FALSE) {
   if(weighted)   
     datamat <- result$currModel@data[[dataset]]@psi.weight
@@ -25,10 +40,16 @@ getSVDResiduals <- function(result, numsing = 2, dataset = 1) {
   residmat <- getResiduals(result, dataset) 
   doSVD(residmat, numsing, numsing)
 }
-getTraces <- function(result, dataset=1) {
+getTraces <- function(result, dataset=1, file="") {
   fitted <- result$currModel@fit@resultlist[[dataset]]@fitted 
   tracesmat <- unlist(fitted)
   dim(tracesmat) <- c(length(fitted[[1]]), length(fitted) )
+  if(file!="")
+    write.table(tracesmat, file=paste(file,
+                             "fit.txt", sep=""),
+                col.names = result$currModel@modellist[[dataset]]@x2,
+                row.names = result$currModel@modellist[[dataset]]@x,
+                quote=FALSE) 
   tracesmat
 }
 getdim1 <- function(result, dataset=1) 
@@ -36,9 +57,16 @@ getdim1 <- function(result, dataset=1)
 getdim2 <- function(result, dataset=1) 
   result$currModel@modellist[[dataset]]@x2
 parEst <- function(result, param = "", dataset = NA, verbose = TRUE,
-                   file = "") {
+                   file = "", stderr=TRUE) {
   currTheta <- result$currTheta
-  reslist <- list()
+  currModel <- result$currModel
+  if(stderr && currModel@optlist[[1]]@sumnls) {
+    stderr <- TRUE
+    currErr <- getThetaCl(sumnls(result)$parameters[,2], currModel) 
+  }
+  else
+    stderr <- FALSE
+  reslist <- stderrlist <- list()
   if(param == "")
     param <- slotNames(theta()) 
   if(is.na(dataset))
@@ -48,17 +76,44 @@ parEst <- function(result, param = "", dataset = NA, verbose = TRUE,
     for(j in dataset) {
       if(length( slot(currTheta[[j]], nm)) > 0) {
         if(is.null(reslist[[nm]])) {
-          reslist[[nm]] <- list()
+          reslist[[nm]] <- stderrlist[[nm]] <- list()
           if(verbose) cat("Parameters:", nm, "\n", file=file)
         }
         reslist[[nm]][[length(reslist[[nm]])+1]] <- slot(currTheta[[j]], nm)
-        if(verbose) cat("dataset ", j, ": ", toString(slot(currTheta[[j]], nm)),
-                        "\n", sep="", file=file)   
+        if(stderr) {
+          if(nm %in% currModel@modellist[[j]]@positivepar)
+            std <- stdErrTransform(slot(currTheta[[j]], nm),
+                                   slot(currErr[[j]], nm))
+          else
+            std <- slot(currErr[[j]], nm)
+          stderrlist[[nm]][[length(stderrlist[[nm]])+1]] <- std
+        }
+        if(verbose) {
+          cat("dataset ", j, ": ", toString(slot(currTheta[[j]], nm)),
+              "\n", sep="", file=file)   
+          if(stderr)
+            cat("    standard errors: ",
+                toString(stderrlist[[nm]][[length(stderrlist[[nm]])]]),
+                "\n", sep="", file=file)
+        }
       }
     }
   }
-  invisible(reslist)
+  invisible(list(reslist=reslist,stderrlist=stderrlist))
 }
+stdErrTransform <- function(k, err) {
+   x <- rep(0,length(err))
+   kl <- log(k)
+   errl <- log(err)
+   for(i in 1:length(k)){
+     	      b1 <- abs(exp(kl[i]+errl[i]) - exp(kl[i]))
+	      b2 <- abs(exp(kl[i]-errl[i]) - exp(kl[i])) 
+	      x[i] <- ifelse(b1>b2,b1,b2)              
+        }
+   x
+}
+
+
 sumnls <- function(result) {
   result$currModel@fit@nlsres[[2]]
 }

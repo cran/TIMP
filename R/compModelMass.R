@@ -4,7 +4,6 @@ function (theta, model)
   peakpar <- theta@peakpar
   amp <- theta@amplitudes
   if(model@extracomp) {
-    cat("here")
     if(length(amp)==0)
       eamp <- 1
     else {

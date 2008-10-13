@@ -10,7 +10,7 @@ function (modellist, diffsadd)
 	for(diffs in diffsadd){
 	  for(i in 1:length(diffs$dataset)) {
 	      if(length(diffs$ind) == 1)		
-		 slot(modellist[[diffs$datset[i]]], 
+		 slot(modellist[[diffs$dataset[i]]], 
 	            diffs$what) <- 
 	            append(slot(modellist[[diffs$dataset[i] ]], 
 	            diffs$what), diffs$start, after = diffs$ind-1)  

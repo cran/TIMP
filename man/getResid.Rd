@@ -9,8 +9,8 @@ plotting commands) in order to obtain the SVD of the residuals.  These
 residuals can then be subtracted away from the original data to some
 extent with the \code{preProcess} function. }
 \usage{
-getResid(data, modspec=list(), datasetind = vector(), modeldiffs = list(), 
-		opt = opt() )
+getResid(data, modspec=list(), datasetind = vector(),
+     modeldiffs = list(), opt = opt() )
 }
 \arguments{
  \item{data}{As in the \code{fitModel} function }

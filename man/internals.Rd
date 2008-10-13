@@ -89,6 +89,7 @@
 \alias{linlogtics}
 \alias{unitstep}
 \alias{getSelectedTracesMax}
+\alias{calcD} 
 \title{TIMP function used internally}
 \description{TIMP function used internally}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}

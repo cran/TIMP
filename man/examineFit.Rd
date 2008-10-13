@@ -16,8 +16,10 @@ examineFit(resultfitModel, opt=vector())
   applied}
 }
 \details{
-The  \code{\link{fitModel}} function returns a list of results, and initiates plotting
-functions.  Given the \code{resultfitModel} list  \code{\link{fitModel}} returns, 
+  The  \code{\link{fitModel}} function returns a list of results,
+  and initiates plotting
+  functions.  Given the \code{resultfitModel} list  \code{\link{fitModel}}
+  returns, 
 \code{examineFit} initiates the plotting functions, and thus may be 
 used to examine results.  
 

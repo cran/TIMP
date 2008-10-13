@@ -54,7 +54,10 @@ cohspec = "list", coh = "vector", wavedep = "logical", lambdac =
 kin2scal = "vector", amplitudes = "vector", streakT = "numeric", 
 streak="logical", doublegaus = "logical", fixedkmat="logical",
 kinscalspecialspec ="list", kinscalspecial = "list",
-lightregimespec = "list"),
+lightregimespec = "list",
+numericalintegration = "logical", initialvals = "vector",
+reactantstoichiometrymatrix = "vector",
+stoichiometrymatrix = "vector"),
          prototype = list( kinpar = vector(), seqmod =
 TRUE, irf = FALSE, mirf = FALSE, measured_irf = vector(), convalg = 1,
 cohirf = vector(), irffun = "gaus", anispec = list(), irfpar =
@@ -67,7 +70,11 @@ logical(), lambdac = numeric(), speckin2 = list(), usekin2 = FALSE,
 kinpar2 = vector(), kin2scal = vector(), amplitudes = vector(), 
 streakT = 0, streak = FALSE, doublegaus = FALSE, fixedkmat=FALSE,
            kinscalspecialspec = list(),  kinscalspecial = list(),
-           lightregimespec = list() ))
+           lightregimespec = list(), numericalintegration = FALSE,
+           initialvals = vector(),
+           reactantstoichiometrymatrix = vector(), 
+           stoichiometrymatrix = vector()
+           ))
 
 setClass("mass", 
 representation("kin", 

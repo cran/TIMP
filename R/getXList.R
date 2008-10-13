@@ -1,4 +1,4 @@
-getXList <- function(result, group=vector()) {
+getXList <- function(result, group=vector(), file="") {
   modtype <- result$currModel@modellist[[1]]@mod_type
   resultlist <- result$currModel@fit@resultlist
   m <- result$currModel@modellist
@@ -71,12 +71,18 @@ getXList <- function(result, group=vector()) {
     xdim <- dim(XList[[i]])
     attributes(XList[[i]])<-NULL
     dim(XList[[i]])<- xdim
+    if(file!="") 
+      for(i in 1:length(XList))
+        write.table(XList[[i]], file=paste(file,
+                                  "_concen_dataset_", i, ".txt",
+                                  sep=""), quote = FALSE,
+                    row.names = m[[i]]@x)
   }
   
   XList
 }
 
-getX <- function(result, group=vector(), dataset=1) {
+getX <- function(result, group=vector(), dataset=1, file="") {
   # minimal model of getXList for one dataset case 
   modtype <- result$currModel@modellist[[1]]@mod_type
   resultlist <- result$currModel@fit@resultlist
@@ -139,5 +145,10 @@ getX <- function(result, group=vector(), dataset=1) {
   xdim <- dim(XList)
   attributes(XList)<-NULL
   dim(XList)<- xdim
+  if(file!="") 
+    write.table(XList, file=paste(file,
+                         "_concen_dataset_", dataset, ".txt",
+                         sep=""), quote = FALSE,
+                row.names = m[[dataset]]@x)
   XList
 }

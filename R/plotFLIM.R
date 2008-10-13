@@ -7,6 +7,13 @@
         plotFLIMresid(multimodel, multitheta, plotoptions)
     if (plotoptions@noFLIMsummary) 
         return()
+    if(plotoptions@writecon)
+      {
+        fn <- ifelse(plotoptions@makeps == "", "flimcon", plotoptions@makeps)
+        xx<-getXList(result=list(currModel=multimodel, currTheta=multitheta),
+                     group=vector(), 
+                     file=fn) 
+      }
     for (i in 1:length(m)) {
         k <- t[[i]]@kinpar
         model <- m[[i]]
@@ -24,11 +31,16 @@
             0, 4, 0), cex.main = 0.95, mfrow = c(plotoptions@summaryplotrow, 
             plotoptions@summaryplotcol))
 
-    	if (!(plotoptions@plotpulsefol)) 
+    	if (!(plotoptions@plotpulsefol) && model@cohcol!=0 ) 
         	spec <- as.matrix(getSpecList(multimodel, t)[[i]][, -model@cohcol])
     	else
-        	spec <-  getSpecList(multimodel, t)[[i]]
+        	spec <-  as.matrix(getSpecList(multimodel, t)[[i]])
 
+
+        write.table(spec, file=paste(plotoptions@makeps,
+                            "_spec_dataset_", i, ".txt", sep=""),
+                    row.names = m[[i]]@x2,
+                    quote=FALSE) 
 ##===========plotHistAmp==============
 
     	for (j in 1:ncol(spec)) {
@@ -72,19 +84,16 @@
 	while(!(1 %in% selpixmat[j,])) ##for safety reason need to add condition about j>1
 		j<-j-1
 	rowend<-j
-
+	resmat <- matrix(0, nrow(model@inten), ncol(model@inten))
 	if (length(k) > 1) {
 		xmat <- matrix(nrow = length(k), ncol = model@nl)
 		vecres <- vector()
 		for (j in length(k):1) xmat[j, ] <- sumAv[j, ] * (1/k[j])
 			vecR <- colSums(xmat)
-	
 ##============plotHistof<tau>==================
 		hist(vecR, xlab = paste("mean", signif(mean(vecR), 5)), 
 		     main = "Hist <tau>")
-	
-##============plotimage<tau>===================
-		resmat <- matrix(0, nrow(model@inten), ncol(model@inten))
+##============plotimage<tau>===================		
 		resmat[x2] <- vecR
 
 		zmin <- min(vecR) - (.10* min(vecR))
@@ -104,7 +113,6 @@
 		            main = "<tau>", zlim = zlim, col=colp)
 	
 	}
-
 ##===========plotAmplImages===================	
 	if (ncol(spec) > 1) {
         	for (j in 1:ncol(spec)) {
@@ -281,7 +289,7 @@
 	while(!(1 %in% selpixmat[j,])) ##for safety reason need to add condition about j>1
 		j<-j-1
 	rowend<-j
-
+        resmat <- matrix(0, nrow(model@inten), ncol(model@inten))
 	if (length(k) > 1) {
 		sumAv <- matrix(0, ncol(spec), nrow(spec))
 		sumspec <- rowSums(spec) 
@@ -297,7 +305,6 @@
 		vecR <- colSums(xmat)
 	
 ##============plotimage<tau>===================
-		resmat <- matrix(0, nrow(model@inten), ncol(model@inten))
 		resmat[x2] <- vecR
 
 		zmin <- min(vecR) - (.10* min(vecR))
@@ -314,7 +321,7 @@
 			colp <- plotoptions@imagepal
 		image.plot(resmat[rowstart:rowend,colstart:colend],
 		            xlab = "", axes = FALSE, ylab = "", 
-		            main = "<tau>", zlim = zlim, col=colp)
+		            main = tit, zlim = zlim, col=colp)
 	
 	}
 }
@@ -362,8 +369,10 @@
         	for (j in 1:ncol(spec)) {
 			resmat[x2] <- sumAv[j, ]
 			image.plot(resmat[rowstart:rowend,colstart:colend], 
-		         	   ylab = "", axes = FALSE,xlab = paste("tau=",signif(1/k[j], 5)), 
-		                   main = paste("Comp.", j, "norm. amp."),  zlim=c(0,1))
+		         	   ylab = "", axes = FALSE,
+                                   xlab = paste("tau=",signif(1/k[j], 5)), 
+		                   main = paste("Comp.", j, "norm. amp."),
+                                   zlim=c(0,1))
 		}
 	}	
 }	

@@ -10,8 +10,11 @@
             cohcol = vector(), amplitudes = vector(), streakT=0,
             streak=FALSE, doublegaus = FALSE, fixedkmat=FALSE, irffun
             = "gaus", kinscalspecial = list(), kinscalspecialspec =
-            list(), lightregimespec = list(), nocolsums=FALSE )
- 
+            list(), lightregimespec = list(), nocolsums=FALSE,
+            numericalintegration = FALSE, initialvals = vector(),
+            reactantstoichiometrymatrix = vector(), 
+            stoichiometrymatrix = vector())
+  
 {
   lightdiff <- length(lightregimespec) > 0
   if(lightdiff){
@@ -34,18 +37,23 @@
       A <- matrix(1, nrow = length(k), ncol = length(k)) 
     if(anispec$angle[dataset] != "MA") {
       k <- getAniK(k=k, dataset=dataset, ani=anispec, anipar=anipar)
-        A <- getAniA(A=A, dataset=dataset, ani=anispec, anipar=anipar)
+      A <- getAniA(A=A, dataset=dataset, ani=anispec, anipar=anipar)
     }
   }
   if (irf) {
-    if(length(shiftmea) != 0) shiftmea <- shiftmea[[1]]
+    if(length(shiftmea) != 0)
+      shiftmea <- shiftmea[[1]]
     c.temp <- calcCirf(k=k, x=x, irfpar=irfpar, mirf=mirf, 
                        measured_irf=measured_irf, convalg=convalg,
                        shiftmea=shiftmea, 
                        lamb=lamb, reftau = reftau, doublegaus = doublegaus, 
                        streak=streak, streakT = streakT, irffun = irffun)
   }
+  else if(numericalintegration)
+    c.temp <- calcD(k, x, initialvals, 
+                    reactantstoichiometrymatrix, stoichiometrymatrix)
   else c.temp <- calcC(k, x)
+  
   ## now expand A to account for super ani
   if(anispec$calcani) {
     A <- getAniSuper(A = A, ani=anispec)
@@ -80,6 +88,6 @@
     diag(y) <- amplitudes
     c.temp <- c.temp %*% y
   }
-    c.temp
+  c.temp
 }
 

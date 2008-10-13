@@ -17,7 +17,11 @@
 	    doublegaus = model@doublegaus,fixedkmat=model@fixedkmat,
             irffun=model@irffun, kinscalspecial = theta@kinscalspecial,
             kinscalspecialspec = model@kinscalspecialspec,
-                       lightregimespec = model@lightregimespec)
+                       lightregimespec = model@lightregimespec,
+                       numericalintegration = model@numericalintegration,
+          initialvals = model@initialvals,
+          reactantstoichiometrymatrix = model@reactantstoichiometrymatrix,
+          stoichiometrymatrix = model@stoichiometrymatrix)
 	if(returnX) 
 		    x <- as.vector(x) 
 	

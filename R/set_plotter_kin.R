@@ -303,11 +303,12 @@ setMethod("plotter", signature(model = "kin"),function(model,
   
   if (dev.interactive() && length(plotoptions@makeps) != 0) {
     if(plotoptions@output == "pdf")
-      pdev <- pdf 
+      pdev <- pdf
     else  pdev <- postscript
-    dev.print(device = pdev, file = paste(plotoptions@makeps, 
-                               "_summary.",  plotoptions@output,
-                               sep = ""))
+    dev.print(device = pdev,
+              file = paste(plotoptions@makeps, 
+                "_summary.",  plotoptions@output,
+                sep = ""))
   }
   if (plotoptions@plotkinspec) {
     plotClp(multimodel, t, plotoptions)

@@ -36,7 +36,7 @@ export(dat, kin, spec, mass, amp, theta, multimodel, res, multitheta,
        getTraces, getdim1, getdim2, getX, getCLP, getResiduals, getXList,
        getSelectedTracesMax, writeAverage, efit2file, divergeZimage,
        plotHistAmp, plotHistNormComp, plotIntenImage, plotTau,
-       plotNormComp, plotSelIntenImage)
+       plotNormComp, plotSelIntenImage, calcD)
 
 S3method("summary", "timp.nls.lm")
 S3method("summary", "timp.nls")

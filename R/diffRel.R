@@ -11,8 +11,6 @@ function (modellist, diffsrel)
 
 	for(diffs in diffsrel){
 	   for(i in 1:length(diffs$dataset1)) {
-	   
-
            if(length(diffs$rel) == 0 || diffs$rel == "lin"){
 	      if(length(diffs$ind1)==1 && length(diffs$ind2)==1){
 		   

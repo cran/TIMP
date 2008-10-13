@@ -16,11 +16,13 @@
         model@clpdep <- model@wavedep
         if(model@fullk) 
 	    model@ncomp <- nrow(model@kmat) + length(model@kinpar2)
-	else 
-	     model@ncomp <- length(model@kinpar) + length(model@kinpar2)
+        else if (model@numericalintegration)
+          model@ncomp <- length(model@initialvals)
+        else 
+          model@ncomp <- length(model@kinpar) + length(model@kinpar2)
         model@ncolc <- array(model@ncomp, model@nl)
         if (length(model@cohspec$type) == 0) 
-            model@cohspec$type <- ""
+          model@cohspec$type <- ""
 	if(length(model@speckin2$seqmod) == 0)
 		model@speckin2$seqmod <- FALSE
 	if(length(model@speckin2$jvec) == 0)

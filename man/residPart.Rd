@@ -13,8 +13,8 @@ part of the residual vector associated with a single `part' of the
 dataset(s). 
 }
 \usage{
-residPart(model, group, multimodel, thetalist, clpindepX, finished, returnX,
-rawtheta)
+residPart(model, group, multimodel, thetalist, clpindepX, finished,
+returnX, rawtheta)
 } 
 \arguments{
  \item{model}{Object of class \code{dat}; switches on this 

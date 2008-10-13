@@ -1,0 +1,28 @@
+\name{donorTagged}
+\alias{donorTagged}
+\alias{c001}
+\alias{c003}
+\docType{data}
+\title{Fluorescent lifetime imaging microscopy (FLIM) data}
+\description{Donor-only tagged fluorescent lifetime
+  imaging microscopy (FLIM) data.  }
+\usage{
+data("donorTagged")
+}
+\format{
+  \code{c001} and \code{c003} are objects of class \code{dat}
+  representing donor-only data.
+}
+\references{This data was described in
+
+  Mullen KM, van Stokkum IHM (2008).
+  The variable projection algorithm in time-resolved spectroscopy,
+  microscopy and mass-spectroscopy applications,
+  \emph{Numerical Algorithms}, \bold{in press}, 
+\url{http://dx.doi.org/10.1007/s11075-008-9235-2}.
+}
+\details{
+See \code{\link{FLIMplots}} for examples using this data. 
+}
+
+\keyword{datasets}

@@ -31,7 +31,7 @@ specifies the filename of the lzero specification to read in from file.  This
 file has the format: 1st line not read; lines thereafter 
 are the space-delimited index of the component to constrain, the 
 lower bound of the constraint, and the upper bound of the 
-constraint, e.g., \code{1 218.800000000000011 220.099999999999994}
+constraint, e.g., \code{1 218.80 220.09}
 }
  \item{\code{extracomp}:}{ Object of class \code{"logical"}  that
 defaults to \code{TRUE} and determines whether a component with 

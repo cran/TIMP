@@ -43,6 +43,19 @@ opposed to an object of class \code{dat} }
 \item{ylab}{character vector giving a label to put on the y-axis}
 \item{xlab}{character vector giving a label to put on the x-axis}
 }
+\examples{
+
+exd <- dat(psi.df=matrix(rnorm(1000), ncol=100, nrow=100),
+x=1:100,x2=1:100, nl=as.integer(100), nt=as.integer(100))
+
+## by default linear range until 1 is used, logarithmic thereafter
+divergeZimage(exd)
+
+## can change this as desired
+divergeZimage(exd, lin=10, title="plot linearly to 10")
+
+}
+
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \seealso{ \code{\link{dat}} }
 \keyword{hplot}

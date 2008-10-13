@@ -49,7 +49,12 @@
                               doublegaus = m@doublegaus, fixedkmat=m@fixedkmat,
                               kinscalspecial = t@kinscalspecial,
                               kinscalspecialspec = m@kinscalspecialspec,
-                              lightregimespec = m@lightregimespec)
+                              lightregimespec = m@lightregimespec
+                              ,numericalintegration = m@numericalintegration,
+          		      initialvals = m@initialvals,
+          		      reactantstoichiometrymatrix
+                              = m@reactantstoichiometrymatrix,
+          		      stoichiometrymatrix = m@stoichiometrymatrix)
       if (m@weight && weight) 
         concen_i <- weightNL(concen_i, m, group[[i]][1])
       if(m@getXsuper) 
