@@ -10,7 +10,24 @@ Objects can be created by calls of the form \code{new("opt", ...)} or
 \code{opt(...)}.  
 }
 \section{Slots}{
-	 \describe{
+  \describe{
+    \item{getStartTri}{}
+    \item{imagepal}{}
+    \item{maxfev}{}{}
+     \item{minFactor}{}
+     \item{nnlscrit}{}
+     \item{noplotest}{}
+     \item{notraces}{}
+     \item{optimmethod}{}
+     \item{parscale}{}
+     \item{residtraces}{}
+     \item{selectedtraces}{}
+     \item{sumnls}{}
+     \item{trilinear}{}
+     \item{triStart}{}
+     \item{writedata}{}
+     \item{writefitivo}{}
+     \item{xlim}{}
       \item{\code{algorithm}:}{Object of class \code{"character"}  that defaults to
     \code{algorithm="nls"}, so that the function \code{nls} is used to
     optimize nonlinear parameters under least squares criteria.

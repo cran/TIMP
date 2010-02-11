@@ -21,9 +21,81 @@ be specified in the \code{...}
 argument of the  \code{\link{initModel}} function.
 }
 \section{Slots}{
-	 \describe{
-	\item{kinpar}{*** vector of rate constants to be used as starting 
-	values for the exponential decay of components; the length of this
+  \describe{
+    \item{anipar}{}
+    \item{anispec}{}
+    \item{autoclp0}{}
+    \item{C2}{}
+    \item{chinde}{}
+    \item{clinde}{}
+     \item{clp0}{}
+    \item{clpCon}{}
+    \item{clpdep}{}
+    \item{clpequ}{}
+    \item{clpequspecBD}{}
+    \item{clpType}{}
+    \item{cohcol}{}
+    \item{cohirf}{}
+    \item{datafile}{}
+    \item{datCall}{}
+    \item{drel}{}
+    \item{dscalspec}{}
+    \item{E2}{}
+    \item{fixed}{}
+    \item{fixedkmat}{}
+    \item{free}{}
+    \item{fvecind}{}
+    \item{getX}{}
+    \item{getXsuper}{}
+    \item{highcon}{}
+    \item{inten}{}
+    \item{kin2scal}{}
+    \item{kinpar2}{}
+    \item{kinscalspecial}{}
+    \item{kinscalspecialspec}{}
+    \item{lclp0}{}
+    \item{lclpequ}{}
+    \item{title}{}
+    \item{parnames}{}
+    \item{prel}{}
+    \item{prelspec}{}
+    \item{psi.df}{}
+    \item{psi.weight}{}
+    \item{pvecind}{}
+    \item{satMat}{}
+    \item{scalx}{}
+    \item{title}{}
+    \item{usecompnames0}{}
+    \item{usecompnamesequ}{}
+    \item{usekin2}{}
+    \item{weight}{}
+    \item{weightList}{}
+    \item{weightM}{}
+    \item{weightpar}{}
+    \item{weightsmooth}{}
+    \item{x}{}
+    \item{x2}{}
+    \item{clpequspec}{}
+    \item{compnames}{}
+    \item{constrained}{}
+    \item{iter}{}
+    \item{lightregimespec}{}
+    \item{lowcon}{}
+    \item{makeps}{}
+    \item{mhist}{}
+    \item{mod_type}{}
+    \item{mvecind}{}
+    \item{ncomp}{}
+    \item{nl}{}
+    \item{nt}{}
+    \item{nvecind}{}
+    \item{outMat}{}
+    \item{positivepar}{}
+    \item{sigma}{}
+    \item{simdata}{}
+    \item{speckin2}{}
+    \item{kinpar}{*** vector of rate constants to be used as starting 
+      values for the exponential decay of components; the length of this
 	vector determines the number of components of the kinetic
 	model. }		 
       \item{\code{specpar}:}{*** Object of class \code{"list"}  parameters for

@@ -18,8 +18,6 @@ Objects can be created by calls of the form \code{new("multimodel", ...)} or
 \section{Slots}{
 	 \describe{
     \item{\code{data}:}{Object of class \code{"list"}  of objects of class \code{dat} containing data}
-    \item{\code{model}:}{Object of class \code{"dat"}  of class dat containing a model specification to be
-applied to all datasets}
     \item{\code{modellist}:}{Object of class \code{"list"}  of length n where n is the number of datasets given in
 \code{data}, and each element i is an object of class \code{dat} giving 
 the dataset-specific model applicable to \code{data[[i]]}}
@@ -38,8 +36,21 @@ to the \code{\link{fitModel}} function}
   describing whether standard error estimates on conditionally linear 
   parameters should be calculated; this is determined by the \code{opt} 
   argument of \code{fitModel} and defaults to \code{FALSE}
-  }
-  }
+}
+\item{algorithm}{}
+\item{datasetind}{}
+\item{finished}{}
+\item{getXsuper}{}
+\item{modelspec}{}
+\item{nclp}{}
+\item{nnls}{}
+\item{nnlscrit}{}
+\item{optlist}{}
+\item{parorder}{}
+\item{parorderchange}{}
+\item{parorderdiff}{}
+\item{trilinear}{}
+}
 }
 \details{after a call to \code{\link{fitModel}}, an object of class 
 \code{multimodel} exists in the global environment as the variable 

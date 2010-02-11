@@ -14,18 +14,20 @@ Objects can be created by calls of the form \code{new("fit", ...)}.
 }
 \section{Slots}{
 	 \describe{
-    \item{\code{resultlist}:}{ Object of class \code{"list"} that contains 
-    an object of class \code{res} for each dataset modeled, in the order 
-    that they were specified. }
-    \item{\code{nlsres}:}{Object of class \code{"list"} containing 
-     named elements 
-  \itemize{ 
-  \item{onls}{output of the call to \code{nls} used in model optimization.} 
-  \item{sumonls}{result of call \code{summary(onls)}  }
-   }
-  }
- }
-}
+	   \item{rss}{}
+	   \item{\code{resultlist}:}{ Object of class \code{"list"} that contains 
+	     an object of class \code{res} for each dataset modeled, in the order 
+	     that they were specified. }
+	   \item{\code{nlsres}:}{Object of class \code{"list"} containing 
+	     named elements 
+	     \itemize{ 
+	       \item{onls}{output of the call to \code{nls} used in model optimization.} 
+	       \item{sumonls}{result of call \code{summary(onls)}  }
+	       
+	     }
+	   }
+	 }
+       }
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \seealso{
 \code{\link{res-class}}, \code{\link{multimodel-class}}

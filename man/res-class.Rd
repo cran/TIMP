@@ -24,7 +24,10 @@ via the residual function \code{residPart}.
     element for each dataset modeled. }
     \item{\code{irfvec}:}{Object of class \code{"list"} with a vector of
     elements for each element of the clp \code{x2}}
-  }
+  
+  \item{cohirf}{}
+  \item{std_err_clp}{}
+}
 }
 
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}

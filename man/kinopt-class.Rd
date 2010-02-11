@@ -36,13 +36,13 @@ following elements:
     \code{plot}.}
     }
     }
-    \item{FLIM:}{Object of class \code{"logical"} that defaults to 
+    \item{FLIM}{Object of class \code{"logical"} that defaults to 
     \code{FALSE}; if \code{TRUE}, the data represent a FLIM experiment and 
     special plots are generated. }
-\item{FLIMresidimag:}{Object of class \code{"logical"} that defaults to 
+\item{FLIMresidimag}{Object of class \code{"logical"} that defaults to 
     \code{TRUE}; if \code{FALSE} and a FLIM image is analyzed, the residuals
 are not plotted as an image.} 
-\item{noFLIMsummary:}{Object of class \code{"logical"} that defaults to 
+\item{noFLIMsummary}{Object of class \code{"logical"} that defaults to 
     \code{FALSE}; if \code{TRUE} and a FLIM image is analyzed, only other 
 plots requested by the user (such as traces or residuals) are generated, and 
 no summary plot in made.} 
@@ -72,8 +72,66 @@ plots
 \code{vector()}; Works In the case of plotting the results of FLIM image 
 analysis, \code{ylimspec} can be used to determine the range used in the 
 image plot of normalized amplitudes.}
-}}
-  
+  \item{addfilename}{}
+  \item{addest }{}
+  \item{adddataimage}{}
+  \item{algorithm}{}
+   \item{coldata}{}
+  \item{colfit}{}
+  \item{divdrel}{}
+  \item{getStartTri}{}
+  \item{imagepal}{}
+  \item{iter}{}
+  \item{kinspecerr}{}
+  \item{linrange}{}
+  \item{ltydata}{}
+  \item{ltyfit}{}
+  \item{makeps}{}
+  \item{maxfev}{}
+  \item{minFactor}{}
+  \item{nlsalgorithm}{}
+  \item{nnls}{}
+  \item{nnlscrit}{}
+  \item{noplotest}{}
+  \item{normspec}{}
+  \item{optimmethod}{}
+  \item{output}{}
+  \item{paropt}{}
+  \item{parscale}{}
+  \item{plot}{}
+  \item{plotkinspec}{}
+  \item{residplot}{}
+  \item{residtraces}{}
+  \item{samespecline}{}
+  \item{specinterpol}{}
+  \item{specinterpolbspline}{}
+  \item{specinterpolpoints}{}
+  \item{specinterpolseg}{}
+  \item{stderrclp}{}
+  \item{summaryplotcol}{}
+  \item{summaryplotrow}{}
+  \item{sumnls}{}
+  \item{superimpose}{}
+  \item{title}{}
+  \item{trilinear}{}
+  \item{triStart}{}
+  \item{writeclperr}{}
+  \item{writecon}{}
+  \item{writedata}{}
+  \item{writefit}{}
+  \item{writefitivo}{}
+  \item{writenormspec}{}
+  \item{writespec}{}
+  \item{writespecinterpol}{}
+  \item{xlab}{}
+  \item{xlim}{}
+  \item{xlimspec}{}
+  \item{ylab}{}
+  \item{ylimspec}{}
+  \item{ylimspecplus}{}
+}
+}
+ 
 \details{See \code{\link{opt-class}} for 
 the specification of fitting/plotting options that are not specific to the 
 class type.}

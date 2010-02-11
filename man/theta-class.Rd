@@ -37,9 +37,18 @@ parameters (which may be linear, exponential, etc.)}
     describing a coherent artifact or pulse follower. }
     \item{\code{drel}:}{Object of class \code{"vector"}  of parameters describing relations between
 datasets (linear, and possibly per-wavelength or, in general, per-clp)}
+    \item{amplitudes}{}
+    \item{amps}{}
+    \item{anipar}{}
+    \item{cohirf}{}
+    \item{jvec}{}
+    \item{kin2scal}{}
+    \item{kinpar2}{}
+    \item{kinscalspecial}{}
+    \item{peakpar}{}
+    \item{shift}{}
   }
 }
-
 \details{after a call to \code{\link{fitModel}}, an object of class 
 \code{theta} exists in the global environment as the variable 
 \code{currTheta}  }  

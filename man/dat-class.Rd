@@ -21,8 +21,25 @@ most are most often made by invoking another function such as
 }
 \section{Slots}{
 	 \describe{
- \item{\code{weightpar}:}{*** Object of class \code{"list"}  list of vectors 
-  \code{c(first_x, last_x, first_x2, last_x2, weight)}, 
+	   \item{chinde}{}
+	   \item{clinde}{}
+	   \item{clpequspecBD}{}
+	   \item{cohcol}{}
+	   \item{compnames}{}
+	   \item{highcon}{}
+	   \item{lowcon}{}
+	   \item{mvecind}{}
+	   \item{nvecind}{}
+	   \item{outMat}{}
+	   \item{satMat}{}
+	    \item{usecompnames0}{}
+	   \item{usecompnamesequ}{}
+	   \item{weightList}{}
+	   \item{dscalspec}{}
+	   \item{getX}{}
+	   \item{getXsuper}{}
+	   \item{\code{weightpar}:}{*** Object of class \code{"list"}  list of vectors 
+	     \code{c(first_x, last_x, first_x2, last_x2, weight)}, 
   where each vector is of length 5 and 
   specifies an interval in which to weight the data.  
   \itemize{
@@ -109,9 +126,7 @@ list(to=3, from=1, low=10000, high=100))}, not \code{list(to=3, from=1, low=1000
 list(to=2, from=1, low=10000, high=100)})}
  \item{\code{clpequ}:}{***Object of class \code{"vector"}  describes the
     parameters governing the clp equality constraints specified in \code{clpequspec}} 
- \item{\code{prel}:}{*** Object of class \code{"vector"}  vector of starting values for the relations described in 
-  prelspec}
-    \item{\code{prelspec}:}{*** Object of class \code{"list"}  list of lists to specify the functional
+  \item{\code{prelspec}:}{*** Object of class \code{"list"}  list of lists to specify the functional
   relationship between parameters, each of which has elements 
   \itemize{ 
   \item{what1}{character string describing the parameter type to relate, 
@@ -149,9 +164,7 @@ list(to=2, from=1, low=10000, high=100)})}
     simulated data }   
     \item{\code{parnames}:}{Object of class \code{"vector"} vector of
     parameter names, used internally}
-    \item{\code{finished}:}{Object of class \code{"logical"} describes 
-    whether optimization is complete}
-    \item{\code{simdata}:}{ Object of class \code{"logical"}  logical that is \code{TRUE} if the data is simulated, 
+  \item{\code{simdata}:}{ Object of class \code{"logical"}  logical that is \code{TRUE} if the data is simulated, 
   \code{FALSE} otherwise; will determine whether values in \code{C2} and 
   \code{E2} are plotted with results}
     \item{\code{weightM}:}{Object of class \code{"matrix"} weights }
@@ -168,19 +181,15 @@ list(to=2, from=1, low=10000, high=100)})}
     \item{\code{title}:}{ Object of class \code{"character"} displayed on output plots}
     \item{\code{mhist}:}{Object of class \code{"list"}  list describing fitting history}
     \item{\code{datCall}:}{Object of class \code{"list"} list of calls to functions}
-   \item{drel}{ vector of starting parameters for dataset scaling relations}
-     \item{\code{dscalspec}:}{ Object of class \code{"list"} }
-    \item{\code{drel}:}{ Object of class \code{"vector"}  vector of starting parameters for dataset scaling relations}
+    \item{\code{dscalspec}:}{ Object of class \code{"list"} }
+     \item{\code{drel}:}{ Object of class \code{"vector"}  vector of starting parameters for dataset scaling relations}
     \item{\code{scalx}:}{ Object of class \code{"numeric"}  numeric by which to scale the \code{x} axis in plotting}
   \item{prel}{vector of starting values for the relations described in 
   prelspec}
     \item{\code{fvecind}:}{Object of class \code{"vector"}  vector containing indices of fixed parameters} 
     \item{\code{pvecind}:}{Object of class \code{"vector"}  used internally to
     store indices of related parameters. }
-    \item{\code{groups}:}{Object of class \code{"list"}  list containing lists of pairs c(x2 index, dataset index). 
-  the \code{x2} values (which are solved for as conditionally linear 
-  parameters) are equated for all pairs in a list.}
-    \item{\code{iter}:}{Object of class \code{"numeric"}  describing the 
+  \item{\code{iter}:}{Object of class \code{"numeric"}  describing the 
     number of iterations that is run; this is sometimes 
    stored after fitting, but has not effect as an argument to  
    \code{\link{initModel}}}
@@ -198,6 +207,7 @@ containing the name of a datafile associated with the \code{psi.df} }
 that is "nt" if the model has clp in the "x" dimension and "nl" otherwise  
 (so that, e.g., if \code{mod\_type = "kin"}, then \code{clpType = "nl"}).} 
   }
+  
 }
 
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}  
