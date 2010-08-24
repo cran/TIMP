@@ -1,5 +1,5 @@
 \name{residPart-methods}
-\docType{genericFunction}
+\docType{methods}
 \alias{residPart-methods}
 \alias{residPart}
 \alias{residPart,kin-method}

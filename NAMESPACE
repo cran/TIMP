@@ -33,7 +33,7 @@ export(dat, kin, spec, mass, amp, theta, multimodel, res, multitheta,
        getXsuper, doConstrSuper, getKinConcen, getAutoClp0,
        outlierCorr, linlogtics, unitstep, modifyModel, parEst, onls,
        sumnls, getCLPList, getData, getSVDResiduals, getSVDData,
-       getTraces, getdim1, getdim2, getX, getCLP, getResiduals, getXList,
+       getTraces, getdim1, getdim2, getX, getC, getCLP, getDAS, getResiduals, getXList,
        getSelectedTracesMax, writeAverage, efit2file, divergeZimage,
        plotHistAmp, plotHistNormComp, plotIntenImage, plotTau,
        plotNormComp, plotSelIntenImage, calcD)

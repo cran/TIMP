@@ -1,5 +1,14 @@
 ## all of these functions act on the output of the fitModel function to
 ## return various results
+getC <- function(result, dataset=1, file=""){ 
+  C<-getX(result, dataset=dataset, file="",lreturnC=TRUE)
+  if(file!="")
+    write.table(C, file=paste(file,
+                        "_C_dataset_", dataset, ".txt", sep=""),
+                row.names = result$currModel@modellist[[dataset]]@x,
+                quote=FALSE) 
+  C
+}
 getCLPList <- function(result, getclperr = FALSE, file="") {
   specList <- getSpecList(result$currModel, result$currTheta, getclperr)
   if(file!="")
@@ -25,6 +34,21 @@ getData <- function(result, dataset = 1, weighted = FALSE) {
   else
     datamat <- result$currModel@data[[dataset]]@psi.df
   datamat
+}
+getDAS <- function(result, getclperr = FALSE, dataset=1, file=""){ 
+  spec <- getSpecList(result$currModel, result$currTheta, getclperr)[[dataset]]
+  if((result$currModel@modellist[[dataset]]@fullk==TRUE)||
+  (result$currModel@modellist[[dataset]]@seqmod==TRUE))
+  {A<-getX(result, dataset=dataset, file="",lreturnA=TRUE)
+  ncomp<-nrow(A)
+  specA<-spec[,1:ncomp]%*%t(A)
+  spec[,1:ncomp]<-specA}
+  if(file!="")
+    write.table(spec, file=paste(file,
+                        "_DAS_dataset_", dataset, ".txt", sep=""),
+                row.names = result$currModel@modellist[[dataset]]@x2,
+                quote=FALSE) 
+  spec
 }
 getSVDData <- function(result, numsing = 2, dataset=1) {
   datamat <- getData(result, dataset) 

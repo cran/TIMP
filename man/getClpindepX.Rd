@@ -1,5 +1,5 @@
 \name{getClpindepX-methods}
-\docType{genericFunction}
+\docType{methods}
 \alias{getClpindepX-methods}
 \alias{getClpindepX,kin-method} 
 \alias{getClpindepX,spec-method}

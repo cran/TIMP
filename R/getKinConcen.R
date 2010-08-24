@@ -1,7 +1,7 @@
 "getKinConcen" <- function (group, multimodel, thetalist, 
                             clpindepX=vector(), finished=FALSE,
                             doConstr=TRUE, oneDS = 0,
-                            weight=TRUE) 
+                            weight=TRUE,lreturnA=FALSE,lreturnC=FALSE) 
 {
   psi <- vector()
   concen <- matrix()
@@ -54,16 +54,19 @@
           		      initialvals = m@initialvals,
           		      reactantstoichiometrymatrix
                               = m@reactantstoichiometrymatrix,
-          		      stoichiometrymatrix = m@stoichiometrymatrix)
-      if (m@weight && weight) 
-        concen_i <- weightNL(concen_i, m, group[[i]][1])
+          		      stoichiometrymatrix = m@stoichiometrymatrix,lreturnA=lreturnA)
+    if (lreturnA||lreturnC)
+      return(concen_i)
+    else
+      {if (m@weight && weight) 
+        concen_i <- weightNL(concen_i, m, group[[i]][1])}
       if(m@getXsuper) 
         Xlist[[i]] <- concen_i	
       else {  
         concen <- if (!identical(concen, matrix())) 
           rbind(concen, concen_i)
         else concen_i
-      }
+        } 
     }
     else {
       if (identical(concen, matrix())) 

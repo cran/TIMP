@@ -13,7 +13,7 @@
             list(), lightregimespec = list(), nocolsums=FALSE,
             numericalintegration = FALSE, initialvals = vector(),
             reactantstoichiometrymatrix = vector(), 
-            stoichiometrymatrix = vector())
+            stoichiometrymatrix = vector(),lreturnA=FALSE)
   
 {
   lightdiff <- length(lightregimespec) > 0
@@ -88,6 +88,9 @@
     diag(y) <- amplitudes
     c.temp <- c.temp %*% y
   }
+  if (lreturnA)
+  A
+  else
   c.temp
 }
 

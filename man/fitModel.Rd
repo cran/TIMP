@@ -5,7 +5,7 @@
 outputs plots and files representing the fit of the model to the data. }
 \usage{
 fitModel(data, modspec=list(), datasetind = vector(),
-modeldiffs = list(), opt = opt() )
+modeldiffs = list(), opt = opt(),lprogress=FALSE )
 }
 \arguments{
   \item{data}{list of objects of class \code{dat} containing the data 
@@ -20,7 +20,7 @@ modeldiffs = list(), opt = opt() )
   \item{modeldiffs}{ list whose elements specify any dataset-specific 
   model differences. 
   \itemize{
-\item{linkclp}{list of vectors containing the indices of datasets.  If the 
+\item{linkclp}{ list of vectors containing the indices of datasets.  If the 
   two dataset indices are in the same vector, their conditionally linear 
   parameters will be equated if they represent the same condition (e.g., a 
   wavelength) within \code{thresh}.  For example, 
@@ -37,13 +37,13 @@ modeldiffs = list(), opt = opt() )
   assigned to the first dataset in the group. }
 
   }  
-  \item{dscal}{list of lists specifying linear scaling relations between 
+  \item{dscal}{ list of lists specifying linear scaling relations between 
    datasets; each list has elements \code{to, from, value}.  The index of the 
    dataset to be scaled is given in \code{to}; the index of the dataset on 
    which the scaling is to be based is given in \code{from}.  The starting 
    value parameterizing the relationship is given as \code{value}. For 
    example, \code{dscal = list(list(to=2,from=1,value=.457))}. }    
-   \item{thresh}{numeric describing the tolerance with which clp from 
+   \item{thresh}{ numeric describing the tolerance with which clp from 
    different datasets are to be considered as equal.  
    For instance, for 
    two datasets containing data at 750 and 751 nm, respectively, 
@@ -71,9 +71,9 @@ list(what = "kinpar", ind = 4, dataset = 2, start= .0159))}.
   parameter groups for a given dataset. each sublist has 
   named elements 
    \itemize{ 
-   \item{what}{character string naming parameter type, e.g., "kinpar"}
-   \item{dataset}{dataset index in which parameter group is to be removed}
-   \item{ind}{vector of indices into parameter vector or list, e.g.,
+   \item{what}{ character string naming parameter type, e.g., "kinpar"}
+   \item{dataset}{ dataset index in which parameter group is to be removed}
+   \item{ind}{ vector of indices into parameter vector or list, e.g.,
     \code{c(2,3)} or \code{4} where parameter should be removed }
   }
   }  
@@ -81,10 +81,10 @@ list(what = "kinpar", ind = 4, dataset = 2, start= .0159))}.
   parameters to add to parameter groups for a given dataset. each sublist has 
   named elements 
    \itemize{ 
-   \item{what}{character string naming parameter type, e.g., "kinpar"}
-   \item{dataset}{dataset index in which parameter group is to change}
-   \item{start}{starting value for added parameter}
-   \item{ind}{vector of indices into parameter vector or list, e.g.,
+   \item{what}{ character string naming parameter type, e.g., "kinpar"}
+   \item{dataset}{ dataset index in which parameter group is to change}
+   \item{start}{ starting value for added parameter}
+   \item{ind}{ vector of indices into parameter vector or list, e.g.,
     \code{c(2,3)} or \code{4} where parameter should be added. }
   }
   }  
@@ -92,22 +92,22 @@ list(what = "kinpar", ind = 4, dataset = 2, start= .0159))}.
   for a given dataset.
   each sublist has named elements 
   \itemize{ 
-   \item{what}{character string naming parameter type, e.g., "kinpar"}
-   \item{dataset}{dataset index in which parameter group is to change}
-   \item{spec}{new specification that in initModel would follow "what", 
+   \item{what}{ character string naming parameter type, e.g., "kinpar"}
+   \item{dataset}{ dataset index in which parameter group is to change}
+   \item{spec}{ new specification that in initModel would follow "what", 
    e.g., for \code{c(.1, .3)} if what="kinpar"}
   }}
   \item{rel}{ 
   list of lists specifying parameters to relate between datasets
   each sublist has named elements 
   \itemize{ 
-    \item{what1}{character string naming parameter type to be determined in 
+    \item{what1}{ character string naming parameter type to be determined in 
       relation to some other parameter type , e.g., "kinpar"}
-    \item{what2}{character string naming parameter type on which another 
+    \item{what2}{ character string naming parameter type on which another 
       parameter type is to depend, e.g., "kinpar"}
-    \item{ind1}{vector of indices into parameter vector or 
+    \item{ind1}{ vector of indices into parameter vector or 
       list, e.g., \code{c(2,3)} or \code{4} of the dependent parameter. }
-    \item{ind2}{vector or numeric of indices into parameter vector or 
+    \item{ind2}{ vector or numeric of indices into parameter vector or 
       list, e.g., \code{c(2,3)} or \code{4} of the parameter on which another 
       parameter will depend }
     \item{dataset1}{ dataset index of the dependent parameter}
@@ -115,10 +115,10 @@ list(what = "kinpar", ind = 4, dataset = 2, start= .0159))}.
       will depend}
     \item{rel}{ optional character string describing functional relationship 
       between parameters; defaults to "lin" for linear relationship }
-    \item{start}{starting value or vector of values parameterizing 
+    \item{start}{ starting value or vector of values parameterizing 
       relationship between parameters  }
   }}
-  \item{weightlist}{List of new weights for the datasets returned
+  \item{weightlist}{ List of new weights for the datasets returned
   by the function \code{outlierCorrs} (as the element
   \code{weightList} of the list that is the return value of this function). 
   }
@@ -126,6 +126,8 @@ list(what = "kinpar", ind = 4, dataset = 2, start= .0159))}.
  }
   \item{opt}{Object of class \code{kinopt} or \code{specopt} specifying 
   fitting and plotting options. }
+  \item{lprogress}{Logical specifying 
+  whether textual output of fitting progress is returned }
 }
 \details{
 This function applies the \code{\link{nls}} function internally to 
@@ -134,15 +136,17 @@ optimize nonlinear parameters and to solve for conditionally linear parameters
 }
 \value{ A list is returned containing the following elements: 
 \itemize{
-  \item{currTheta}{is a list of objects
+  \item{currTheta}{ is a list of objects
     of class \code{theta} whose elements contain the parameter estimates
     associated with each dataset modeled.}
-  \item{currModel}{is an object of class \code{multimodel}
+  \item{currModel}{ is an object of class \code{multimodel}
     containing the results of fitting as well as the model
     specification}
-\item{toPlotter}{is a list containing all arguments used by the plotting 
+\item{toPlotter}{ is a list containing all arguments used by the plotting 
 function; it is used to regenerate plots and other output by the 
 \code{examineFit}  function}
+\item{nlsprogress}{ if lprogress = TRUE textual output of the fitting progress 
+is returned as an array of strings}
 }}
 
 \references{Mullen KM, van Stokkum IHM (2007). 

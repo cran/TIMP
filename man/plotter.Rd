@@ -1,5 +1,5 @@
 \name{plotter-methods}
-\docType{genericFunction}
+\docType{methods}
 \alias{plotter-methods}
 \alias{plotter} 
 \alias{plotter,kin-method}

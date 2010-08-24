@@ -1,6 +1,6 @@
 "fitModel" <-
 function (data, modspec = list(), datasetind = vector(), modeldiffs = list(), 
-opt = opt()) 
+opt = opt(),lprogress=FALSE) 
 {
   currModel <- getModel(data, modspec, modeldiffs, datasetind, opt)
   
@@ -16,8 +16,19 @@ opt = opt())
   assign(".currModel", currModel, envir = .GlobalEnv)
   
   if(opt@algorithm == "nls") {
-    
-    currModel@fit@nlsres$onls <- nls(~rescomp(t=t,d=d,currModel=currModel),
+    if (lprogress) 
+      nlsprogress<-capture.output(currModel@fit@nlsres$onls <- nls(~rescomp(t=t,d=d,currModel=currModel),
+                                     data=list(d=vector(),currModel=currModel), 
+                                     control =
+                                     nls.control(maxiter = iter,
+                                                 minFactor = opt@minFactor,
+                                                 warnOnly = TRUE,
+                                                 printEval = FALSE),
+                                     start = list(t = theta),
+                                     algorithm = opt@nlsalgorithm,
+                                     trace = TRUE))
+    else  
+      currModel@fit@nlsres$onls <- nls(~rescomp(t=t,d=d,currModel=currModel),
                                      data=list(d=vector(),currModel=currModel), 
                                      control =
                                      nls.control(maxiter = iter,
@@ -73,7 +84,10 @@ opt = opt())
 
   currModel@optlist[[1]] <- opt
   
-  ret <- list(currModel = currModel, currTheta = currTheta)
+     if (lprogress) 
+       ret <- list(currModel = currModel, currTheta = currTheta,nlsprogress=nlsprogress)
+     else
+       ret <- list(currModel = currModel, currTheta = currTheta)
   
   return(ret)
 }

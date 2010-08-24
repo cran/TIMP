@@ -82,7 +82,7 @@ getXList <- function(result, group=vector(), file="") {
   XList
 }
 
-getX <- function(result, group=vector(), dataset=1, file="") {
+getX <- function(result, group=vector(), dataset=1, file="",lreturnA=FALSE,lreturnC=FALSE) {
   # minimal model of getXList for one dataset case 
   modtype <- result$currModel@modellist[[1]]@mod_type
   resultlist <- result$currModel@fit@resultlist
@@ -119,6 +119,12 @@ getX <- function(result, group=vector(), dataset=1, file="") {
     irftau <- unlist(lapply(resultlist[[dataset]]@irfvec, f2))
       muList[[dataset]] <- irfmu 
     tauList[[dataset]] <- irftau
+    if (lreturnA||lreturnC)
+       { group <- list(c(1,dataset))
+        XList <- getKinConcen(group, multimodel, t, oneDS = 1,lreturnA=lreturnA,lreturnC=lreturnC)
+        }
+#        XList <- getKinConcen(group, multimodel, t, oneDS = place,lreturnA=lreturnA,lreturnC=lreturnC)
+   else
     XList <- getConToPlot(getKinConcen(group, multimodel, t, oneDS = place),
                           m[[dataset]]@cohspec, m[[dataset]]@cohcol)
   }

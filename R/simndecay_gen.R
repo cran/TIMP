@@ -7,7 +7,8 @@ function (kinpar, tmax, deltat, specpar=vector(), lmin, lmax, deltal,
           nupow = 1, irffun = "gaus", kinscal = vector(), 
           lightregimespec = list(),
           specdisp = FALSE, specdisppar=list(), parmufunc = "exp",
-          specdispindex = list(), specref=0) 
+          specdispindex = list(), amplitudes = vector(),specref=0, 
+          fixedkmat=FALSE) 
 {
     x <- seq(0, tmax, deltat)
     nt <- length(x)
@@ -34,9 +35,10 @@ function (kinpar, tmax, deltat, specpar=vector(), lmin, lmax, deltal,
     if (!(dispmu || disptau)) {
       C2 <- compModel(k = kinpar, x = x, irfpar = irfpar, irf = irf, 
                       seqmod = seqmod, fullk = fullk, kmat = kmat,
-                      jvec = jvec,
+                      jvec = jvec,amplitudes = amplitudes,
                       lightregimespec = lightregimespec,
-                      nocolsums= nocolsums, kinscal = kinscal)
+                      nocolsums= nocolsums, kinscal = kinscal,
+                      fixedkmat=fixedkmat)
       if(specdisp){
         psisim <- matrix(nrow = nt, ncol = nl)
         E2 <- EList[[1]]
@@ -55,9 +57,10 @@ function (kinpar, tmax, deltat, specpar=vector(), lmin, lmax, deltal,
         
         C2 <- compModel(k = kinpar, x = x, irfpar = irfpar, irf = irf, 
                         seqmod = seqmod, fullk = fullk, kmat = kmat,
-                        jvec = jvec,
+                        jvec = jvec,amplitudes = amplitudes,
                         lightregimespec = lightregimespec,
-                        nocolsums= nocolsums, kinscal = kinscal)
+                        nocolsums= nocolsums, kinscal = kinscal,
+                      fixedkmat=fixedkmat)
         psisim[, i] <- C2 %*% cbind(E2[i, ])
       }
     }
@@ -70,6 +73,6 @@ function (kinpar, tmax, deltat, specpar=vector(), lmin, lmax, deltal,
         seqmod = seqmod, irf = irf, irfpar = irfpar, 
         dispmu = dispmu, disptau = disptau, parmu = parmu, partau = partau, 
         lambdac = lambdac, simdata = TRUE, fullk = fullk, kmat = kmat, 
-        jvec = jvec)
+        jvec = jvec, fixedkmat=fixedkmat)
 }
 

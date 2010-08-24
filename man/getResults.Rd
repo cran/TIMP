@@ -14,7 +14,9 @@
 \alias{getSVDResiduals}
 \alias{getXList}
 \alias{getX}
+\alias{getC}
 \alias{getCLP}
+\alias{getDAS}
 \title{Functions to print and return parts of the object returned
 by the fitting routines. }
 \description{Functions to print and return parts of the object returned
@@ -33,8 +35,10 @@ parEst(result, param = "", dataset = NA, verbose = TRUE, file="",
  stderr=TRUE)
 getXList(result, group = vector(), file="")
 getCLPList(result, getclperr = FALSE, file="")
-getX(result, group = vector(), dataset=1, file="")
+getX(result, group = vector(), dataset=1, file="", lreturnA = FALSE, lreturnC = FALSE)
+getC(result, dataset=1, file="") 
 getCLP(result, getclperr = FALSE, dataset=1, file="") 
+getDAS(result, getclperr = FALSE, dataset=1, file="") 
 getData(result, dataset = 1, weighted = FALSE)
 getResiduals(result, dataset = 1)
 getSVDResiduals(result, numsing = 2, dataset = 1)
@@ -59,6 +63,8 @@ getdim2(result, dataset = 1)
   singular vectors to return}
 \item{weighted}{logical indicating whether to return weighted or
   unweighted data}
+\item{lreturnA}{logical indicating whether to return an A matrix instead}
+\item{lreturnC}{logical indicating whether to return a C matrix instead}
 \item{file}{character vector; if not \code{""} writes the results to a
   file with name \code{file}. }
 \item{group}{The value at which to determine the X matrix (maybe a
@@ -85,7 +91,17 @@ if they were calculated in fitting.}
 
   \code{getX} returns a numeric \code{"matrix"} 
   that represents the matrix determined
-  by the nonlinear parameters (under a kinetic model, the concentrations). 
+  by the nonlinear parameters (under a kinetic model, the concentrations).
+  However, in case lreturnC = TRUE it returns the C matrix, and in case
+  lreturnA = TRUE it returns the A matrix that is used to compute 
+  the C matrix in case the kinetic model differs from parallel decays.
+  
+  \code{getC} returns (under a kinetic model) a numeric \code{"matrix"} 
+  that represents the raw matrix of concentrations of the dataset determined
+  by the nonlinear parameters. 
+  
+ \code{getDAS} returns (under a kinetic model) a numeric \code{"matrix"}
+  that represents the Decay Associated Spectra (DAS).
   
   \code{getCLPList} returns a numeric \code{"matrix"}
   that represents the matrix determined
