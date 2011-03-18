@@ -47,10 +47,11 @@ setClass("kin", representation("dat", kinpar = "vector", specpar =
 "numeric", irffun = "character", irfpar = "vector", cohirf = "vector",
 dispmu = "logical", dispmufun = "character", anipar = "vector", parmu
 = "list", disptau = "logical", disptaufun = "character", partau =
-"vector", fullk = "logical", kmat = "array", jvec = "vector", anispec
-= "list", ncolc = "vector", kinscal = "vector", kmatfit = "array",
-cohspec = "list", coh = "vector", wavedep = "logical", lambdac =
-"numeric", speckin2 = "list", usekin2 = "logical", kinpar2 = "vector",
+"vector", fullk = "logical", kmat = "array", jvec = "vector", 
+anispec = "list", ncolc = "vector", 
+kinscal = "vector", kmatfit = "array", cohspec = "list", coh = "vector", 
+wavedep = "logical", lambdac = "numeric", speckin2 = "list", 
+usekin2 = "logical", kinpar2 = "vector",
 kin2scal = "vector", amplitudes = "vector", streakT = "numeric", 
 streak="logical", doublegaus = "logical", fixedkmat="logical",
 kinscalspecialspec ="list", kinscalspecial = "list",
@@ -64,9 +65,10 @@ cohirf = vector(), irffun = "gaus", anispec = list(), irfpar =
 vector(), dispmu = FALSE, dispmufun = "poly", parmu = list(), anipar =
 vector(), disptaufun = "poly", reftau = 0, specpar = list(), 
 partau = vector(), posk = FALSE, disptau = FALSE, fullk = FALSE,
-kmat = array(), jvec = vector(), ncolc = vector(), kinscal = vector(),
-kmatfit = array(), cohspec = list(), coh = vector(), wavedep =
-logical(), lambdac = numeric(), speckin2 = list(), usekin2 = FALSE,
+kmat = array(), jvec = vector(), 
+ncolc = vector(), kinscal = vector(), kmatfit = array(), 
+cohspec = list(), coh = vector(), wavedep = logical(), 
+lambdac = numeric(), speckin2 = list(), usekin2 = FALSE,
 kinpar2 = vector(), kin2scal = vector(), amplitudes = vector(), 
 streakT = 0, streak = FALSE, doublegaus = FALSE, fixedkmat=FALSE,
            kinscalspecialspec = list(),  kinscalspecial = list(),

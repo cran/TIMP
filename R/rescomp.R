@@ -5,13 +5,15 @@ function (theta=vector(), d=vector(), currModel=currModel, currTheta=vector())
     currTheta <- getThetaCl(theta, currModel)
   groups <- currModel@groups 
   m <- currModel@modellist
-  resid <- clpindepX <-list() 
-  for(i in 1:length(m)) 
+  resid <- clpindepX <-list()
+   nexp <- length(m) 
+  for(i in 1:nexp) {
     clpindepX[[i]] <- if(!m[[i]]@clpdep || m[[i]]@getX) 
       getClpindepX(model = m[[i]], theta =
                    currTheta[[i]], multimodel = currModel,
                    returnX = FALSE, rawtheta= theta, dind=0)
     else matrix() 
+  }
   for(i in 1:length(groups)) {
     resid[[i]] <- residPart(model = m[[1]], 
                             group = groups[[i]], multimodel = currModel, 
@@ -53,8 +55,19 @@ function (theta=vector(), d=vector(), currModel=currModel, currTheta=vector())
     currModel <- trires$currModel
     currTheta <- trires$currTheta
   }
-  if(currModel@finished) return(list(currModel=currModel,
-                                     currTheta=currTheta))
+  if(currModel@finished && m[[1]]@mod_type == "kin") {
+    if (m[[1]]@fullk) { 
+      for(i in 1:nexp) {
+        nocolsums <- length(m[[1]]@lightregimespec) > 0 # lightdiff (see compModel.R)
+        eig <- fullKF(currTheta[[i]]@kinpar, currTheta[[i]]@kinscal, m[[1]]@kmat, currTheta[[i]]@jvec, m[[1]]@fixedkmat, m[[1]]@kinscalspecial,
+                  m[[1]]@kinscalspecialspec, nocolsums)
+        currTheta[[i]]@eigenvaluesK <- eig$values
+     }
+    }
+  }
+  if(currModel@finished) {
+  return(list(currModel=currModel,currTheta=currTheta))
+  }
   if(currModel@algorithm == "optim") ## minimize this sum 
     retval <- sum(unlist(resid))  
   else
