@@ -2,8 +2,11 @@
     function (model) 
     {
       model@ncomp <- length(model@amps)
-      model@ncolc <- array(model@ncomp, model@nl)
-      
+      if(length(model@nl)==0) {
+        model@ncolc <- array(model@ncomp, 1)
+	} else {
+	model@ncolc <- array(model@ncomp, model@nl)
+	}    
       model
    }) 
 

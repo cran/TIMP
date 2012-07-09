@@ -17,7 +17,7 @@ opt = opt(),lprogress=FALSE)
   
   if(opt@algorithm == "nls") {
     if (lprogress) 
-      nlsprogress<-capture.output(currModel@fit@nlsres$onls <- nls(~rescomp(t=t,d=d,currModel=currModel),
+      nlsprogress<-capture.output(currModel@fit@nlsres$onls <- nls(~rescomp(theta=t,d=d,currModel=currModel),
                                      data=list(d=vector(),currModel=currModel), 
                                      control =
                                      nls.control(maxiter = iter,
@@ -28,7 +28,7 @@ opt = opt(),lprogress=FALSE)
                                      algorithm = opt@nlsalgorithm,
                                      trace = TRUE))
     else  
-      currModel@fit@nlsres$onls <- nls(~rescomp(t=t,d=d,currModel=currModel),
+      currModel@fit@nlsres$onls <- nls(~rescomp(theta=t,d=d,currModel=currModel),
                                      data=list(d=vector(),currModel=currModel), 
                                      control =
                                      nls.control(maxiter = iter,
@@ -68,10 +68,10 @@ opt = opt(),lprogress=FALSE)
   }
   currModel@finished <- TRUE
   if(opt@algorithm == "nls")
-    resFinal <- rescomp(t=currModel@fit@nlsres$onls$m$getPars(),
+    resFinal <- rescomp(theta=currModel@fit@nlsres$onls$m$getPars(),
                           currModel=currModel)
   else 
-    resFinal <- rescomp(t=currModel@fit@nlsres$onls$par, currModel=currModel)
+    resFinal <- rescomp(theta=currModel@fit@nlsres$onls$par, currModel=currModel)
   
   currModel <- resFinal$currModel
   currTheta <- resFinal$currTheta

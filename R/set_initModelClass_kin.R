@@ -20,7 +20,12 @@
           model@ncomp <- length(model@initialvals)
         else 
           model@ncomp <- length(model@kinpar) + length(model@kinpar2)
-        model@ncolc <- array(model@ncomp, model@nl)
+	if(length(model@nl)==0) {
+        model@ncolc <- array(model@ncomp, 1)
+	} else {
+	model@ncolc <- array(model@ncomp, model@nl)
+	}
+        
         if (length(model@cohspec$type) == 0) 
           model@cohspec$type <- ""
 	if(length(model@speckin2$seqmod) == 0)

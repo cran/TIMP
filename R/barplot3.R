@@ -234,7 +234,7 @@ barplot3 <-
     }
 
     if (beside)
-      w.m <- matrix(w.m, nc = NC)
+      w.m <- matrix(w.m, ncol = NC)
 
     if(horiz)
 	names.side <- 2

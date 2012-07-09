@@ -202,7 +202,7 @@ second Gaussian, respectively.
 \item{\code{numericalintegration}:}{*** Object of class \code{"logical"}  
 that defaults to \code{FALSE} and determines whether a kinetic theory
 model of a reaction mechanism should be numerically integrated (using 
-\pkg{odesolve}) to find the concentrations. 
+\pkg{deSolve}) to find the concentrations. 
 If \code{numericalintegration=TRUE} then 
 \code{initialvals} should specify the initial concentrations and
 \code{reactantstoichiometrymatrix} and 

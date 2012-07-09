@@ -11,7 +11,7 @@ summary.timp.optim <- function (object, currModel, ...)
   obs<-0
   for(i in 1:length(currModel@data)) 
     obs <- obs + length(currModel@data[[i]]@psi.df) 
-  rdf <- obs - p 
+  rdf <- obs - nnonlin 
   resvar <- dev / rdf
   se <- sqrt(diag(ih) * resvar)
   names(se) <- pnames
@@ -33,7 +33,7 @@ summary.timp.nls.lm <- function (object, currModel, ...)
   ih <- solve(object$hessian)
   nnonlin <- length(param)
   p <- nnonlin + currModel@nclp
-  rdf <- length(object$fvec) - p 
+  rdf <- length(object$fvec) - nnonlin 
   resvar <- deviance(object) / rdf
   se <- sqrt(diag(ih) * resvar)
   names(se) <- pnames
@@ -62,7 +62,7 @@ summary.timp.nls <-
     pnames <- names(param)
     nnonlin <- length(param)
     p <- nnonlin + currModel@nclp
-    rdf <- n - p
+    rdf <- n - nnonlin
     resvar <- if(rdf <= 0) NaN else deviance(object)/rdf
     XtXinv <- chol2inv(object$m$Rmat())
     dimnames(XtXinv) <- list(pnames, pnames)

@@ -5,26 +5,45 @@ function (model)
 	numcohcol <- 0 
 	if(model@cohspec$type == "seq") {
 		numcohcol <- length(model@cohspec$start) 
-		model@coh <- model@cohspec$start   
+		model@coh <- model@cohspec$start
+	if(length(model@nl)==0) {
+		model@ncolc <- 
+			    array(model@ncomp + length(model@coh), 1) 
+	} else {
 		model@ncolc <- 
 			    array(model@ncomp + length(model@coh), model@nl) 
+	}
 	}
 	if(model@cohspec$type == "irf" || 
            model@cohspec$type == "freeirfdisp") {
 		numcohcol <- 1
+		if(length(model@nl)==0) {
+		model@ncolc <- array(model@ncomp + 1, 1) 
+		} else {
 		model@ncolc <- array(model@ncomp + 1, model@nl) 
+		}
 	}
 
 	if(model@cohspec$type == "irfmulti") {
-		model@ncolc <- array(model@ncomp + model@cohspec$numdatasets, 
-		model@nl)
+		if(length(model@nl)==0) {
+		  model@ncolc <- array(model@ncomp + model@cohspec$numdatasets,
+		  1)
+		} else {
+		  model@ncolc <- array(model@ncomp + model@cohspec$numdatasets, 
+		  model@nl)
+		}
 		numcohcol <- model@cohspec$numdatasets 
 	}
 	if(model@cohspec$type == "mix") {
 		numcohcol <- length(model@cohspec$start) + 1
 		model@coh <- model@cohspec$start  
-		model@ncolc <- array(model@ncomp + length(model@coh) + 1, 
-			       model@nl) 
+		if(length(model@nl)==0) {
+		  model@ncolc <- array(model@ncomp + length(model@coh) + 1, 
+		  1) 
+		} else {
+		  model@ncolc <- array(model@ncomp + length(model@coh) + 1, 
+		  model@nl) 
+		}
 	}
 	if(length(model@anispec$rammanest) != 0) {
 	    if(model@anispec$rammanest) {

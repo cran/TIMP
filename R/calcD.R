@@ -31,7 +31,7 @@
     list(result) 
   }
   
-  c.temp <- lsoda(cstart, times, Model, parms)
+  c.temp <- lsoda(y=cstart,times=times,func=Model,parms=parms)
   c.temp <- c.temp[,-1]
   colnames(c.temp) <- vector()
 
