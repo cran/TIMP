@@ -1,11 +1,12 @@
 require(TIMP) 
 
-## simulate a 501 x 501 matrix of data
+## simulate a 501 x 126 matrix of data (501 x 501 is too heavy for CRAN)
 
 times <- seq(50, 350, by=.6)
-wavenum <- seq(18000, 28000, by=20)
+wavenum <- seq(18000, 28000, by=80)
+# wavenum <- seq(18000, 28000, by=20) # for the 501 x 501 simulation matrix of data
 
-E <- matrix(nrow = 501, ncol = 3)
+E <- matrix(nrow = length(wavenum), ncol = 3)
 location <- c(26000, 24000, 20000) 
 delta <- c(2000, 3000, 4000)
 amp <- c(1, 2, 3)  
@@ -47,4 +48,4 @@ makeps="Sergey data", title="Ser")
 ## fit the model 
 
 serRes<-fitModel(list(ser2), list(model1), 
-opt=kinopt(iter=1, plot = FALSE))
+opt=kinopt(iter=1, plot = TRUE))

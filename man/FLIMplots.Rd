@@ -34,6 +34,7 @@
     
 }
 \examples{
+\dontrun{ 
 ##############################
 ## READ IN DATA,  PREPROCESS DATA
 ##############################
@@ -65,7 +66,7 @@ mea_IRF <- baseIRF(mea_IRF, 100, 150)[25:230]
 
 modelC <- initModel(mod_type = "kin", 
 ## starting values for decays 
-kinpar=c(1.42, 0.36),
+kinpar=c(1.52, 0.36),
 ## numerical convolution algorithm to use                     
 convalg = 2,
 ## measured IRF                    
@@ -88,7 +89,7 @@ fitD <- fitModel(list(D1,D2),
                  list(modelC),
                  ## estimate the linear coeefficients per-dataset
                  modeldiffs = list(linkclp=list(1,2)),
-                 opt=kinopt(iter=20, linrange = 10,
+                 opt=kinopt(iter=1, linrange = 10,
                    addfilename = TRUE,
                    output = "pdf",
                    makeps = "globalD",
@@ -107,7 +108,7 @@ fitDA <- fitModel(list(DA1,DA2),
                   list(modelC),
                   ## estimate the linear coeefficients per-dataset
                  modeldiffs = list(linkclp=list(1,2)),
-                 opt=kinopt(iter=20, linrange = 10,
+                 opt=kinopt(iter=1, linrange = 10,
                    addfilename = TRUE,
                    output = "pdf",
                    makeps = "globalDA",
@@ -166,6 +167,7 @@ par(cex=1.5)
 plotTau(fitDA$currModel, fitD$currTheta, 2, tit="", plotoptions=plo,
         lifetimes=FALSE)
 
+}
 } 
 \author{Katharine M. Mullen, Sergey Laptenok, Ivo H. M. van Stokkum}
 \seealso{ \code{\link{fitModel}} }

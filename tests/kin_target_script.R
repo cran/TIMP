@@ -13,7 +13,7 @@ require(TIMP)
 delDat<-readData("PCP1.-50000fs.PP.txt")
 
 ## scale wavelength axis 
-delDatP<-preProcess(data = delDat, scalx2 = c(1.19, 404))
+delDatP<-preProcess(data = delDat, scalx2 = c(1.19, 404),sample_lambda=4)
 
 ## set up the K matrix.  
 

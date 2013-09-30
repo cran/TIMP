@@ -143,6 +143,9 @@ if they were calculated in fitting.}
 }
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \examples{
+
+\dontrun{
+
 ## Example showing the addition of non-negativity constraints to 
 ## conditionally linear parameters (here the spectra associated with
 ## a kinetic model)
@@ -287,7 +290,7 @@ sVcp <- getCLP(sV)
  matplot(dt4@x2,dt4@E2, add=TRUE, type="l", col=1, lty=2)
  abline(0,0)
 
-
+}
 }
 \seealso{ \code{\link{fitModel}} }
 \keyword{file}

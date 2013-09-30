@@ -3,6 +3,7 @@ function (data, modspec = list(), datasetind = vector(), modeldiffs = list(),
 opt = opt(),lprogress=FALSE) 
 {
   currModel <- getModel(data, modspec, modeldiffs, datasetind, opt)
+  globalEnvir = as.environment(1)
   
   tr <- getTheta(currModel)
   theta <- tr$theta
@@ -12,8 +13,8 @@ opt = opt(),lprogress=FALSE)
   
   iter <- opt@iter
   
-  assign(".currTheta", currTheta, envir = .GlobalEnv)
-  assign(".currModel", currModel, envir = .GlobalEnv)
+  assign(".currTheta", currTheta, envir = globalEnvir)
+  assign(".currModel", currModel, envir = globalEnvir)
   
   if(opt@algorithm == "nls") {
     if (lprogress) 
@@ -76,8 +77,8 @@ opt = opt(),lprogress=FALSE)
   currModel <- resFinal$currModel
   currTheta <- resFinal$currTheta
   
-  assign(".currTheta", currTheta, envir = .GlobalEnv)
-  assign(".currModel", currModel, envir = .GlobalEnv)
+  assign(".currTheta", currTheta, envir = globalEnvir)
+  assign(".currModel", currModel, envir = globalEnvir)
   
   if (opt@plot) 
     plotter(currModel@modellist[[1]], currModel, currTheta, opt)

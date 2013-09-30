@@ -20,8 +20,8 @@
   m <- multimodel@modellist
   t <- multitheta
   resultlist <- multimodel@fit@resultlist
-  require(fields)
-  require(gclus)
+  #require(fields)
+  #require(gclus)
   tracemat <- matrix(0, nrow(model@inten), ncol(model@inten))
   residlist <- svdresidlist <- list()
   for (i in 1:length(m)) {

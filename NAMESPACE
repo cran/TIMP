@@ -3,7 +3,16 @@ import(splines)
 import(tcltk)
 import(graphics)
 import(vcd)
-importFrom(gplots, textplot)
+import(MASS) 
+import(colorspace)
+import(deSolve)
+import(fields)
+import(gclus)
+import(minpack.lm)
+import(nnls)
+import(gplots)
+
+#importFrom(gplots, textplot)
 
 exportClasses(dat, kin, spec, mass, amp,
               theta, multimodel, res, multitheta, kinopt,

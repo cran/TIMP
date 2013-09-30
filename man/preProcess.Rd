@@ -99,6 +99,8 @@ C2_1 <- preProcess(data = C2_1, sel_time_ab = c(-10, 100000))
 C3_1 <- preProcess(data = C3, sel_lambda = c(1, 25))
 C3_1 <- preProcess(data = C3_1, baselinelambda = c(1,12,1,32) )
 
+\dontrun{
+
 ##############################
 ## SPECIFY K Matrix and J vector 
 ##############################
@@ -229,7 +231,7 @@ specinterpol = TRUE, specinterpolpoints=FALSE,
 divdrel=TRUE, xlab="wavenumber",writeclperr = TRUE,
 makeps = "h20", linrange = 1, superimpose=1:3))
 
-
+}
 }
  \value{
 object of class \code{dat}. 
