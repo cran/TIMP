@@ -5,33 +5,61 @@ function (k, x, irfpar, mirf = FALSE, measured_irf = vector(),
 {
    
   if (!mirf) {
-    if(irffun == "gaus") {
+    if(irffun == "gaus" || irffun == "doublegaus") {
       mu <- irfpar[1]
       tau <- irfpar[2]
-      m <- rep(0, length(x) * length(k))
-      m <- as.matrix(.C("calcCirf", m = as.double(m), as.double(k), 
-                        as.double(x), as.double(tau), as.double(mu),
-                        as.integer(length(k)), 
-                        as.integer(length(x)), PACKAGE="TIMP")$m)
-      dim(m) <- c(length(x), length(k))
+      m <- convGausExp(k, x, mu, tau)
+      #m <- rep(0, length(x) * length(k))
+      #m <- as.matrix(.C("calcCirf", m = as.double(m), as.double(k), 
+      #                  as.double(x), as.double(tau), as.double(mu),
+      #                  as.integer(length(k)), 
+      #                  as.integer(length(x)), PACKAGE="TIMP")$m)
+      #dim(m) <- c(length(x), length(k))
       ## for streak synchronscan data get backsweep term 
       if(streak) {
         backsweep <- getStreakBacksweep(streakT, k, mu,x)
         m <- m + backsweep
       }
-            if(doublegaus) {
-              scal <- irfpar[4]
-              tau2 <- irfpar[3]
-              m2 <- rep(0, length(x) * length(k))
-              m2 <- as.matrix(.C("calcCirf", m = as.double(m2),
-                                 as.double(k), as.double(x), as.double(tau2),
-                                 as.double(mu), as.integer(length(k)),
-                                 as.integer(length(x)), PACKAGE="TIMP")$m)
-              dim(m2) <- c(length(x), length(k))
+            if(doublegaus || irffun == "doublegaus") {
+              scal <- irfpar[4] #note in multiplegauss, scal comes first
+              tau <- irfpar[3]
+              m2 <- convGausExp(k, x, mu, tau)
+              #m2 <- rep(0, length(x) * length(k))
+              #m2 <- as.matrix(.C("calcCirf", m = as.double(m2),
+              #                   as.double(k), as.double(x), as.double(tau2),
+              #                   as.double(mu), as.integer(length(k)),
+              #                   as.integer(length(x)), PACKAGE="TIMP")$m)
+              #dim(m2) <- c(length(x), length(k))
               if(streak) m2 <- m2 + backsweep
               m <- m + (scal * m2)
             }
     }
+    
+    if(irffun == "multiplegaus" || irffun == "multiplegauss") {
+      mu <- irfpar[1]
+      tau <- irfpar[2]
+      m <- convGausExp(k, x, mu, tau)
+      ## for streak synchronscan data get backsweep term 
+      if(streak) {
+        backsweep <- getStreakBacksweep(streakT, k, mu,x)
+        m <- m + backsweep
+      }   
+          if(length(irfpar)>4) {
+              for( i in 1:((length(irfpar)-2)/3)) {
+              # scal shift tau
+              scal <- irfpar[1+(i-1)*3+2]
+              shift <- irfpar[2+(i-1)*3+2]
+              tau <- irfpar[3+(i-1)*3+2]
+              m2 <- convGausExp(k, x, mu+shift, tau)              
+              if(streak) m2 <- m2 + backsweep
+              m <- m + (scal * m2)
+              }
+           }
+            
+    }
+    
+    
+    
     if(irffun == "step") {
       m <- convolveUnitStep(k, x, irfpar) 
       

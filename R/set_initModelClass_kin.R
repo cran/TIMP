@@ -26,13 +26,15 @@
 	model@ncolc <- array(model@ncomp, model@nl)
 	}
         
-        if (length(model@cohspec$type) == 0) 
+        if (length(model@cohspec$type) == 0) # TODO: find a better test
           model@cohspec$type <- ""
 	if(length(model@speckin2$seqmod) == 0)
 		model@speckin2$seqmod <- FALSE
-	if(length(model@speckin2$jvec) == 0)
+	if(length(model@speckin2$jvec) == 0) {
 	        model@speckin2$fullk <- FALSE
-	else model@speckin2$fullk <- TRUE
+	} else { 
+	        model@speckin2$fullk <- TRUE
+	}
 	model@usekin2 <- if( length(model@kinpar2) == 0) FALSE
 	   else TRUE
 	if (length(model@cohspec) != 0) 

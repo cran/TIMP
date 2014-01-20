@@ -86,7 +86,11 @@ parEst <- function(result, param = "", dataset = NA, verbose = TRUE,
   currModel <- result$currModel
   if(stderr && currModel@optlist[[1]]@sumnls) {
     stderr <- TRUE
+    if(class(currModel@fit@nlsres$onls) == "timp.nls.lm") {
+    currErr <- getThetaCl(sumnls(result)$coefficients[,2], currModel) 
+    } else {
     currErr <- getThetaCl(sumnls(result)$parameters[,2], currModel) 
+    }
   }
   else
     stderr <- FALSE

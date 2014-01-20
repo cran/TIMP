@@ -14,6 +14,7 @@
 \alias{calcEhiergaus} 
 \alias{compCoh} 
 \alias{compModel}
+\alias{convGausExp}
 \alias{diffAdd} 
 \alias{diffChange} 
 \alias{diffFree}

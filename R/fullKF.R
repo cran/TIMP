@@ -4,6 +4,7 @@ function(theta, kinscal, kmat, jvec,fixedkmat=FALSE,
          nocolsums = FALSE)
 {
 #fullKF
+
         dimk <- nrow(kmat)
 	A <- matrix(nrow = dimk, ncol = dimk)
         K <- fillK(theta, kinscal, kmat, fixedkmat, kinscalspecial,

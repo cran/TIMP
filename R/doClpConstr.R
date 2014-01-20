@@ -23,7 +23,7 @@ usecompnamesequ)
     	remE <- clpCon$clpRem[clp_ind, ]
     rem <- append(rem0, remE) 
 
-    if(length(rem) > 0 )
+    if(sum(rem) > 0 )
     	X <- as.matrix(X[, - rem])
     
 

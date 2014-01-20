@@ -10,7 +10,7 @@
       resultlist[[i]] <- res() 
       modellist[[i]] <- modelspec[[datasetind[i] ]]
       for (sl in plugin) 
-        slot(modellist[[i]], sl) <- slot(data[[i]], sl)
+        slot(modellist[[i]], sl) <- slot(data[[i]], sl) # TODO: avoid data duplication!
     }
     modellist <- addDscal(modellist, modeldiffs$dscal)
     if (length(modeldiffs$free) != 0) 

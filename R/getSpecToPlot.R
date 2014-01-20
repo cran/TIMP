@@ -7,7 +7,9 @@ function (E, cohmax, cohcol, plotcohcolspec = TRUE)
 	 }
 	}
 	else {
+	  if(!identical(cohcol,0)){
 	     E <- E[, -cohcol]
+	  }
 	}
 	E
 }

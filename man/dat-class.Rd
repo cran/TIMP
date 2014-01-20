@@ -182,6 +182,7 @@ list(to=2, from=1, low=10000, high=100)})}
     \item{\code{mhist}:}{Object of class \code{"list"}  list describing fitting history}
     \item{\code{datCall}:}{Object of class \code{"list"} list of calls to functions}
     \item{\code{dscalspec}:}{ Object of class \code{"list"} }
+    \item{\code{dummy}:}{ Object of class \code{"list"} containing dummy parameters}
      \item{\code{drel}:}{ Object of class \code{"vector"}  vector of starting parameters for dataset scaling relations}
     \item{\code{scalx}:}{ Object of class \code{"numeric"}  numeric by which to scale the \code{x} axis in plotting}
   \item{prel}{vector of starting values for the relations described in 
@@ -210,7 +211,7 @@ that is "nt" if the model has clp in the "x" dimension and "nl" otherwise
   
 }
 
-\author{Katharine M. Mullen, Ivo H. M. van Stokkum}  
+\author{Katharine M. Mullen, Ivo H. M. van Stokkum, Joris J. Snellenburg, Sergey P. Laptenok}  
 \seealso{
 \code{\link{kin-class}}, \code{\link{spec-class}} 
 }

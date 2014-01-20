@@ -17,14 +17,14 @@ function (model)
 	if(length(fixed) > 0) {
 	   for(r in 1:length(fixed)) {
 		if(!is.list(fixed[[r]])){ 
-			finde[[ names(fixed)[r] ]] <- as.vector(fixed[[r]])
+			finde[[ names(fixed)[r] ]] <- as.vector(fixed[[r]]) #TODO: why is this here?
 		}
 		else {
 		     for(s in 1:length(fixed[[r]])) {
 			indf <- fixed[[r]][[s]][2]
 			if(fixed[[r]][[s]][1] > 1){
-			slW<-slot(model, names(fixed[r]))
-			indf <- indf + sum(unlist(lapply(slW, length))[1:(fixed[[r]][[s]][1]-1)]) 
+			  slW<-slot(model, names(fixed[r]))
+			  indf <- indf + sum(unlist(lapply(slW, length))[1:(fixed[[r]][[s]][1]-1)]) 
 			}
 		     	finde[[ names(fixed[r]) ]] <-
 			append(finde[[ names(fixed[r]) ]], indf)

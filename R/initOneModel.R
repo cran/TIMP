@@ -4,7 +4,7 @@ function (model)
     model@weight <- length(model@weightpar) != 0
     model@lclp0 <- length(model@clp0) != 0
     model@lclpequ <- length(model@clpequspec) != 0
-    model <- initModelClass(model)
+    model <- initModelClass(model)    
     if(length(model@clp0) != 0) 
 	model@usecompnames0 <- is.character(unlist(lapply(model@clp0, 
 			       function(x){x[["comp"]]} ))) 

@@ -13,19 +13,22 @@
      thetaClass@prel <- parvec
      for(diffs in prelspec){
            if(length(diffs$rel) == 0 || diffs$rel == "lin"){
-              
-	      newpar <- multiLin(thetaClass, diffs, parvec[cnt]) + parvec[cnt+1]
+              constant <- 0
+              if (length(diffs$start) > 1) {
+		 constant<- thetaClass@prel[cnt+1]
+	      }
+	      newpar <- multiLin(thetaClass, diffs, thetaClass@prel[cnt]) + constant
 	      if(length(diffs$ind1)==1)
 		    slot(thetaClass, diffs$what1)[diffs$ind1] <- newpar 
 	      if(length(diffs$ind1)==2) {
 		    slot(thetaClass, diffs$what1)[[diffs$ind1[1]]][diffs$ind1[2]] <- newpar 
 
                   }
-	      cnt <- cnt + 2       
+	      cnt <- cnt + length(diffs$start)       
             }
 	   else { 
              if(diffs$rel == "multilin"){
-               newpar <- parvec[cnt] + multiLin(thetaClass, diffs,parvec[(cnt+1):(cnt+length(diffs$start))] )
+               newpar <- thetaClass@prel[cnt] + multiLin(thetaClass, diffs,thetaClass@prel[(cnt+1):(cnt+length(diffs$start)-1)] )
                if(length(diffs$ind1)==1)
                  slot(thetaClass, diffs$what1)[diffs$ind1] <- newpar 
                if(length(diffs$ind1)==2) 

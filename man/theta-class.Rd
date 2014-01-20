@@ -33,6 +33,7 @@ spectra}
 the context of a compartmental scheme}
     \item{\code{prel}:}{Object of class \code{"vector"}  of parameters describing relations between
 parameters (which may be linear, exponential, etc.)}
+    \item{\code{dummy}:}{Object of class \code{"list"} of dummy parameters which can be used in complex relations}
     \item{\code{eigenvaluesK}:}{Object of class \code{"vector"}  containing the eigenvalues of the kinetic transfer matrix K}
     \item{\code{coh}:}{Object of class \code{"vector"}  of parameters
     describing a coherent artifact or pulse follower. }
@@ -54,5 +55,5 @@ datasets (linear, and possibly per-wavelength or, in general, per-clp)}
 \code{theta} exists in the global environment as the variable 
 \code{currTheta}  }  
 \seealso{ \code{\link{fitModel} }, \code{\link{multitheta-class}}}
-\author{Katharine M. Mullen, Ivo H. M. van Stokkum}
+\author{Katharine M. Mullen, Ivo H. M. van Stokkum, Joris J. Snellenburg, Sergey P. Laptenok}
 \keyword{classes}
