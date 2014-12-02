@@ -1,4 +1,4 @@
-setMethod("initModelClass", signature(model="kin"),                       
+initModelClassTest <-                    
           function (model) 
           {
             model@mirf <-  length(model@measured_irf) != 0
@@ -27,7 +27,7 @@ setMethod("initModelClass", signature(model="kin"),
             }
             
             if (length(model@cohspec$type) == 0) # TODO: find a better test
-              model@cohspec$type <- ""
+              model@cohspec$type <- "XPM"
             if (length(model@oscspec$type) == 0) # TODO: find a better test
               model@oscspec$type <- ""
             if(length(model@speckin2$seqmod) == 0)
@@ -46,5 +46,5 @@ setMethod("initModelClass", signature(model="kin"),
             model <- getAnisotropy(model)  
             
             model
-          }) 
+          }
 

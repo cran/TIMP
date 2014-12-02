@@ -4,7 +4,7 @@ measured_irf = vector(), convalg = 1, shiftmea = vector(), lamb = 1,
 ani = list(), anipar = vector(), cohcol = vector()) 
 {
   type <- cohspec$type 
-  if(type == "irf") {
+  if(tolower(type) == "irf") {
     if(mirf) {
       if (length(shiftmea) != 0) {
         if (length(shiftmea) == 1) 
@@ -21,18 +21,31 @@ ani = list(), anipar = vector(), cohcol = vector())
     else
       cohcols <- dnorm(x, irfpar[1], irfpar[2])
   }
-  if(type == "freeirfdisp") 
+  if(tolower(type) == "freeirfdisp") 
     cohcols <- dnorm(x, cohirf[1], cohirf[2])
-  if(type == "irfmulti") { 
+  if(tolower(type) == "irfmulti") { 
     cohcols <- matrix(0, nrow = length(x), 
                       ncol = cohspec$numdatasets)
     cohcols[, dataset] <- dnorm(x, irfpar[1], irfpar[2])
   }
-  if(type == "seq") 
+  if(tolower(type) == "seq")
+    #TODO: fix IRF parameters
     cohcols <- calcCirf(coh, x, irfpar) %*% calcB(coh) 
-  if(type == "mix") 
+  if(tolower(type) == "mix") {
+    #TODO: fix IRF parameters
     cohcols <- cbind(dnorm(x, irfpar[1], 
-			   irfpar[2]), calcCirf(coh, x, irfpar) %*% calcB(coh))
+			   irfpar[2]), calcCirf(coh, x, irfpar) %*% calcB(coh)) 
+  } 
+  if(tolower(type) == "xpm") {
+    # A*(t*Exp(-2(t/tau)^2))-(t-Tgvd)(Exp(-2((t-Tgvd)^2)/tau^2)
+    # A = coh[1]; Tgvd=coh[2]; tau=coh[3] 
+    t0 = irfpar[1]
+    tt=x-t0
+    A=coh[1]
+    Tgvd=coh[2]
+    tau=coh[3]
+    cohcols <- (A*(tt*exp(-2*(tt/tau)^2))-(tt-Tgvd)*(exp(-2*((tt-Tgvd)/tau)^2)))
+  }
                                         # constant anisotropy
   if(ani$calcani) {
     if(ani$rammanest) {

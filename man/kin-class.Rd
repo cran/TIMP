@@ -64,7 +64,6 @@ argument of the  \code{\link{initModel}} function.
     \item{pvecind}{}
     \item{satMat}{}
     \item{scalx}{}
-    \item{title}{}
     \item{usecompnames0}{}
     \item{usecompnamesequ}{}
     \item{usekin2}{}
@@ -174,6 +173,13 @@ models; see the above description of \code{seq} for how to supply the
 starting values. }}}
     \item{\code{coh}:}{*** Object of class \code{"vector"}  of starting values for the parameterization of a  
 coherent artifact}
+ \item{\code{oscspec}:}{*** Object of class \code{"list"} describing the model for 
+additional oscillation component(s) containing the element  \code{type}
+and optionally the element \code{start}. The element \code{start} can be used to specificy the starting values for the oscillation function. The element \code{type} can be set as follows: 
+   \describe{
+      \item{\code{"harmonic"}:}{if \code{type="harmonic"}, the oscillation function is a damped harmonic oscillator.} }
+}
+    \item{\code{oscpar}:}{*** Object of class \code{"vector"}  of starting values for the oscillation parameters}
     \item{\code{wavedep}:}{Object of class \code{"logical"}  describing whether the kinetic model is dependent on
 \code{x2} index (i.e., whether there is clp-dependence)}
     \item{\code{lambdac}:}{*** Object of class \code{"numeric"}  for the center wavelength to be used in a polynomial 
@@ -198,6 +204,15 @@ then \code{irfpar} should contain four numeric values corresponding to
 the location (mean) of the IRF, the FWHM of the first Gaussian, the 
 FWHM of the second Gaussian, and the relative amplitude of the 
 second Gaussian, respectively. 
+}
+\item{\code{multiplegaus}:}{*** Object of class \code{"logical"}  
+that defaults to \code{FALSE} and determines whether multiple
+Gaussians should be used to model the IRF. If \code{multiplegaus=TRUE}
+then \code{irfpar} should contain: two numeric values corresponding to
+the location (mean) and the FWHM of the first Gaussian of the IRF, and
+three numeric values for \bold{each} additional gaussian modeled, corresponding to
+the relative scaling to the first gaussian, the shift (in time) relative to the
+first gaussian and the FWHM of the additonal Gaussian, respectively. 
 }
 \item{\code{numericalintegration}:}{*** Object of class \code{"logical"}  
 that defaults to \code{FALSE} and determines whether a kinetic theory

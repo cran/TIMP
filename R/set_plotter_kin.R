@@ -1,5 +1,5 @@
 setMethod("plotter", signature(model = "kin"),function(model, 
-                                 multimodel, multitheta, plotoptions) {
+                                 multimodel, multitheta, plotoptions) {  
   if (!plotoptions@notraces) 
     plotTracesSuper(multimodel, multitheta, plotoptions)
   if(plotoptions@residplot) {

@@ -1,6 +1,6 @@
 "getConToPlot" <- function (C, cohspec, cohcol) 
 {
-	  cohmax <- vector()
+    cohmax <- vector()
 	  if(!identical(cohcol, 0)) {	
 		  for (i in 1:length(cohcol)) { 
 

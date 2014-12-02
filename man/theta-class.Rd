@@ -47,6 +47,8 @@ datasets (linear, and possibly per-wavelength or, in general, per-clp)}
     \item{kin2scal}{}
     \item{kinpar2}{}
     \item{kinscalspecial}{}
+    \item{\code{oscpar}:}{Object of class \code{"vector"}  of parameters
+    describing oscillation parameters. The length depends on the type of oscillation and the number of oscillations. }
     \item{peakpar}{}
     \item{shift}{}
   }

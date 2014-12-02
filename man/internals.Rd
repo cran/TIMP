@@ -14,6 +14,7 @@
 \alias{calcEhiergaus} 
 \alias{compCoh} 
 \alias{compModel}
+\alias{compOsc}
 \alias{convGausExp}
 \alias{diffAdd} 
 \alias{diffChange} 
@@ -38,6 +39,7 @@
 \alias{getFixed}
 \alias{getGroups} 
 \alias{getModel} 
+\alias{getOsc} 
 \alias{getPar} 
 \alias{getPrel}
 \alias{getPrelTheta} 
@@ -93,7 +95,7 @@
 \alias{calcD} 
 \title{TIMP function used internally}
 \description{TIMP function used internally}
-\author{Katharine M. Mullen, Ivo H. M. van Stokkum}
+\author{Katharine M. Mullen and Joris J. Snellenburg and Ivo H. M. van Stokkum}
 \seealso{
 \code{\link{baseIRF}},\code{\link{readData}}, 
 \code{\link{preProcess}},\code{\link{initModel}},
@@ -101,4 +103,3 @@
 \code{\link{sumKinSpecEst}}  
 }
 \keyword{internal}
-

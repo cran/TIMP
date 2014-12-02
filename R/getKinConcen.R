@@ -16,17 +16,17 @@
     if (m@wavedep || length(clpindepX) < 1 ) {
       irfvec <- irfparF(t@irfpar, m@lambdac, m@x2[group[[i]][1]], 
                         group[[i]][1], m@dispmu, t@parmu[[1]], m@disptau, 
-                        t@partau, m@dispmufun, m@disptaufun, m@doublegaus)
+                        t@partau, m@dispmufun, m@disptaufun, m@doublegaus, m@multiplegaus)
       if (length(m@cohspec) != 0) {
-                  if (m@cohspec$type == "freeirfdisp") 
-                    cohirf <- irfparF(t@irfpar, m@lambdac,
-                                      m@x2[group[[i]][1]], group[[i]][1],
-                                      m@dispmu,
-                                      t@parmu[[2]], m@disptau, t@partau,
-                                      m@dispmufun,
-                                      m@disptaufun, m@doublegaus)
-                  else cohirf <- vector()
-                }
+        if (m@cohspec$type == "freeirfdisp") 
+          cohirf <- irfparF(t@irfpar, m@lambdac,
+                            m@x2[group[[i]][1]], group[[i]][1],
+                            m@dispmu,
+                            t@parmu[[2]], m@disptau, t@partau,
+                            m@dispmufun,
+                            m@disptaufun, m@doublegaus, m@multiplegaus)
+        else cohirf <- vector()
+      }
       if(m@getX && oneDS == 0) 
         concen_i <- clpindepX[[group[[i]][2]]]
       else
@@ -36,9 +36,9 @@
                               kmat = m@kmat, jvec = t@jvec,
                               shiftmea =  t@parmu, 
                               dscalspec = m@dscalspec, 
-                              drel = t@drel, cohspec = m@cohspec, coh = t@coh, 
+                              drel = t@drel, cohspec = m@cohspec, oscspec = m@oscspec, oscpar = t@oscpar, coh = t@coh, 
                               cohirf = cohirf, lamb = group[[i]][1], 
-                              dataset = group[[i]][2], 
+                              dataset = group[[i]][2], irffun=m@irffun,
                               mirf = m@mirf, measured_irf = m@measured_irf, 
                               convalg = m@convalg, speckin2 = m@speckin2, 
                               usekin2 = m@usekin2, kinpar2 = t@kinpar2, 
@@ -46,18 +46,18 @@
                               anispec = m@anispec, anipar = t@anipar, 
                               cohcol = m@cohcol, amplitudes = t@amplitudes, 
                               streakT = m@streakT, streak=m@streak, 
-                              doublegaus = m@doublegaus, fixedkmat=m@fixedkmat,
+                              doublegaus = m@doublegaus, multiplegaus = m@multiplegaus, fixedkmat=m@fixedkmat,
                               kinscalspecial = t@kinscalspecial,
                               kinscalspecialspec = m@kinscalspecialspec,
                               lightregimespec = m@lightregimespec
                               ,numericalintegration = m@numericalintegration,
-          		      initialvals = m@initialvals,
-          		      reactantstoichiometrymatrix
+                              initialvals = m@initialvals,
+                              reactantstoichiometrymatrix
                               = m@reactantstoichiometrymatrix,
-          		      stoichiometrymatrix = m@stoichiometrymatrix,lreturnA=lreturnA)
-    if (lreturnA||lreturnC)
-      return(concen_i)
-    else
+                              stoichiometrymatrix = m@stoichiometrymatrix,lreturnA=lreturnA)
+      if (lreturnA||lreturnC)
+        return(concen_i)
+      else
       {if (m@weight && weight) 
         concen_i <- weightNL(concen_i, m, group[[i]][1])}
       if(m@getXsuper) 
@@ -66,7 +66,7 @@
         concen <- if (!identical(concen, matrix())) 
           rbind(concen, concen_i)
         else concen_i
-        } 
+      } 
     }
     else {
       if (identical(concen, matrix())) 
