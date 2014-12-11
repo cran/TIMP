@@ -24,8 +24,8 @@
       }
     }
     if(model@cohspec$type == "xpm" || model@cohspec$type == "XPM") {
-      if (length(model@oscspec$start)>0 && length(model@coh)==0) {
-        model@coh <- model@oscspec$start
+      if (length(model@cohspec$start)>0 && length(model@coh)==0) {
+        model@coh <- model@cohspec$start
       }
       numosccol <- floor(length(model@coh)/3) 
       

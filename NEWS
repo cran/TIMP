@@ -1,0 +1,13 @@
+TIMP News
+
+CHANGES IN TIMP 1.12.1:
+
+  NEW FEATURES:
+  
+  * Started keeping track of a NEWS file to document changs 
+    to the package.
+  
+  BUG FIXES:
+  
+  * Fixed a bug where setting the start attribute of cohspec
+    would not be propagated to the coh vector.

@@ -1,6 +1,7 @@
 94d55d512a9ba36caa9b7df079bae19f *COPYING
-480cdac55c9223285a054440bb033ed5 *DESCRIPTION
+6d876f273c893592b6c7207c2c31e276 *DESCRIPTION
 b19693645957e41c3b8ac0be63cbefc0 *NAMESPACE
+9aa33bddc297dd28c16a1fb9d48bdb27 *NEWS
 d36124a2a2fd9b5166a38ad8b4619969 *R/addDscal.R
 c7a8af9f826c49040d6132bfa4372b32 *R/addOutlierWeights.R
 4fc053ed4bcf380710e647e7cdc33a6e *R/addPrel.R
@@ -51,7 +52,7 @@ cef521c1719e9d62d9a2e71d1cb77408 *R/getAniK.R
 d3eb4f35aa121aa2ef29786140f5f898 *R/getAnisotropy.R
 8028aee12f6a7e51d24f2d3cad293238 *R/getAutoClp0.R
 dc532b9b57aa26444c9554863437bf2a *R/getClpConstr.R
-90557fb0952ecabbb1c4d10365ee333d *R/getCoh.R
+43787ec589337e82e579f17887cb8279 *R/getCoh.R
 f7be60c40f3dbcd819705274e41caa36 *R/getCohToPlot.R
 de2f281445295228261e560ca1ef8d4b *R/getConToPlot.R
 58cbefecacfdce8b0e3734475e127139 *R/getConstrained.R
@@ -92,7 +93,6 @@ ca6d12a53c5fb7f43e2c9f3bcc41c596 *R/init.opt.R
 276528d8f018f1d0bde1055ba8884bed *R/init.res.R
 8223564cee9e1e367fc787627f100afa *R/init.theta.R
 884a07918ca0ecdf4f4810d2f9d83499 *R/initModel.R
-9064ad62f89705e8531e4efe07160427 *R/initModelClassTest.R
 63403e9453327a57bea751ad8c9e3117 *R/initModellist.R
 a0b0bda6d1888a56c98f0b69b3eefd84 *R/initOneModel.R
 4a0e83df3f82399d792f236fa8f88b89 *R/irfparF.R
@@ -171,12 +171,12 @@ df3d5495d4a2b5d83f80d06b8c99044f *R/weightSM.R
 709e26392d881b3703b6d380ae575f3d *R/writeEst.R
 9e2af3031ac7bfd4cba019a6eda30358 *R/writeFit.R
 21513ecb72cb8bfc020919621d0223bd *R/zzz.R
-66735120c08d8b9165aa925e6a735ba5 *data/denS4.rda
-8a869e74b66a76470856c95ae61eaed0 *data/denS5.rda
-5abb03878e14551c8826a7ccab3b348a *data/donorAcceptorTagged.rda
-ca7e1e13ee7ae17f4ef772248140127e *data/donorTagged.rda
-dd903c3396912a8c43d4e12fcef4ad9e *data/mea_IRF.rda
-ce7403c0f1fb2d3e57b6c8fe1d1b3833 *data/target.rda
+c363bd2eb452bc9e6860cb293ca2845a *data/denS4.rda
+4b41d87ce7a3db141a080428f2d11364 *data/denS5.rda
+002e9ff89fc5b0653c287c4c35a6b882 *data/donorAcceptorTagged.rda
+0a64afce90ddaf4ac336deefba3ac5e0 *data/donorTagged.rda
+19d299f080cb9736a8887d3edbd9317e *data/mea_IRF.rda
+49f8735871ba8cf64b4787feeb390183 *data/target.rda
 6912c4ef718ca99c2511618a38eb1351 *inst/CITATION
 17623a25bb6d2c056b0462a4a29e2a4c *man/FLIMplots.Rd
 8cc4000b36f539ff53c0bfeb0d22bf24 *man/TIMP-package.Rd
