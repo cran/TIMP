@@ -18,8 +18,10 @@ ani = list(), anipar = vector(), cohcol = vector())
       }
       cohcols <- measured_irf
     }
-    else
+    else {
+      # todo: implement code that takes into account non-gaussian IRF
       cohcols <- dnorm(x, irfpar[1], irfpar[2])
+      }
   }
   if(tolower(type) == "freeirfdisp") 
     cohcols <- dnorm(x, cohirf[1], cohirf[2])

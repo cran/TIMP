@@ -195,6 +195,7 @@
         }
     }
     writeEst(multimodel, multitheta, plotoptions)
+    # TODO: replace functionality provided by displayEst
     displayEst(plotoptions)
 }
 

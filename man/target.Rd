@@ -21,7 +21,7 @@ The variable projection algorithm in time-resolved spectroscopy,
   Hydrogen bond switching among flavin and amino acid side 
 chains in the {BLUF} photoreceptor observed by ultrafast infrared spectroscopy,
   \emph{Biophysical Journal}, \bold{in press}, 
-\url{http://www.biophysj.org/cgi/content/abstract/biophysj.108.139246v1}.
+\url{http://dx.doi.org/10.1529/biophysj.108.139246}.
 }
 \details{
 See \code{\link{preProcess}} for examples using this data. 

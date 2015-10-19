@@ -201,6 +201,7 @@ setMethod("plotter", signature(model="spec"),
             }
             par(mfrow=c(plotoptions@summaryplotrow,1), new=TRUE)
             writeEst(multimodel, multitheta, plotoptions)
+            # TODO: replace functionality provided by displayEst
             displayEst(plotoptions)
             
             if(plotoptions@plotkinspec) {

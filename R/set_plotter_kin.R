@@ -299,6 +299,7 @@ setMethod("plotter", signature(model = "kin"),function(model,
   mtext(tit, side = 3, outer = TRUE, line = 1)
   
   writeEst(multimodel, multitheta, plotoptions)
+  # TODO: replace functionality provided by displayEst
   displayEst(plotoptions)
   
   if (dev.interactive() && length(plotoptions@makeps) != 0) {

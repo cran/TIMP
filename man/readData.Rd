@@ -2,8 +2,9 @@
 \alias{readData}
 \title{This function reads in data the ivo file format}
 \description{Data in the formats described at 
-\url{http://www.nat.vu.nl/~kate/TIM/tim/node74.html} and 
-\url{http://www.nat.vu.nl/~kate/FLIM_format}
+\url{http://glotaran.org/wiki/doku.php?id=file_formats}
+% \url{http://www.nat.vu.nl/~kate/TIM/tim/node74.html} and 
+% \url{http://www.nat.vu.nl/~kate/FLIM_format}
 may be read from file into an R object for analysis.  
 }
 \usage{

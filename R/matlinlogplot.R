@@ -63,20 +63,20 @@ function (x, y, mu, alpha, type = "p", lty = 1:5, lwd = 1, pch = NULL, col = 1:6
     ylim <- if (is.null(ylim)) 
         range(xy$y[is.finite(xy$y)])
     else ylim
-    if (length(type) < k) 
-        type <- rep(type, length.out = k)
-    if (length(lty) < k) 
-        lty <- rep(lty, length.out = k)
-    if (length(lwd) < k) 
-        lwd <- rep(lwd, length.out = k)
-    if (length(pch) < k) 
-        pch <- rep(pch, length.out = k)
-    if (length(col) < k) 
-        col <- rep(col, length.out = k)
-    if (length(bg) < k) 
-        bg <- rep(bg, length.out = k)
-    if (length(cex) < k) 
-        cex <- rep(cex, length.out = k)
+    if (!is.null(type) && length(type) < k) {
+        type <- rep(type, length.out = k) }
+    if (!is.null(lty) && length(lty) < k) {
+        lty <- rep(lty, length.out = k) }
+    if (!is.null(lwd) && length(lwd) < k) {
+        lwd <- rep(lwd, length.out = k) }
+    if (!is.null(pch) && length(pch) < k) {
+        pch <- rep(pch, length.out = k) }
+    if (!is.null(col) && length(col) < k) {
+        col <- rep(col, length.out = k) }
+    if (length(bg) < k) {
+        bg <- rep(bg, length.out = k) }
+    if (!is.null(cex) && length(cex) < k) {
+        cex <- rep(cex, length.out = k) }
     ii <- 1:k
     if (!add) {
         ii <- ii[-1]

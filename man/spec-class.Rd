@@ -75,7 +75,7 @@ Ivo H. M. van Stokkum,
 for the Troisieme Cycle de la Physique en Suisse Romande", 
 Department of Physics and Astronomy, Faculty of Sciences, Vrije Universiteit,
 Amsterdam, The Netherlands, 2005, 
-\url{http://www.nat.vu.nl/~ivo/lecturenotes.pdf}
+\url{http://www.nat.vu.nl/~ivo/pub/2005/lecturenotes3cycle.pdf}
 }
 \seealso{ \code{\link{kin-class}},
 \code{\link{dat-class}} }
