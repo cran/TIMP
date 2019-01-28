@@ -1,5 +1,5 @@
 94d55d512a9ba36caa9b7df079bae19f *COPYING
-bd0facd2cf3d97417c28aa4b187eb0ef *DESCRIPTION
+e96f371207636aab053e6affcd9add8e *DESCRIPTION
 f635289ceac9cba99d16a66678d1cc9e *NAMESPACE
 9aa33bddc297dd28c16a1fb9d48bdb27 *NEWS
 d36124a2a2fd9b5166a38ad8b4619969 *R/addDscal.R
@@ -85,7 +85,7 @@ cc88589508c9562e4e43807b8457af74 *R/getTheta.R
 90da0028ecac5ea8ed93166d80cc1686 *R/getThetaCl.R
 14b228b6284b07f786786227462d72d1 *R/getXList.R
 de2259aff8739190b445e99047496069 *R/getXsuper.R
-2ea6a10ab0dcd291867d1fd077b4e542 *R/init.dat.R
+6ce512ac9c73dd8b0099d169e1ce0a88 *R/init.dat.R
 c2439e697b68d987b9610fbb20d6c962 *R/init.fit.R
 ca43ed4b7aa30bc313ce9c8888490ce1 *R/init.multimodel.R
 8aeeabbf1344b974625c13d9e19a0f68 *R/init.multitheta.R
@@ -219,6 +219,7 @@ cf8caa53a47650ef3d4b1c3f10cf14d2 *man/sumKinSpecEst.Rd
 5e40c5f845288a1afaec06f896937993 *man/target.Rd
 b3428ae55aeaf8b854bdd2ca1b55b6a7 *man/theta-class.Rd
 427fb3da2a1c28f5bb49ef9f29aa8cc4 *man/writeAverage.Rd
+9ba0ea064106bf1384adf03c1040ef2c *src/init.c
 34a838bf6a0be450b654f59af911974e *src/ntr.c
 20b5738f513b2d4b21e8ced038fe2320 *tests/25_650-75_2700.txt
 66feb6b56f3cebfc3dbdaa0890b968ca *tests/PCP1.-50000fs.PP.txt
