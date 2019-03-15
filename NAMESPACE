@@ -68,3 +68,7 @@ S3method("print", "summary.timp.optim")
 S3method("print", "timp.nls.lm")
 S3method("print", "timp.nls")
 S3method("print", "timp.optim")
+
+# TODO: Read up on Writing Portable Packages
+# Ref https://stackoverflow.com/questions/42313373/r-cmd-check-note-found-no-calls-to-r-registerroutines-r-usedynamicsymbols
+useDynLib("TIMP", .registration = TRUE)

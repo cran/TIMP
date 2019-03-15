@@ -10,7 +10,7 @@ ani = list(), anipar = vector(), cohcol = vector())
         if (length(shiftmea) == 1) 
           lamb <- 1
         xspace <- x[2] - x[1]
-        measured_irf <- .C("ShiftCurve", 
+        measured_irf <- .C("r_ShiftCurve", 
 			   source = as.double(measured_irf), 
 			   as.double(measured_irf), 
 			   as.double(shiftmea[lamb]/xspace), 
@@ -56,7 +56,7 @@ ani = list(), anipar = vector(), cohcol = vector())
           if (length(shiftmea) == 1) 
             lamb <- 1
           xspace <- x[2] - x[1]
-          measured_irf <- .C("ShiftCurve", 
+          measured_irf <- .C("r_ShiftCurve", 
                              source = as.double(measured_irf), 
                              as.double(measured_irf), 
                              as.double(shiftmea[lamb]/xspace), 

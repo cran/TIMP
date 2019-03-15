@@ -11,7 +11,7 @@ function (k, x, irfpar, mirf = FALSE, measured_irf = vector(),
       tau <- irfpar[2]
       m <- convGausExp(k, x, mu, tau)
       #m <- rep(0, length(x) * length(k))
-      #m <- as.matrix(.C("calcCirf", m = as.double(m), as.double(k), 
+      #m <- as.matrix(.C("r_calcCirf", m = as.double(m), as.double(k), 
       #                  as.double(x), as.double(tau), as.double(mu),
       #                  as.integer(length(k)), 
       #                  as.integer(length(x)), PACKAGE="TIMP")$m)
@@ -26,7 +26,7 @@ function (k, x, irfpar, mirf = FALSE, measured_irf = vector(),
               tau <- irfpar[3]
               m2 <- convGausExp(k, x, mu, tau)
               #m2 <- rep(0, length(x) * length(k))
-              #m2 <- as.matrix(.C("calcCirf", m = as.double(m2),
+              #m2 <- as.matrix(.C("r_calcCirf", m = as.double(m2),
               #                   as.double(k), as.double(x), as.double(tau2),
               #                   as.double(mu), as.integer(length(k)),
               #                   as.integer(length(x)), PACKAGE="TIMP")$m)
@@ -72,23 +72,23 @@ function (k, x, irfpar, mirf = FALSE, measured_irf = vector(),
     if (length(shiftmea) != 0) {
       if (length(shiftmea) == 1) 
         lamb <- 1
-      measured_irf <- .C("ShiftCurve", source = as.double(measured_irf), 
+      measured_irf <- .C("r_ShiftCurve", source = as.double(measured_irf), 
                          as.double(measured_irf),
                          as.double(shiftmea[lamb]/xspace), 
                          as.integer(length(x)), PACKAGE="TIMP")$source
     }
     for (i in 1:length(k)) {
-      m[, i] <- switch(convalg, .C("Conv1", result = as.double(m[, i]),
+      m[, i] <- switch(convalg, .C("r_Conv1", result = as.double(m[, i]),
                                    as.double(measured_irf),
                                    as.integer(length(x)), 
                                    as.double(k[i]), as.double(xspace), 
                                    PACKAGE="TIMP")$result, 
-                       .C("Conv2", result = as.double(m[, i]),
+                       .C("r_Conv2", result = as.double(m[, i]),
                           as.double(measured_irf), 
                           as.integer(length(x)), as.double(k[i]),
                           as.double(xspace), 
                           PACKAGE="TIMP")$result, 
-                       .C("Conv3", result = as.double(m[, 
+                       .C("r_Conv3", result = as.double(m[, 
                                      i]), as.double(measured_irf),
                           as.integer(length(x)), 
                           as.double(k[i]), as.double(xspace),

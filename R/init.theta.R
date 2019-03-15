@@ -13,7 +13,7 @@ setClass("theta", representation(kinpar = "vector", specpar = "list",
 	jvec = vector(), cohirf= vector(), kinpar2 = vector(), 
 	kin2scal = vector(), anipar = vector(), peakpar = list(),
 	amplitudes=vector(), shift = vector(), amps = list(),
-          kinscalspecial = list(), eigenvaluesK = vector() ))
+          kinscalspecial = list(), eigenvaluesK = vector()))
 
 
 

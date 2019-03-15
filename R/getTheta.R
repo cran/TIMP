@@ -49,6 +49,12 @@
   }
   mod@parorder <- processOrder(parorder, mod) 
   df <- getDiffTheta(th, mod)
+
+  if(mod@modellist[[1]]@lscalpar) {
+    thetascal <- abs(df$theta)
+    df$mod@modellist[[1]]@thetascal <- thetascal
+    df$theta <- df$theta/thetascal
+  }
   list(theta = df$theta, mod = df$mod)
 }
     

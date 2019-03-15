@@ -2,14 +2,20 @@
   function (data, modspec = list(), datasetind = vector(), modeldiffs = list(), 
             opt = opt(),lprogress=FALSE) 
   {
+    
     currModel <- getModel(data, modspec, modeldiffs, datasetind, opt)
     globalEnvir = as.environment(1)
     
     tr <- getTheta(currModel)
     theta <- tr$theta
+
     currModel <- tr$mod  
-    
-    currTheta <- getThetaCl(theta, currModel)
+    if(currModel@modelspec[[1]]@lscalpar) {
+      thetascal <- currModel@modellist[[1]]@thetascal
+      currTheta <- getThetaCl(theta*thetascal, currModel)
+    } else {
+      currTheta <- getThetaCl(theta, currModel)
+    }
     
     iter <- opt@iter
     

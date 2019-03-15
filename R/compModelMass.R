@@ -21,7 +21,7 @@ function (theta, model)
     widths <- unlist(lapply(peakpar, fn1, ind=2))
     rates <- unlist(lapply(peakpar, fn1, ind=3))
     massm <- rep(0, model@nt * lpp) 
-    massm <- as.matrix(.C("calcCirf_multi", 
+    massm <- as.matrix(.C("r_calcCirf_multi", 
                           cmat = as.double(massm), 
                           as.double(rates), as.double(model@x), 
                           as.double(widths), 

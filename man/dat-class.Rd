@@ -28,6 +28,8 @@ most are most often made by invoking another function such as
 	   \item{compnames}{}
 	   \item{highcon}{}
 	   \item{lowcon}{}
+	   \item{lscalpar}{}
+	   \item{\code{thetascal}:}{*** Object of class \code{"vector"}  vector of values to scale the parameter vector with. }
 	   \item{mvecind}{}
 	   \item{nvecind}{}
 	   \item{outMat}{}
@@ -35,7 +37,6 @@ most are most often made by invoking another function such as
 	    \item{usecompnames0}{}
 	   \item{usecompnamesequ}{}
 	   \item{weightList}{}
-	   \item{dscalspec}{}
 	   \item{getX}{}
 	   \item{getXsuper}{}
 	   \item{\code{weightpar}:}{*** Object of class \code{"list"}  list of vectors 
@@ -181,6 +182,7 @@ list(to=2, from=1, low=10000, high=100)})}
     \item{\code{title}:}{ Object of class \code{"character"} displayed on output plots}
     \item{\code{mhist}:}{Object of class \code{"list"}  list describing fitting history}
     \item{\code{datCall}:}{Object of class \code{"list"} list of calls to functions}
+    \item{\code{dscal}:}{ Object of class \code{"list"} }
     \item{\code{dscalspec}:}{ Object of class \code{"list"} }
     \item{\code{dummy}:}{ Object of class \code{"list"} containing dummy parameters}
      \item{\code{drel}:}{ Object of class \code{"vector"}  vector of starting parameters for dataset scaling relations}

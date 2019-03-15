@@ -195,7 +195,7 @@ static double erfce (double x)
 
 /* calcCirf */
 
-void calcCirf(double *cmat, double *k, double *x, double *tau, double *mu,
+void r_calcCirf(double *cmat, double *k, double *x, double *tau, double *mu,
               int *lenk, int *lenx){
 
   double alpha, beta, thresh;
@@ -231,7 +231,7 @@ void calcCirf(double *cmat, double *k, double *x, double *tau, double *mu,
  *  for convolution using a per-component irf-mu and irf-tau
  */
 
-void calcCirf_multi(double *cmat, double *k, double *x, double *tau, 
+void r_calcCirf_multi(double *cmat, double *k, double *x, double *tau, 
 		    double *mu, int *lenk, int *lenx){
   double alpha, beta, thresh;
   int i, row_cnt, col_cnt, len;
@@ -271,7 +271,7 @@ void calcCirf_multi(double *cmat, double *k, double *x, double *tau,
 
 /* calcB */
 
-void calcB(double *bvec, double *k, int *lenk){
+void r_calcB(double *bvec, double *k, int *lenk){
 
   int i, j;
   float sumcol;
@@ -311,7 +311,7 @@ void calcB(double *bvec, double *k, int *lenk){
 
 /* function 1 for numerical convolution of vectors */ 
 
-void Conv1(double *result, double *measured, int *lenx, double *rate, 
+void r_Conv1(double *result, double *measured, int *lenx, double *rate, 
 	   double *xspace){
 
   double tau, ChannelWidth;
@@ -332,7 +332,7 @@ void Conv1(double *result, double *measured, int *lenx, double *rate,
   }
 }
 
-void Conv2(double *result, double *measured, int *lenx, double *rate, 
+void r_Conv2(double *result, double *measured, int *lenx, double *rate, 
 	   double *xspace){
 
   double tau, canW, eps;
@@ -351,7 +351,7 @@ void Conv2(double *result, double *measured, int *lenx, double *rate,
 
 }
 
-void Conv3(double* source, double* reference, int *canN, double *rate, double *xspace, double *tauref){
+void r_Conv3(double* source, double* reference, int *canN, double *rate, double *xspace, double *tauref){
 
   double tau, canW, eps;
   int i;
@@ -372,7 +372,7 @@ void Conv3(double* source, double* reference, int *canN, double *rate, double *x
 }
 
 
-void ShiftCurve  (double *source, double *curve, double *shiftparam, 
+void r_ShiftCurve  (double *source, double *curve, double *shiftparam, 
 		  int *length){ 
   int shift, i;
   double neybcontrib, selfcontrib;

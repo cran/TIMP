@@ -39,7 +39,9 @@ argument of the  \code{\link{initModel}} function.
     \item{datafile}{}
     \item{datCall}{}
     \item{drel}{}
+    \item{dscal}{}
     \item{dscalspec}{}
+    \item{\code{dummy}:}{Object of class \code{"list"} of dummy parameters which can be used in complex relations}
     \item{E2}{}
     \item{fixed}{}
     \item{fixedkmat}{}

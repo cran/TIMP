@@ -2,9 +2,9 @@ Package: TIMP
 Type: Package
 Title: Fitting Separable Nonlinear Models in Spectroscopy and
         Microscopy
-Version: 1.13.1
+Version: 1.13.2
 Author: Katharine M. Mullen, Joris J. Snellenburg, Sergey P. Laptenok, David Nicolaides, Ivo H.M. van Stokkum
-Maintainer: ORPHANED
+Maintainer: Joris J. Snellenburg  <j.snellenburg@vu.nl>
 Depends: R (>= 2.10.0), methods, fields (>= 4.1)
 Imports: deSolve, nnls (>= 1.1), colorspace, splines, minpack.lm (>=
         1.1-1), gclus, gplots, grDevices, graphics, stats, utils
@@ -14,10 +14,10 @@ Description: A problem-solving environment (PSE) for fitting
          time-resolved spectroscopy and FLIM-FRET data.
 License: GPL (>= 2)
 URL: http://timp.r-forge.r-project.org/ http://timpgui.org/
-NeedsCompilation: yes
-Packaged: 2019-01-28 08:05:40 UTC; ripley
 Repository: CRAN
-Date/Publication: 2019-01-28 08:16:29 UTC
-X-CRAN-Original-Maintainer: Joris J. Snellenburg <j.snellenburg@vu.nl>
-X-CRAN-Comment: Orphaned and corrected on 2019-01-28 as check issues
-        were not addressed despite a reminder.
+Repository/R-Forge/Project: timp
+Repository/R-Forge/Revision: 97
+Repository/R-Forge/DateTimeStamp: 2019-03-11 01:05:08
+Date/Publication: 2019-03-15 09:13:43 UTC
+NeedsCompilation: yes
+Packaged: 2019-03-11 01:10:10 UTC; rforge
