@@ -3,21 +3,21 @@
 \alias{kin-class}
 \alias{kin}
 \title{Class "kin" for kinetic model storage.}
-\description{ 
-\code{kin} is the class for kinetic models; 
-an object 
-of class "kin" is initialized if 
-\code{mod_type = "kin"} is an 
+\description{
+\code{kin} is the class for kinetic models;
+an object
+of class "kin" is initialized if
+\code{mod_type = "kin"} is an
 argument of \code{initModel}.
-All objects of class \code{kin} are sub-classes of 
-class \code{dat}; see documentation for \code{dat} 
-for a description of 
-these slots.  }  
+All objects of class \code{kin} are sub-classes of
+class \code{dat}; see documentation for \code{dat}
+for a description of
+these slots.  }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("kin", ...)} or 
+Objects can be created by calls of the form \code{new("kin", ...)} or
  \code{kin(...)}.  Slots whose
 description are marked with *** may
-be specified in the \code{...} 
+be specified in the \code{...}
 argument of the  \code{\link{initModel}} function.
 }
 \section{Slots}{
@@ -95,10 +95,10 @@ argument of the  \code{\link{initModel}} function.
     \item{sigma}{}
     \item{simdata}{}
     \item{speckin2}{}
-    \item{kinpar}{*** vector of rate constants to be used as starting 
+    \item{kinpar}{*** vector of rate constants to be used as starting
       values for the exponential decay of components; the length of this
 	vector determines the number of components of the kinetic
-	model. }		 
+	model. }
       \item{\code{specpar}:}{*** Object of class \code{"list"}  parameters for
 	spectral constraints}
     \item{\code{seqmod}:}{*** Object of class \code{"logical"}  that is \code{TRUE} if a sequential model is to be applied
@@ -107,60 +107,60 @@ and \code{FALSE} otherwise}
     \item{\code{mirf}:}{Object of class \code{"logical"}  that is \code{TRUE} if a measured IRF is modeled and \code{FALSE}
 otherwise}
     \item{\code{measured_irf}:}{*** Object of class \code{"vector"}  containing a measured IRF}
-    \item{\code{convalg}:}{*** Object of class \code{"numeric"}  1-3 determining the numerical convolution algorithm 
+    \item{\code{convalg}:}{*** Object of class \code{"numeric"}  1-3 determining the numerical convolution algorithm
 used in the case of modeling a measured IRF; if \code{3} then supply a
 reference lifetime in the slot \code{reftau}.}
  \item{\code{reftau}:}{*** Object of class \code{"numeric"}  containing a
  reference lifetime to be used when \code{convalg=3}}
-    \item{\code{irffun}:}{*** Object of class \code{"character"}  describing the 
+    \item{\code{irffun}:}{*** Object of class \code{"character"}  describing the
 function to use to describe the IRF, by default "gaus"}
-    \item{\code{irfpar}:}{*** Object of class \code{"vector"}  of IRF parameters; for the common Gaussian IRF this 
+    \item{\code{irfpar}:}{*** Object of class \code{"vector"}  of IRF parameters; for the common Gaussian IRF this
 vector is ordered \code{c(location, width)}}
-    \item{\code{dispmu}:}{Object of class \code{"logical"}   that is \code{TRUE} if dispersion of the parameter for IRF 
+    \item{\code{dispmu}:}{Object of class \code{"logical"}   that is \code{TRUE} if dispersion of the parameter for IRF
 location is to be modeled and \code{FALSE} otherwise}
-    \item{\code{dispmufun}:}{***Object of class \code{"character"}  describing the functional form of the 
-dispersion of the IRF location parameter; if equal to "discrete" then the 
-IRF location is shifted per element of \code{x2} and \code{parmu} should have the same 
+    \item{\code{dispmufun}:}{***Object of class \code{"character"}  describing the functional form of the
+dispersion of the IRF location parameter; if equal to "discrete" then the
+IRF location is shifted per element of \code{x2} and \code{parmu} should have the same
 length as \code{x2}.  defaults to a polynomial description}
-    \item{\code{parmu}:}{*** Object of class \code{"list"}   of starting values for the dispersion model for the 
+    \item{\code{parmu}:}{*** Object of class \code{"list"}   of starting values for the dispersion model for the
 IRF location}
-    \item{\code{disptau}:}{Object of class \code{"logical"}  that is \code{TRUE} if dispersion of the parameter for 
+    \item{\code{disptau}:}{Object of class \code{"logical"}  that is \code{TRUE} if dispersion of the parameter for
 IRF width is to be modeled and \code{FALSE} otherwise}
-    \item{\code{disptaufun}:}{*** Object of class \code{"character"}  describing the functional form of the 
-dispersion of the IRF width parameter; if equal to \code{"discrete"} then the 
-IRF width is parameterized per element of \code{x2} and \code{partau} should have the same 
+    \item{\code{disptaufun}:}{*** Object of class \code{"character"}  describing the functional form of the
+dispersion of the IRF width parameter; if equal to \code{"discrete"} then the
+IRF width is parameterized per element of \code{x2} and \code{partau} should have the same
 length as \code{x2}.  defaults to a polynomial description}
-    \item{\code{partau}:}{*** Object of class \code{"vector"}  of starting values for the dispersion model for the 
+    \item{\code{partau}:}{*** Object of class \code{"vector"}  of starting values for the dispersion model for the
 IRF FWHM }
-    \item{\code{fullk}:}{Object of class \code{"logical"}  that is \code{TRUE} if the data are to be modeled using a 
+    \item{\code{fullk}:}{Object of class \code{"logical"}  that is \code{TRUE} if the data are to be modeled using a
 compartmental model defined in a K matrix and \code{FALSE} otherwise}
-    \item{\code{kmat}:}{*** Object of class \code{"array"}  containing the K matrix descriptive of  a compartmental 
+    \item{\code{kmat}:}{*** Object of class \code{"array"}  containing the K matrix descriptive of  a compartmental
 model}
-    \item{\code{jvec}:}{*** Object of class \code{"vector"}  containing the J vector descriptive of the inputs to a 
+    \item{\code{jvec}:}{*** Object of class \code{"vector"}  containing the J vector descriptive of the inputs to a
 compartmental model}
-    \item{\code{ncolc}:}{Object of class \code{"vector"}  describing the number of columns of the C matrix for 
+    \item{\code{ncolc}:}{Object of class \code{"vector"}  describing the number of columns of the C matrix for
 each clp in \code{x2}}
-    \item{\code{kinscal}:}{*** Object of class \code{"vector"}   of starting values for branching parameters in a 
+    \item{\code{kinscal}:}{*** Object of class \code{"vector"}   of starting values for branching parameters in a
 compartmental model}
     \item{\code{kmatfit}:}{Object of class \code{"array"}  of fitted values for a compartmental model}
-    \item{\code{cohspec}:}{*** Object of class \code{"list"}   describing the model for 
+    \item{\code{cohspec}:}{*** Object of class \code{"list"}   describing the model for
 coherent artifact/scatter component(s) containing the element  \code{type}
 and optionally the element \code{numdatasets}.  The element
-\code{type} can be set as follows: 
+\code{type} can be set as follows:
 	 \describe{
-      \item{\code{"irf"}:}{if \code{type="irf"}, the coherent artifact/scatter has the 
-time profile of  the IRF.} 
-  \item{\code{"freeirfdisp"}:}{if \code{type="freeirfdisp"}, the  coherent 
+      \item{\code{"irf"}:}{if \code{type="irf"}, the coherent artifact/scatter has the
+time profile of  the IRF.}
+  \item{\code{"freeirfdisp"}:}{if \code{type="freeirfdisp"}, the  coherent
 artifact/scatter has  a
-Gaussian time profile whose location and width are parameterized in the 
+Gaussian time profile whose location and width are parameterized in the
 vector \code{coh}.  }
- \item{\code{"irfmulti"}:}{if \code{type="irfmulti"} the time profile of 
+ \item{\code{"irfmulti"}:}{if \code{type="irfmulti"} the time profile of
 the IRF is used for
-the coherent artifact/scatter model, but the IRF parameters are taken per 
-dataset (for the multidataset case), and the integer argument 
-\code{numdatasets} must be equal to the 
-number of datasets modeled.}  
- \item{\code{"seq"}:}{if \code{type="seq"} a sequential exponential decay 
+the coherent artifact/scatter model, but the IRF parameters are taken per
+dataset (for the multidataset case), and the integer argument
+\code{numdatasets} must be equal to the
+number of datasets modeled.}
+ \item{\code{"seq"}:}{if \code{type="seq"} a sequential exponential decay
 model is applied, whose starting value are contained in an additional
 list element \code{start}. This
 often models oscillating behavior well, where the number of
@@ -168,73 +168,73 @@ oscillations is the number of parameter starting values given in
 \code{start}.  The starting values after optimization will be found in
 the slot \code{coh} of the object of class \code{theta} corresponding
 to each dataset modeled. }
-\item{\code{"mix"}:}{if \code{type="mix"} if \code{type="mix"} a sequential exponential decay 
+\item{\code{"mix"}:}{if \code{type="mix"} if \code{type="mix"} a sequential exponential decay
 model is applied along with a model that follows the time profile of the IRF;
-the coherent artifact/scatter is then a linear superposition of these two 
+the coherent artifact/scatter is then a linear superposition of these two
 models; see the above description of \code{seq} for how to supply the
 starting values. }}}
-    \item{\code{coh}:}{*** Object of class \code{"vector"}  of starting values for the parameterization of a  
+    \item{\code{coh}:}{*** Object of class \code{"vector"}  of starting values for the parameterization of a
 coherent artifact}
- \item{\code{oscspec}:}{*** Object of class \code{"list"} describing the model for 
+ \item{\code{oscspec}:}{*** Object of class \code{"list"} describing the model for
 additional oscillation component(s) containing the element  \code{type}
-and optionally the element \code{start}. The element \code{start} can be used to specificy the starting values for the oscillation function. The element \code{type} can be set as follows: 
+and optionally the element \code{start}. The element \code{start} can be used to specify the starting values for the oscillation function. The element \code{type} can be set as follows:
    \describe{
       \item{\code{"harmonic"}:}{if \code{type="harmonic"}, the oscillation function is a damped harmonic oscillator.} }
 }
     \item{\code{oscpar}:}{*** Object of class \code{"vector"}  of starting values for the oscillation parameters}
     \item{\code{wavedep}:}{Object of class \code{"logical"}  describing whether the kinetic model is dependent on
 \code{x2} index (i.e., whether there is clp-dependence)}
-    \item{\code{lambdac}:}{*** Object of class \code{"numeric"}  for the center wavelength to be used in a polynomial 
+    \item{\code{lambdac}:}{*** Object of class \code{"numeric"}  for the center wavelength to be used in a polynomial
 description of \code{x2}-dependence }
- \item{\code{amplitudes}:}{*** Object of class \code{"vector"}  
-that may be used to multiply the concentrations by a square diagonal 
+ \item{\code{amplitudes}:}{*** Object of class \code{"vector"}
+that may be used to multiply the concentrations by a square diagonal
 matrix with the number of columns that the concentration matrix has;
 the diagonal is given in \code{amplitudes} and these values will be
 treated as parameters to be optimized.
 }
-\item{\code{streak}:}{*** Object of class \code{"logical"}  
-that defaults to \code{FALSE}; if \code{streak=TRUE} then 
+\item{\code{streak}:}{*** Object of class \code{"logical"}
+that defaults to \code{FALSE}; if \code{streak=TRUE} then
 the period of the laser is expected via \code{streakT}.}
-\item{\code{streakT}:}{*** Object of class \code{"numeric"}  
-the period of the laser; this will be used to add a 
-backsweep term to the concentration matrix and should be 
-set in conjunction \code{streak=TRUE}.} 
-\item{\code{doublegaus}:}{*** Object of class \code{"logical"}  
+\item{\code{streakT}:}{*** Object of class \code{"numeric"}
+the period of the laser; this will be used to add a
+backsweep term to the concentration matrix and should be
+set in conjunction \code{streak=TRUE}.}
+\item{\code{doublegaus}:}{*** Object of class \code{"logical"}
 that defaults to \code{FALSE} and determines whether a double
 Gaussian should be used to model the IRF. If   \code{doublegaus=TRUE}
 then \code{irfpar} should contain four numeric values corresponding to
-the location (mean) of the IRF, the FWHM of the first Gaussian, the 
-FWHM of the second Gaussian, and the relative amplitude of the 
-second Gaussian, respectively. 
+the location (mean) of the IRF, the FWHM of the first Gaussian, the
+FWHM of the second Gaussian, and the relative amplitude of the
+second Gaussian, respectively.
 }
-\item{\code{multiplegaus}:}{*** Object of class \code{"logical"}  
+\item{\code{multiplegaus}:}{*** Object of class \code{"logical"}
 that defaults to \code{FALSE} and determines whether multiple
 Gaussians should be used to model the IRF. If \code{multiplegaus=TRUE}
 then \code{irfpar} should contain: two numeric values corresponding to
 the location (mean) and the FWHM of the first Gaussian of the IRF, and
 three numeric values for \bold{each} additional gaussian modeled, corresponding to
 the relative scaling to the first gaussian, the shift (in time) relative to the
-first gaussian and the FWHM of the additonal Gaussian, respectively. 
+first gaussian and the FWHM of the additional Gaussian, respectively.
 }
-\item{\code{numericalintegration}:}{*** Object of class \code{"logical"}  
+\item{\code{numericalintegration}:}{*** Object of class \code{"logical"}
 that defaults to \code{FALSE} and determines whether a kinetic theory
-model of a reaction mechanism should be numerically integrated (using 
-\pkg{deSolve}) to find the concentrations. 
-If \code{numericalintegration=TRUE} then 
+model of a reaction mechanism should be numerically integrated (using
+\pkg{deSolve}) to find the concentrations.
+If \code{numericalintegration=TRUE} then
 \code{initialvals} should specify the initial concentrations and
-\code{reactantstoichiometrymatrix} and 
-\code{stoichiometrymatrix} should specify the reaction mechanism, 
+\code{reactantstoichiometrymatrix} and
+\code{stoichiometrymatrix} should specify the reaction mechanism,
 as per Puxty et. al. (2006).
 }
-\item{\code{initialvals}:}{*** Object of class \code{"vector"}  
+\item{\code{initialvals}:}{*** Object of class \code{"vector"}
 giving the concentrations at the initial time step.
 }
-\item{\code{reactantstoichiometrymatrix}:}{*** Object of class \code{"vector"}  
+\item{\code{reactantstoichiometrymatrix}:}{*** Object of class \code{"vector"}
 giving the (integer) \dfn{stoichiometric coefficients} for the reactants; this
 is the matrix \bold{X}r of Puxty et. al. (2006) with \code{dim=NULL}.
 }
-\item{\code{stoichiometrymatrix}:}{*** Object of class \code{"vector"}  
-giving the (integer) stoichiometric coefficients for the reactions; this 
+\item{\code{stoichiometrymatrix}:}{*** Object of class \code{"vector"}
+giving the (integer) stoichiometric coefficients for the reactions; this
 is the matrix \bold{X} of Puxty et. al. (2006) with \code{dim=NULL}.
 }
 
@@ -243,10 +243,10 @@ is the matrix \bold{X} of Puxty et. al. (2006) with \code{dim=NULL}.
 Class \code{\link{dat-class}}, directly.
 }
 
-\details{See \code{\link{dat-class}} for an 
-example of the initialization of a 
-\code{kin} object via the \code{initModel} function. } 
-\examples{ 
+\details{See \code{\link{dat-class}} for an
+example of the initialization of a
+\code{kin} object via the \code{initModel} function. }
+\examples{
 ## Example in modeling second order kinetics, by
 ## David Nicolaides.
 
@@ -300,7 +300,7 @@ kinetic_data <- dat(psi.df=Psi_q , x = times, nt = length(times),
  x2 = wavelengths, nl = length(wavelengths))
 
 ##############################
-## DEFINE MODEL 
+## DEFINE MODEL
 ##############################
 
 ## starting values
@@ -310,12 +310,12 @@ kstart <- c(kA = 1, k2C = 0.5)
 kinetic_model <- initModel(mod_type = "kin", seqmod = FALSE,
                            kinpar = kstart,
                            numericalintegration = TRUE,
-                           initialvals = cstart, 
-                           reactantstoichiometrymatrix = rsmatrix, 
+                           initialvals = cstart,
+                           reactantstoichiometrymatrix = rsmatrix,
                            stoichiometrymatrix = smatrix )
 
 ##############################
-## FIT INITIAL MODEL 
+## FIT INITIAL MODEL
 ## adding constraints to non-negativity of the
 ## spectra via the opt option nnls=TRUE
 ##############################
@@ -331,15 +331,15 @@ parEst(kinetic_fit)
 
 ## various results
 
-## concentrations 
+## concentrations
 
 conRes <- getX(kinetic_fit)
 
 matplot(times, conRes, type="b", col=1,pch=21, bg=1:5, xlab="time (sec)",
         ylab="concentrations", main="Concentrations (2nd order kinetics)")
-                        
-                        
-## spectra 
+
+
+## spectra
 
 specRes <- getCLP(kinetic_fit)
 
@@ -349,12 +349,26 @@ matplot(wavelengths, specRes, type="b", col=1,pch=21, bg=1:5,
 
 ## see help(getResults) for how to get more results information from
 ## kinetic_fit
+
+##############################
+## CLEANUP GENERATED FILES
+##############################
+# This removes the files that were generated in this example
+# (do not run this code if you wish to inspect the output)
+file_list_cleanup = c(Sys.glob("*paramEst.txt"), Sys.glob("*.ps"), Sys.glob("Rplots*.pdf"))
+# Iterate over the files and delete them if they exist
+for (f in file_list_cleanup) {
+  if (file.exists(f)) {
+    unlink(f)
+  }
+}
+
 }
 
 \references{
-Puxty, G., Maeder, M., and Hungerbuhler, K. (2006) Tutorial on the fitting of 
-kinetics models to mulivariate spectroscopic measurements 
-with non-linear least-squares regression, \emph{Chemometrics and Intelligent 
+Puxty, G., Maeder, M., and Hungerbuhler, K. (2006) Tutorial on the fitting of
+kinetics models to multivariate spectroscopic measurements
+with non-linear least-squares regression, \emph{Chemometrics and Intelligent
 Laboratory Systems} \bold{81}, 149-164.
 }
 

@@ -1,5 +1,4 @@
 "kin" <-
-function(...){
-	new("kin", ...)
-}
-
+  function(...) {
+    new("kin", ...)
+  }

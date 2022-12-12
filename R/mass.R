@@ -1,6 +1,4 @@
 "mass" <-
-function (...) 
-{
+  function(...) {
     new("mass", ...)
-}
-
+  }

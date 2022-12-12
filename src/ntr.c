@@ -1,6 +1,6 @@
 #include <R.h>
 #include <Rmath.h>
-#include <Rdefines.h> 
+#include <Rdefines.h>
 
 /* Define this macro to suppress error propagation in exp(x^2)
    by using the expx2 function.  The tradeoff is that doing so
@@ -62,10 +62,7 @@ static double U[] = {
 };
 static double MAXLOG =  7.09782712893383996843E2;
 
-double polevl( x, coef, N )
-     double x;
-     double coef[];
-     int N;
+double polevl( double x, double coef[], int N )
 {
   double ans;
   int i;
@@ -88,10 +85,7 @@ double polevl( x, coef, N )
  * Otherwise same as polevl.
  */
 
-double p1evl( x, coef, N )
-     double x;
-     double coef[];
-     int N;
+double p1evl( double x, double coef[], int N )
 {
   double ans;
   double *p;
@@ -109,9 +103,8 @@ double p1evl( x, coef, N )
 }
 
 /* erfc function */
-   
-double erfc(a)
-     double a;
+
+double erfc(double a)
 {
   double p,q,x,y,z;
 
@@ -129,7 +122,7 @@ double erfc(a)
   if( z < -MAXLOG )
     {
     under:
-	
+
       if( a < 0 )
 	return( 2.0 );
       else
@@ -161,8 +154,7 @@ double erfc(a)
 
 /* erf function */
 
-double erf(x)
-     double x;
+double erf(double x)
 {
   double y, z;
 
@@ -186,7 +178,7 @@ static double erfce (double x)
     q = p1evl(x, Q, 8);
   } else {
     p = polevl(x, R, 5);
-    q = p1evl(x, S, 6); 
+    q = p1evl(x, S, 6);
   }
 
   return p/q;
@@ -200,23 +192,23 @@ void r_calcCirf(double *cmat, double *k, double *x, double *tau, double *mu,
 
   double alpha, beta, thresh;
   int i, row_cnt, col_cnt, len;
-  row_cnt = 0; 
+  row_cnt = 0;
   col_cnt = 0;
   len = (*lenk) * (*lenx);
-        
+
   for(i = 0; i < len; i++){
     if(k[col_cnt] == 0)
       cmat[i] = 0;
     else {
       alpha = (k[col_cnt] * (*tau)) / sqrt(2);
-      beta = (x[row_cnt] - (*mu)) / ((*tau) * sqrt(2)); 
+      beta = (x[row_cnt] - (*mu)) / ((*tau) * sqrt(2));
       thresh = beta - alpha;
-      if(thresh < -1) 
+      if(thresh < -1)
 	cmat[i] = .5 * erfce(-thresh) * exp(- pow(beta,2));
-      else 		 
-	cmat[i] = .5 * (1.0 + erf(thresh)) * exp(alpha * 
+      else
+	cmat[i] = .5 * (1.0 + erf(thresh)) * exp(alpha *
 						 (alpha - 2.0 * beta));
-	    
+
     }
     if(row_cnt < ((*lenx)-1))
       row_cnt++;
@@ -227,37 +219,37 @@ void r_calcCirf(double *cmat, double *k, double *x, double *tau, double *mu,
   }
 }
 
-/* calcCirf_multi 
+/* calcCirf_multi
  *  for convolution using a per-component irf-mu and irf-tau
  */
 
-void r_calcCirf_multi(double *cmat, double *k, double *x, double *tau, 
+void r_calcCirf_multi(double *cmat, double *k, double *x, double *tau,
 		    double *mu, int *lenk, int *lenx){
   double alpha, beta, thresh;
   int i, row_cnt, col_cnt, len;
-  row_cnt = 0; 
+  row_cnt = 0;
   col_cnt = 0;
   len = (*lenk) * (*lenx);
-  
+
   for(i = 0; i < len; i++){
-      
+
     if(k[col_cnt] == 0)
       cmat[i] = 0;
     else {
-	   
+
       alpha = (k[col_cnt] * tau[col_cnt]) / sqrt(2);
-      beta = (x[row_cnt] - mu[col_cnt]) / (tau[col_cnt] * sqrt(2)); 
+      beta = (x[row_cnt] - mu[col_cnt]) / (tau[col_cnt] * sqrt(2));
       if(k[col_cnt] < 0) {
 	alpha = - alpha;
 	beta = - beta;
       }
       thresh = beta - alpha;
-      if(thresh < -1) 
+      if(thresh < -1)
 	cmat[i] = .5 * erfce(-thresh) * exp(- pow(beta,2));
-      else 		 
-	cmat[i] = .5 * (1.0 + erf(thresh)) * exp(alpha * 
+      else
+	cmat[i] = .5 * (1.0 + erf(thresh)) * exp(alpha *
 						 (alpha - 2.0 * beta));
-	    
+
       /* Rprintf("alpha %f beta %f\n", alpha, beta);*/
     }
     if(row_cnt < ((*lenx)-1))
@@ -275,12 +267,12 @@ void r_calcB(double *bvec, double *k, int *lenk){
 
   int i, j;
   float sumcol;
-#define matind(i,j,l) (((j-1) * (l) + (i-1))) 
-        
+#define matind(i,j,l) (((j-1) * (l) + (i-1)))
+
   bvec[0] = 1;
   for(j = 2; j <= (*lenk); j++){
     for(i = 1; i < j; i++) {
-      bvec[matind(i,j,(*lenk))] = (bvec[ matind(i,(j-1), (*lenk))] 
+      bvec[matind(i,j,(*lenk))] = (bvec[ matind(i,(j-1), (*lenk))]
 				   * k[j-2]) /(k[j-1] - k[i-1]);
     }
     sumcol = 0;
@@ -291,38 +283,38 @@ void r_calcB(double *bvec, double *k, int *lenk){
 }
 
 /************************************************
- 
-  Start code for numerical convolution 
- 
-  Numerical convolution routine 
+
+  Start code for numerical convolution
+
+  Numerical convolution routine
   convolution with a scatter
-  ConvSimpleAlg	
-  ConvCentrImp	
+  ConvSimpleAlg
+  ConvCentrImp
   ConvBlockFunc
   ConvTrap
-  double *source - pointer to array with result 
-  double *scatter - pointer to array with Scatter (IRF) 
-  int canN - number of time channels 
-  double tau - lifetime of component  
+  double *source - pointer to array with result
+  double *scatter - pointer to array with Scatter (IRF)
+  int canN - number of time channels
+  double tau - lifetime of component
   double t - time window (time from first time cannel till last)
 */
 
 
 
-/* function 1 for numerical convolution of vectors */ 
+/* function 1 for numerical convolution of vectors */
 
-void r_Conv1(double *result, double *measured, int *lenx, double *rate, 
+void r_Conv1(double *result, double *measured, int *lenx, double *rate,
 	   double *xspace){
 
   double tau, ChannelWidth;
   int i, z, j;
   ChannelWidth = (*xspace);
   tau = 1/(*rate);
-  result[0] = 0; 
+  result[0] = 0;
 
   for (z=0; z<(*lenx); z++)
     result[z]=(tau)*(exp(-z*ChannelWidth/tau)-exp(-(z+1)*ChannelWidth/tau));
-	
+
   for(i=(*lenx)-1;i>=1;i--){
     result[i] = 0.5*(measured[0]*result[i]+measured[i]*result[0]) + 0.25*result[i]*measured[0];
     for(j=1;j<i;j++)
@@ -332,7 +324,7 @@ void r_Conv1(double *result, double *measured, int *lenx, double *rate,
   }
 }
 
-void r_Conv2(double *result, double *measured, int *lenx, double *rate, 
+void r_Conv2(double *result, double *measured, int *lenx, double *rate,
 	   double *xspace){
 
   double tau, canW, eps;
@@ -342,7 +334,7 @@ void r_Conv2(double *result, double *measured, int *lenx, double *rate,
   eps=exp(-canW/tau);
 
   result[0]=0;
-	
+
 
   for (i=1; i<(*lenx); i++){
     result[i] = (result[i-1]+0.5*canW*measured[i-1])*eps + 0.5*canW*measured[i];
@@ -372,8 +364,8 @@ void r_Conv3(double* source, double* reference, int *canN, double *rate, double 
 }
 
 
-void r_ShiftCurve  (double *source, double *curve, double *shiftparam, 
-		  int *length){ 
+void r_ShiftCurve  (double *source, double *curve, double *shiftparam,
+		  int *length){
   int shift, i;
   double neybcontrib, selfcontrib;
   shift=floor((*shiftparam));

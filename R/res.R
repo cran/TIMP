@@ -1,5 +1,4 @@
 "res" <-
-function(...){
-	new("res", ...)
-}
-
+  function(...) {
+    new("res", ...)
+  }

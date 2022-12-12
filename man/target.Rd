@@ -5,7 +5,7 @@
 \alias{C3}
 \docType{data}
 \title{Ultrafast time-resolved fluorescence data}
-\description{Ultrafast time-resolved absorption data}  
+\description{Ultrafast time-resolved absorption data}
 \usage{
 data("target")
 }
@@ -14,17 +14,17 @@ data("target")
 }
 \references{This data was described in
 Bonetti C, Mathes T, van Stokkum IHM,
-Mullen KM, Groot ML and 
+Mullen KM, Groot ML and
 van Grondelle R, Hegemann P and Kennis, JTM (2008),
 The variable projection algorithm in time-resolved spectroscopy,
   microscopy and mass-spectroscopy applications,
-  Hydrogen bond switching among flavin and amino acid side 
+  Hydrogen bond switching among flavin and amino acid side
 chains in the {BLUF} photoreceptor observed by ultrafast infrared spectroscopy,
-  \emph{Biophysical Journal}, \bold{in press}, 
-\url{http://dx.doi.org/10.1529/biophysj.108.139246}.
+  \emph{Biophysical Journal}, \bold{in press},
+\doi{10.1529/biophysj.108.139246}.
 }
 \details{
-See \code{\link{preProcess}} for examples using this data. 
+See \code{\link{preProcess}} for examples using this data.
 }
 
 \keyword{datasets}

@@ -1,5 +1,4 @@
-"l2nu" <- 
-function(lambda)
-{
-	10^7/lambda
-}
+"l2nu" <-
+  function(lambda) {
+    10^7 / lambda
+  }

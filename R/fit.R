@@ -1,5 +1,4 @@
 "fit" <-
-function(...){
-	new("fit", ...)
-}
-
+  function(...) {
+    new("fit", ...)
+  }

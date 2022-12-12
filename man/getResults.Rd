@@ -26,24 +26,24 @@ by the fitting routines. }
   on \code{onls} function.  \code{parEst} returns a summary of model
   parameter estimates.  The remaining functions return lists
   representing various aspects of the results returned by the function
-  fitModel.     
+  fitModel.
 }
 \usage{
 onls(result)
-sumnls(result) 
+sumnls(result)
 parEst(result, param = "", dataset = NA, verbose = TRUE, file="",
  stderr=TRUE)
 getXList(result, group = vector(), file="")
 getCLPList(result, getclperr = FALSE, file="")
 getX(result, group = vector(), dataset=1, file="", lreturnA = FALSE, lreturnC = FALSE)
-getC(result, dataset=1, file="") 
-getCLP(result, getclperr = FALSE, dataset=1, file="") 
-getDAS(result, getclperr = FALSE, dataset=1, file="") 
+getC(result, dataset=1, file="")
+getCLP(result, getclperr = FALSE, dataset=1, file="")
+getDAS(result, getclperr = FALSE, dataset=1, file="")
 getData(result, dataset = 1, weighted = FALSE)
 getResiduals(result, dataset = 1)
 getSVDResiduals(result, numsing = 2, dataset = 1)
 getTraces(result, dataset = 1, file="")
-getdim1(result, dataset = 1) 
+getdim1(result, dataset = 1)
 getdim2(result, dataset = 1)
 }
 \arguments{
@@ -68,60 +68,60 @@ getdim2(result, dataset = 1)
 \item{file}{character vector; if not \code{""} writes the results to a
   file with name \code{file}. }
 \item{group}{The value at which to determine the X matrix (maybe a
-  wavelenth index, for example)}
+  wavelength index, for example)}
 \item{stderr}{Whether to return standard error estimates on parameters,
-if they were calculated in fitting.}  
+if they were calculated in fitting.}
 }
 \value{
   \code{sumnls} returns an object of class \code{"summary.nls"}.
-  
+
   \code{onls} returns an object of class \code{"nls"}.
-  
+
   \code{parEst} returns an object of class \code{"list"} representing
   the parameter estimates and the standard errors if \code{stderr=TRUE}
   and they have been calculated.
 
   \code{getXList} returns a \code{"list"} of length equal to the number of
   datasets modeled, where each element represents the matrix determined
-  by the nonlinear parameters (under a kinetic model, the concentrations). 
-  
+  by the nonlinear parameters (under a kinetic model, the concentrations).
+
   \code{getCLPList} returns a \code{"list"} of length equal to the number of
   datasets modeled, where each element represents the matrix determined
   as conditionally linear parameters (under a kinetic model, the spectra).
 
-  \code{getX} returns a numeric \code{"matrix"} 
+  \code{getX} returns a numeric \code{"matrix"}
   that represents the matrix determined
   by the nonlinear parameters (under a kinetic model, the concentrations).
   However, in case lreturnC = TRUE it returns the C matrix, and in case
-  lreturnA = TRUE it returns the A matrix that is used to compute 
+  lreturnA = TRUE it returns the A matrix that is used to compute
   the C matrix in case the kinetic model differs from parallel decays.
-  
-  \code{getC} returns (under a kinetic model) a numeric \code{"matrix"} 
+
+  \code{getC} returns (under a kinetic model) a numeric \code{"matrix"}
   that represents the raw matrix of concentrations of the dataset determined
-  by the nonlinear parameters. 
-  
+  by the nonlinear parameters.
+
  \code{getDAS} returns (under a kinetic model) a numeric \code{"matrix"}
   that represents the Decay Associated Spectra (DAS).
-  
+
   \code{getCLPList} returns a numeric \code{"matrix"}
   that represents the matrix determined
   as conditionally linear parameters (under a kinetic model, the spectra).
-  
-  \code{getSVDData} 
+
+  \code{getSVDData}
   returns a \code{"list"} of length 3 with named elements
   \code{values}, \code{left} and \code{right}, where  \code{values}
   contains the singular values, \code{left} contains \code{numsing}
   left singular vectors, and  \code{right} contains \code{numsing}
   right singular vectors, all of the unweighted data. The number of singular
-  vectors returned is determined by \code{numsing}. 
-  
+  vectors returned is determined by \code{numsing}.
+
  \code{getData} returns the dataset specified by the
  argument \code{dataset} (weighted data in the case
  that \code{weighted=TRUE}) as a \code{"matrix"}
-  
+
  \code{getResiduals} returns a \code{"matrix"} of residuals for the
   dataset with index given by the argument \code{dataset}; the matrix
-  returned has the dimension of the dataset itself. 
+  returned has the dimension of the dataset itself.
 
   \code{getSVDResiduals}
   returns a \code{"list"} of length 3 with named elements
@@ -129,11 +129,11 @@ if they were calculated in fitting.}
   contains the singular values, \code{left} contains \code{numsing}
   left singular vectors, and  \code{right} contains \code{numsing}
   right singular vectors, all of the residuals. The number of singular
-  vectors returned is determined by \code{numsing}. 
-  
+  vectors returned is determined by \code{numsing}.
+
   \code{getTraces}  returns a \code{"matrix"} of model estimates for the
   dataset with index given by the argument \code{dataset}; the matrix
-  returned has the dimension of the dataset itself. 
+  returned has the dimension of the dataset itself.
 
   \code{getdim1}  returns a \code{"vector"} of
   \code{x} values in the dataset (times for kinetic models).
@@ -144,16 +144,16 @@ if they were calculated in fitting.}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \examples{
 
-\dontrun{
+\donttest{
 
-## Example showing the addition of non-negativity constraints to 
+## Example showing the addition of non-negativity constraints to
 ## conditionally linear parameters (here the spectra associated with
 ## a kinetic model)
 
 ## For the 1st simulated dataset, the constraints offer a modest improvement
 ## in the estimated spectra, whereas for the 2nd simulated dataset, they
 ## prevent a catastrophe in which the estimated components are hugely
-## compensating. 
+## compensating.
 
 ##############################
 ## load TIMP
@@ -190,14 +190,14 @@ seqmod=FALSE)
 sT <- fitModel(list(dt4), list(mod1), opt=kinopt(iter=50, plot=FALSE))
 
 ##############################
-## EXTRACT ESTIMATED SPECTRA 
+## EXTRACT ESTIMATED SPECTRA
 ## these spectra have some negative values
-############################## 
-                                   
+##############################
+
 sTcp <- getCLP(sT)
 
 ## plot the estimated spectra with the values used in
-## simulation  (before adding noise) for comparison 
+## simulation  (before adding noise) for comparison
  matplot(dt4@x2, sTcp, xlab = "wavelength (nm)", col = 2:4, type="l",
         ylab="",lty=1, main =
         paste("Estimated spectra, adding no constraints\n"))
@@ -206,7 +206,7 @@ sTcp <- getCLP(sT)
 
 
 ##############################
-## FIT INITIAL MODEL 
+## FIT INITIAL MODEL
 ## adding constraints to non-negativity of the
 ## spectra via the opt option nnls=TRUE
 ##############################
@@ -215,14 +215,14 @@ sV <- fitModel(list(dt4), list(mod1), opt=kinopt(iter=50, nnls=TRUE,
                                         plot=FALSE))
 
 ##############################
-## EXTRACT ESTIMATED SPECTRA 
+## EXTRACT ESTIMATED SPECTRA
 ## these spectra have no negative values
-############################## 
-                                   
+##############################
+
 sVcp <- getCLP(sV)
 
 ## plot the estimated spectra with the values used in
-## simulation  (before adding noise) for comparison 
+## simulation  (before adding noise) for comparison
  matplot(dt4@x2, sVcp, xlab = "wavelength (nm)", col = 2:4, type="l",
  ylab="",lty=1,
          main = paste("Estimated spectra, with non-negativity constraints\n"))
@@ -250,16 +250,16 @@ seqmod=FALSE)
 ##############################
 
 sT <- fitModel(list(dt4_2), list(mod1), opt=kinopt(iter=50,plot=FALSE))
-    
+
 ##############################
-## EXTRACT ESTIMATED SPECTRA 
+## EXTRACT ESTIMATED SPECTRA
 ## these spectra have some negative values
-############################## 
-                                   
+##############################
+
 sTcp <- getCLP(sT)
 
 ## plot the estimated spectra with the values used in
-## simulation (before adding noise) for comparison 
+## simulation (before adding noise) for comparison
  matplot(dt4@x2, sTcp, xlab = "wavelength (nm)", col = 2:4, type="l",
         ylab="",lty=1, main =
         paste("Estimated spectra, adding no constraints\n"))
@@ -267,7 +267,7 @@ sTcp <- getCLP(sT)
  abline(0,0)
 
 ##############################
-## FIT INITIAL MODEL 
+## FIT INITIAL MODEL
 ## adding constraints to non-negativity of the
 ## spectra via the opt option nnls=TRUE
 ##############################
@@ -276,21 +276,37 @@ sV <- fitModel(list(dt4_2), list(mod1), opt=kinopt(iter=50, nnls=TRUE,
                                           plot=FALSE))
 
 ##############################
-## EXTRACT ESTIMATED SPECTRA 
+## EXTRACT ESTIMATED SPECTRA
 ## these spectra have no negative values
-############################## 
-                                   
+##############################
+
 sVcp <- getCLP(sV)
 
 ## plot the estimated spectra with the values used in
-## simulation (before adding noise) for comparison 
+## simulation (before adding noise) for comparison
  matplot(dt4@x2, sVcp, xlab = "wavelength (nm)", col = 2:4, type="l",
  ylab="",lty=1,
          main = paste("Estimated spectra, with non-negativity constraints\n"))
  matplot(dt4@x2,dt4@E2, add=TRUE, type="l", col=1, lty=2)
  abline(0,0)
 
+} # end donttest
+
+##############################
+## CLEANUP GENERATED FILES
+##############################
+# This removes the files that were generated in this example
+# (do not run this code if you wish to inspect the output)
+file_list_cleanup = c(Sys.glob("*paramEst.txt"), Sys.glob("*.ps"), Sys.glob("Rplots*.pdf"))
+
+# Iterate over the files and delete them if they exist
+for (f in file_list_cleanup) {
+  if (file.exists(f)) {
+    unlink(f)
+  }
 }
+
+
 }
 \seealso{ \code{\link{fitModel}} }
 \keyword{file}

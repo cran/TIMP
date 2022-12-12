@@ -1,6 +1,4 @@
 "dat" <-
-function (...) 
-{
+  function(...) {
     new("dat", ...)
-}
-
+  }

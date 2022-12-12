@@ -1,5 +1,4 @@
 "spec" <-
-function(...){
-	new("spec",...)
-}
-
+  function(...) {
+    new("spec", ...)
+  }

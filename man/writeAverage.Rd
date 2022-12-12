@@ -25,9 +25,10 @@ writeAverage(filename, ntimes, nwave, scans,
  \item{wexplicit}{logical whether the file is written in the
    'wavelength explicit' format, with each column of the
    matrix written representing a wavelength, as opposed to the
-   'time explicit' format, where each column represents a timepoint. 
+   'time explicit' format, where each column represents a timepoint.
  }
 }
+\value{No return value, called for side effects}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \seealso{ \code{\link{readData}} }
 \keyword{file}

@@ -31,10 +31,11 @@
     and symbols should be magnified relative to the default}
   \item{lifetimes}{A logical value indicating whether the averages
     per-pixel should be for lifetimes or their inverse, decay rates.  }
-    
+
 }
+\value{No return value, called for side effects}
 \examples{
-\dontrun{ 
+\donttest{
 ##############################
 ## READ IN DATA,  PREPROCESS DATA
 ##############################
@@ -58,26 +59,27 @@ DA2 <- preProcess(cy006, sel_time=c(25,230))
 ##############################
 
 data("mea_IRF")
-mea_IRF <- baseIRF(mea_IRF, 100, 150)[25:230] 
+mea_IRF <- baseIRF(mea_IRF, 100, 150)[25:230]
 
 ##############################
 ## SPECIFY INITIAL MODEL
 ##############################
 
-modelC <- initModel(mod_type = "kin", 
-## starting values for decays 
+modelC <- initModel(mod_type = "kin",
+## starting values for decays
 kinpar=c(1.52, 0.36),
-## numerical convolution algorithm to use                     
+## numerical convolution algorithm to use
 convalg = 2,
-## measured IRF                    
+## measured IRF
 measured_irf = mea_IRF,
+lambdac = 650,
 ## shift of the irf is fixed
 parmu = list(0), fixed = list(parmu=1),
 ## one component represents a pulse-following with the IRF shape
 cohspec = list(type = "irf"),
-## parallel kinetics                     
+## parallel kinetics
 seqmod=FALSE,
-## decay parameters are non-negative 
+## decay parameters are non-negative
 positivepar=c("kinpar"),
 title="Global CFP bi-exp model with pulse-follower")
 
@@ -95,9 +97,9 @@ fitD <- fitModel(list(D1,D2),
                    makeps = "globalD",
                    notraces = TRUE,
                    selectedtraces = seq(1, length(c001@x2), by=11),
-                   summaryplotcol = 4, summaryplotrow = 4, 
+                   summaryplotcol = 4, summaryplotrow = 4,
                    ylimspec = c(1, 2.5),
-                   xlab = "time (ns)", ylab = "pixel number", 
+                   xlab = "time (ns)", ylab = "pixel number",
                    FLIM=TRUE))
 
 ##############################
@@ -114,22 +116,23 @@ fitDA <- fitModel(list(DA1,DA2),
                    makeps = "globalDA",
                    notraces = TRUE,
                    selectedtraces = seq(1, length(c001@x2), by=11),
-                   summaryplotcol = 4, summaryplotrow = 4, 
+                   summaryplotcol = 4, summaryplotrow = 4,
                    ylimspec = c(1, 2.5),
-                   xlab = "time (ns)", ylab = "pixel number", 
+                   xlab = "time (ns)", ylab = "pixel number",
                    FLIM=TRUE))
 
 ##############################
-## COMPARE THE DECAY RATES 
+## COMPARE THE DECAY RATES
 ##############################
 
 parEst(fitD)
 
-parEst(fitDA) 
+parEst(fitDA)
 
 ##############################
-## ADDITIONAL FIGURES 
+## ADDITIONAL FIGURES
 ##############################
+oldpar <- par(no.readonly = TRUE)
 
 par(mfrow=c(2,2), mar=c(1,3,1,12))
 
@@ -145,6 +148,7 @@ plotIntenImage(fitD$currModel, fitD$currTheta, 2, tit="")
 par(cex=1.5)
 plotIntenImage(fitDA$currModel, fitD$currTheta, 2, tit="")
 
+par(oldpar)
 ###############
 
 plo <- kinopt(ylimspec = c(.25,1.1), imagepal=grey(seq(1,0,length=100)))
@@ -167,8 +171,28 @@ par(cex=1.5)
 plotTau(fitDA$currModel, fitD$currTheta, 2, tit="", plotoptions=plo,
         lifetimes=FALSE)
 
+par(oldpar)
+} # end donttest
+
+##############################
+## CLEANUP GENERATED FILES
+##############################
+# This removes the files that were generated in this example
+# (do not run this code if you wish to inspect the output)
+file_list_cleanup = c('globalDA_paramEst.txt', 'globalDA_spec_dataset_1.txt',
+  'globalDA_spec_dataset_2.txt', 'globalD_paramEst.txt',
+  'globalD_spec_dataset_1.txt', 'globalD_spec_dataset_2.txt',
+  Sys.glob("*paramEst.txt"), Sys.glob("*.ps"), Sys.glob("Rplots*.pdf"))
+
+# Iterate over the files and delete them if they exist
+for (f in file_list_cleanup) {
+  if (file.exists(f)) {
+    unlink(f)
+  }
 }
-} 
+
+
+}
 \author{Katharine M. Mullen, Sergey Laptenok, Ivo H. M. van Stokkum}
 \seealso{ \code{\link{fitModel}} }
 \keyword{hplot}

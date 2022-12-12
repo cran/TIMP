@@ -1,23 +1,44 @@
 Package: TIMP
-Type: Package
 Title: Fitting Separable Nonlinear Models in Spectroscopy and
         Microscopy
-Version: 1.13.2
-Author: Katharine M. Mullen, Joris J. Snellenburg, Sergey P. Laptenok, David Nicolaides, Ivo H.M. van Stokkum
-Maintainer: Joris J. Snellenburg  <j.snellenburg@vu.nl>
-Depends: R (>= 2.10.0), methods, fields (>= 4.1)
-Imports: deSolve, nnls (>= 1.1), colorspace, splines, minpack.lm (>=
-        1.1-1), gclus, gplots, grDevices, graphics, stats, utils
-Description: A problem-solving environment (PSE) for fitting
-         separable nonlinear models to measurements arising in physics
-         and chemistry experiments; has been extensively applied to
-         time-resolved spectroscopy and FLIM-FRET data.
+Version: 1.13.6
+Authors@R: c(
+    person("Katharine M.", "Mullen", role = "aut",
+           comment = "Original package creator"),
+    person("Joris", "Snellenburg", , "j.snellenburg@vu.nl", role = c("cre", "ctb"),
+           comment = c(ORCID = "0000-0002-1428-0221")),
+    person("Sergey P.", "Laptenok", role = "ctb"),
+    person("David", "Nicolaides", role = "ctb"),
+    person("Ivo H.M.", "van Stokkum", , "i.h.m.van.stokkum@vu.nl", role = "aut",
+           comment = c(ORCID = "0000-0002-6143-2021"))
+  )
+Description: A problem solving environment (PSE) for fitting separable
+    nonlinear models to measurements arising in physics and chemistry
+    experiments, as described by Mullen & van Stokkum (2007)
+    <doi:10.18637/jss.v018.i03> for its use in fitting time resolved
+    spectroscopy data, and as described by Laptenok et al. (2007)
+    <doi:10.18637/jss.v018.i08> for its use in fitting Fluorescence
+    Lifetime Imaging Microscopy (FLIM) data, in the study of Förster
+    Resonance Energy Transfer (FRET).  `TIMP` also serves as the
+    computation backend for the `GloTarAn` software, a graphical user
+    interface for the package, as described in Snellenburg et al. (2012)
+    <doi:10.18637/jss.v049.i03>.
 License: GPL (>= 2)
-URL: http://timp.r-forge.r-project.org/ http://timpgui.org/
-Repository: CRAN
-Repository/R-Forge/Project: timp
-Repository/R-Forge/Revision: 97
-Repository/R-Forge/DateTimeStamp: 2019-03-11 01:05:08
-Date/Publication: 2019-03-15 09:13:43 UTC
+URL: https://github.com/glotaran/TIMP
+BugReports: https://github.com/glotaran/TIMP/issues
+Depends: fields (>= 4.1), methods, R (>= 2.10.0)
+Imports: colorspace, deSolve, gclus, gplots, graphics, grDevices,
+        minpack.lm (>= 1.1-1), nnls (>= 1.1), splines, stats, utils
+Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.2.3
 NeedsCompilation: yes
-Packaged: 2019-03-11 01:10:10 UTC; rforge
+Packaged: 2022-12-12 02:47:02 UTC; jsnel
+Author: Katharine M. Mullen [aut] (Original package creator),
+  Joris Snellenburg [cre, ctb] (<https://orcid.org/0000-0002-1428-0221>),
+  Sergey P. Laptenok [ctb],
+  David Nicolaides [ctb],
+  Ivo H.M. van Stokkum [aut] (<https://orcid.org/0000-0002-6143-2021>)
+Maintainer: Joris Snellenburg <j.snellenburg@vu.nl>
+Repository: CRAN
+Date/Publication: 2022-12-12 13:10:02 UTC

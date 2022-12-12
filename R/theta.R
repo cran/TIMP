@@ -1,5 +1,4 @@
 "theta" <-
-function(...){
-	new("theta", ...)
-}
-
+  function(...) {
+    new("theta", ...)
+  }

@@ -1,6 +1,6 @@
 \name{efit2file}
 \alias{efit2file}
-\title{covert 'tim' FORTRAN efit files to plain matrices in ASCII files}
+\title{Convert 'tim' FORTRAN efit files to plain matrices in ASCII files}
 \description{'tim' efit files sometimes represent spectra associated
   with multiple datasets; for each matrix of spectra stored in such a
   file, this function writes a plain text file.
@@ -16,8 +16,9 @@ efit2file(filename, skip = 2, numcol, nrows=vector())
   of spectra in the file; for instance \code{nrows = c(256,256,256)}
   would indicate that the file stores spectra associated with 3
   datasets, each of which contains 256 wavelengths.  If \code{nrows} is
-  not given, then a single file containing all data is writen. }
+  not given, then a single file containing all data is written. }
 }
+\value{No return value, called for side effects}
 \author{Katharine M. Mullen, Ivo H. M. van Stokkum}
 \seealso{ \code{\link{readData}} }
 \keyword{file}

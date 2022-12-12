@@ -1,6 +1,4 @@
 "massopt" <-
-function(...){
-	new("massopt", ...)
-
-}
-
+  function(...) {
+    new("massopt", ...)
+  }
